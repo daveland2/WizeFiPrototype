@@ -1,7 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-//import { FormsModule } from '@angular/forms';  // delete this later?  //*//
-//import { HttpModule } from '@angular/http';    // delete this later?  //*//
 
 import { routing } from './app.routes';
 
@@ -26,8 +24,6 @@ import { IncomedetailsComponent } from './incomedetails/incomedetails.component'
   imports: [
     BrowserModule,
     routing
-//    FormsModule,  // delete this later?  //*//
-//    HttpModule    // delete this later?  //*//
   ],
   providers: [],
   bootstrap: [AppComponent]
