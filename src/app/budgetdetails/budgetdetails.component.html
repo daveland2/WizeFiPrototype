@@ -1,9 +1,11 @@
 <h3>Budget Details</h3>
 <br>
 <table>
-<tr><td>Housing</td><td><input type="text" name="housing" size="10"></td></tr>
-<tr><td>Food</td><td><input type="text" name="food" size="10"></td></tr>
-<tr><td>TOTAL</td><td><input type="text" name="budgettotal" size="10"></td></tr>
+<tr><td>Housing</td><td><input type="text" [(ngModel)]="budgetdetails.housing" (keyup.enter)="calctotal()" (blur)="calctotal()" size="10"></td></tr>
+<tr><td>Food</td><td><input type="text" [(ngModel)]="budgetdetails.food" (keyup.enter)="calctotal()" (blur)="calctotal()" size="10"></td></tr>
+<tr><td>TOTAL</td><td><input type="text" [(ngModel)]="budgettotal" size="10" readonly></td></tr>
 </table>
+<br>
+<button type="button" (click)="update()">Update</button>
 <br><br>
 <a [routerLink]="['/budget']">/\</a>
