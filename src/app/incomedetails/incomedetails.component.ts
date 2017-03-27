@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { DataModelService, Iincomedetails } from '../datamodel.service';
+import { DataModelService} from '../datamodel.service';
+import { CIncomeDetails } from './incomedetails.class';
 
 @Component({
   selector: 'app-incomedetails',
@@ -9,7 +10,7 @@ import { DataModelService, Iincomedetails } from '../datamodel.service';
 })
 export class IncomedetailsComponent implements OnInit {
   // persistent data
-  incomedetails: Iincomedetails;
+  cIncomeDetails: CIncomeDetails;
 
   // transient data
   incometotal: number;
@@ -18,16 +19,16 @@ export class IncomedetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-  	this.incomedetails = this.datamodelService.getdata('incomedetails');
+  	this.cIncomeDetails = new CIncomeDetails(this.datamodelService.getdata('incomedetails'));
     this.calctotal();
   }
 
   calctotal() {
-  	this.incometotal = this.datamodelService.getIncomeDetailsSum(this.incomedetails);
+  	this.incometotal = this.cIncomeDetails.getIncomeDetailsSum();
   }
 
   // update data model
   update() {
-  	this.datamodelService.putdata('incomedetails', this.incomedetails);
+  	this.datamodelService.putdata('incomedetails', this.cIncomeDetails.incomeDetails);
   }
 }   // IncomedetailsComponent
