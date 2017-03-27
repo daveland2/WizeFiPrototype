@@ -15,8 +15,7 @@ export class BudgetdetailsComponent implements OnInit {
   // transient data
   budgetTotal: number;
 
-  constructor(private datamodelService: DataModelService) {
-  }
+  constructor(private datamodelService: DataModelService) { }
 
   ngOnInit() {
     this.cBudgetDetails = new CBudgetDetails(this.datamodelService.getdata('budgetDetails'));
