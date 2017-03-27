@@ -59,4 +59,17 @@ export class DataModelService {
 		}
 	}   // putdata
 
+    // note: use class instead of interface for budgetdetails, and make this a member function of that class?
+	getBudgetDetailsSum(budgetdetails) {
+		if (!budgetdetails) budgetdetails = this.datamodel.budgetdetails;
+        // note kludge of *1 to convert string to number (otherwise + is string concatenation)
+        return budgetdetails.housing*1 + budgetdetails.food*1;
+  	}   // getBudgetDetailsSum
+
+  	getIncomeDetailsSum(incomedetails) {
+        // note kludge of *1 to convert string to number (otherwise + is string concatenation)
+        return incomedetails.salary*1 + incomedetails.interest*1;
+  	}   // getIncomeDetailsSum
+
+
 }   // class DataModelService

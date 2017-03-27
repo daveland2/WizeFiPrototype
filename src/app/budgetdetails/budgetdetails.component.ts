@@ -1,12 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { DataModelService } from '../datamodel.service';
-
-// the following interface definition is a kludge to get around Ibudgetdetails name not found problem
-interface Ibudgetdetails {
-	housing: number,
-	food: number
-}
+import { DataModelService, Ibudgetdetails } from '../datamodel.service';
 
 @Component({
   selector: 'app-budgetdetails',
@@ -14,7 +8,10 @@ interface Ibudgetdetails {
   styleUrls: ['./budgetdetails.component.css']
 })
 export class BudgetdetailsComponent implements OnInit, OnDestroy {
+  // persistent data
   budgetdetails: Ibudgetdetails;
+
+  // transient data
   budgettotal: number;
 
   constructor(private datamodelService: DataModelService) {
@@ -30,9 +27,12 @@ export class BudgetdetailsComponent implements OnInit, OnDestroy {
   	console.log('BudgetdetailsComponent OnDestroy');
   }
 
+  getBudgetDetailsSum() {
+    return this.datamodelService.getBudgetDetailsSum(this.budgetdetails);
+  }
+
   calctotal() {
-  	// note kludge of *1 to convert string to number (otherwise + is string concatenation)
-  	this.budgettotal = this.budgetdetails.housing*1 + this.budgetdetails.food*1;
+  	this.budgettotal = this.datamodelService.getBudgetDetailsSum(this.budgetdetails);
   }
 
   // update data model
