@@ -3,9 +3,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { BudgetComponent } from './budget/budget.component';
-import { BudgetdetailsComponent } from './budgetdetails/budgetdetails.component';
+import { BudgetdetailsComponent } from './budget-details/budget-details.component';
 import { IncomeComponent } from './income/income.component';
-import { IncomedetailsComponent } from './incomedetails/incomedetails.component';
+import { IncomedetailsComponent } from './income-details/income-details.component';
 
 const routes: Routes = [
   {
@@ -21,7 +21,7 @@ const routes: Routes = [
     component: BudgetComponent,
   },
   {
-    path: 'budgetdetails',
+    path: 'budget-details',
     component: BudgetdetailsComponent,
   },
   {
@@ -29,7 +29,7 @@ const routes: Routes = [
     component: IncomeComponent,
   },
   {
-    path: 'incomedetails',
+    path: 'income-details',
     component: IncomedetailsComponent,
   },
   {

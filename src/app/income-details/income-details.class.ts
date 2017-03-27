@@ -1,11 +1,11 @@
-export interface TIncomeDetails {
+export interface IIncomeDetails {
     salary: number;
     interest: number;
 }
 
 export class CIncomeDetails {
 
-    constructor (public incomeDetails: TIncomeDetails) { }
+    constructor (public incomeDetails: IIncomeDetails) { }
 
     getIncomeDetailsSum() {
     	// note kludge in use of *1 to convert string to number

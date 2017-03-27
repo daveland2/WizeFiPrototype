@@ -1,11 +1,12 @@
 <h3>Budget</h3>
 <br>
 <table>
-<tr><td>Budget Total</td><td><input type="text" [(ngModel)]="budgettotal" size="10" readonly></td></tr>
+<!-- <tr><td>Budget Total</td><td><input type="text" [(ngModel)]="budgettotal" size="10" readonly></td></tr> -->
+<tr><td>Budget Total</td><td><input type="text" value={{budgetTotal}} size="10" readonly></td></tr>
 </table>
 <br><br>
 <a [routerLink]="['/profile']">&lt;</a>
 &nbsp; &nbsp;
-<a [routerLink]="['/budgetdetails']">\/</a>
+<a [routerLink]="['/budget-details']">\/</a>
 &nbsp; &nbsp;
 <a [routerLink]="['/income']">&gt;</a>

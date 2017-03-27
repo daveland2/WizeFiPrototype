@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { DataModelService } from './datamodel.service';
+import { DataModelService } from './data-model.service';
 
 @Component({
   selector: 'app-root',
@@ -10,11 +10,11 @@ import { DataModelService } from './datamodel.service';
 export class AppComponent {
   title = 'WizwFiPrototype';
 
-  constructor (private datamodelService: DataModelService) { }
+  constructor (private dataModelService: DataModelService) { }
 
   ngOnInit() {
   	// populate datamodel with information from persistent storage
-    this.datamodelService.fetchdata();
+    this.dataModelService.fetchdata();
   	console.log('AppComponent OnInit');
   }
 
@@ -23,7 +23,7 @@ export class AppComponent {
   }
 
   storedata() {
-  	this.datamodelService.storedata();
+  	this.dataModelService.storedata();
   }
 
 }   //class AppComponent

@@ -1,12 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { DataModelService } from '../datamodel.service';
-
-// kludge for now  //*//
-interface Ibudgetdetails {
-  housing: number,
-  food: number
-}
+import { DataModelService } from '../data-model.service';
+import { CBudgetDetails } from '../budget-details/budget-details.class';
 
 @Component({
   selector: 'app-budget',
@@ -16,16 +11,14 @@ interface Ibudgetdetails {
 export class BudgetComponent implements OnInit, OnDestroy {
 
   // transient data
-  budgetdetails: Ibudgetdetails;
-  budgettotal: number;
+  cBudgetDetails: CBudgetDetails;
+  budgetTotal: number;
 
-  constructor(private datamodelService: DataModelService) {
-
-  }
+  constructor(private dataModelService: DataModelService) { }
 
   ngOnInit() {
-    this.budgetdetails = this.datamodelService.getdata('budgetdetails');
-    this.budgettotal = this.datamodelService.getBudgetDetailsSum(this.budgetdetails);
+    this.cBudgetDetails = new CBudgetDetails(this.dataModelService.getdata('budgetDetails'));
+    this.budgetTotal = this.cBudgetDetails.getBudgetDetailsSum();
   	console.log('BudgetComponent OnInit');
   }
 

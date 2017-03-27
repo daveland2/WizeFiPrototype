@@ -4,14 +4,14 @@ import { FormsModule } from '@angular/forms';
 
 import { routing } from './app.routes';
 
-import { DataModelService } from './datamodel.service';
+import { DataModelService } from './data-model.service';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { BudgetComponent } from './budget/budget.component';
-import { BudgetdetailsComponent } from './budgetdetails/budgetdetails.component';
+import { BudgetdetailsComponent } from './budget-details/budget-details.component';
 import { IncomeComponent } from './income/income.component';
-import { IncomedetailsComponent } from './incomedetails/incomedetails.component';
+import { IncomedetailsComponent } from './income-details/income-details.component';
 
 @NgModule({
   declarations: [
