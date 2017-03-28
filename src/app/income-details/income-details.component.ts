@@ -8,7 +8,7 @@ import { CIncomeDetails } from './income-details.class';
   templateUrl: './income-details.component.html',
   styleUrls: ['./income-details.component.css']
 })
-export class IncomedetailsComponent implements OnInit {
+export class IncomeDetailsComponent implements OnInit {
   // persistent data
   cIncomeDetails: CIncomeDetails;
 
@@ -25,6 +25,16 @@ export class IncomedetailsComponent implements OnInit {
 
   calctotal() {
   	this.incomeTotal = this.cIncomeDetails.getIncomeDetailsSum();
+  }
+
+  digitOnly(event: any) {
+    const pattern = /[0-9]/;
+    let inputChar = String.fromCharCode(event.charCode);
+
+    if (!pattern.test(inputChar)) {
+      // invalid character, prevent input
+      event.preventDefault();
+    }
   }
 
   // update data model

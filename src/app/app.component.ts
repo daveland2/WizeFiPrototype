@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { DataModelService } from './data-model.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,7 @@ import { DataModelService } from './data-model.service';
 export class AppComponent {
   title = 'WizwFiPrototype';
 
-  constructor (private dataModelService: DataModelService) { }
+  constructor (private router: Router, private dataModelService: DataModelService) { }
 
   ngOnInit() {
   	// populate datamodel with information from persistent storage
@@ -24,6 +25,10 @@ export class AppComponent {
 
   storedata() {
   	this.dataModelService.storedata();
+  }
+
+  sitemap() {
+    // router.parent.navigate(['/site-map']);
   }
 
 }   //class AppComponent

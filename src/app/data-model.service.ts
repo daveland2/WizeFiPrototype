@@ -19,15 +19,15 @@ export class DataModelService {
 		this.dataModel = {
 			profile: {
 				name: "Joe",
-				age: 25
+				age: '25'
 			},
 			budgetDetails: {
-				housing: 500,
-				food: 250
+				housing: '500',
+				food: '250'
 			},
 			incomeDetails: {
-				salary: 3000,
-				interest: 400
+				salary: '3000',
+				interest: '400'
 			}
 		}
 		console.log("fetch: " + JSON.stringify(this.dataModel));  //*//

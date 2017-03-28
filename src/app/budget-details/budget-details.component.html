@@ -6,7 +6,11 @@
 <tr><td>TOTAL</td><td><input type="text" value={{cBudgetDetails.getBudgetDetailsSum()}} size="10" readonly> continuous update (onChange)</td></tr>
 <tr><td>TOTAL</td><td><input type="text" value={{budgetTotal}} size="10" readonly> discrete update (onBlur)</td></tr>
 </table>
-<br>
-<button type="button" (click)="update()">Update</button>
 <br><br>
 <a [routerLink]="['/budget']">/\</a>
+<br>
+<ul>
+  <li *ngFor="let message of messages">
+    {{message}}
+  </li>
+</ul>

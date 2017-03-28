@@ -1,6 +1,6 @@
 export interface IIncomeDetails {
-    salary: number;
-    interest: number;
+    salary: string;
+    interest: string;
 }
 
 export class CIncomeDetails {
@@ -8,7 +8,6 @@ export class CIncomeDetails {
     constructor (public incomeDetails: IIncomeDetails) { }
 
     getIncomeDetailsSum() {
-    	// note kludge in use of *1 to convert string to number
-        return this.incomeDetails.salary*1 + this.incomeDetails.interest*1;
+        return Number(this.incomeDetails.salary) + Number(this.incomeDetails.interest);
   	}
 }

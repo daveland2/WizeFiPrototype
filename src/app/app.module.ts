@@ -8,10 +8,13 @@ import { DataModelService } from './data-model.service';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
+import { ProfileDeactivateGuard } from './profile/profile-deactivate.guard';
 import { BudgetComponent } from './budget/budget.component';
-import { BudgetdetailsComponent } from './budget-details/budget-details.component';
+import { BudgetDetailsComponent } from './budget-details/budget-details.component';
+import { BudgetDetailsDeactivateGuard } from './budget-details/budget-details-deactivate.guard';
 import { IncomeComponent } from './income/income.component';
-import { IncomedetailsComponent } from './income-details/income-details.component';
+import { IncomeDetailsComponent } from './income-details/income-details.component';
+import { SiteMapComponent } from './site-map/site-map.component';
 
 @NgModule({
   declarations: [
@@ -19,16 +22,21 @@ import { IncomedetailsComponent } from './income-details/income-details.componen
     ProfileComponent,
     LoginComponent,
     BudgetComponent,
-    BudgetdetailsComponent,
+    BudgetDetailsComponent,
     IncomeComponent,
-    IncomedetailsComponent
+    IncomeDetailsComponent,
+    SiteMapComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     routing
   ],
-  providers: [DataModelService],
+  providers: [
+    DataModelService,
+    ProfileDeactivateGuard,
+    BudgetDetailsDeactivateGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
