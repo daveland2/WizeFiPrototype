@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 
 import { DataModelService } from '../data-model.service';
 import { CProfile } from './profile.class';
-import { ProfileDeactivateGuard } from './profile-deactivate.guard';
 
 @Component({
   selector: 'app-profile',

@@ -10,7 +10,7 @@ import { BudgetDetailsDeactivateGuard } from './budget-details/budget-details-de
 import { IncomeComponent } from './income/income.component';
 import { IncomeDetailsComponent } from './income-details/income-details.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,

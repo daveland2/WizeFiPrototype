@@ -1,3 +1,7 @@
-<p>
-  site-map works!
-</p>
+<h3>Site Map</h3>
+
+<div>
+  <ng-container *ngFor="let info of linkInfo">
+    <a [routerLink]="info.path">{{info.name}}</a> <br>
+  </ng-container>
+</div>

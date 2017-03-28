@@ -35,6 +35,7 @@ export class DataModelService {
 	}   // fetchdata
 
 	storedata() {
+		// simulate store of data to persistent storage
 		console.log("store: " + JSON.stringify(this.dataModel));  //*//
 	}   // storedata
 
@@ -42,7 +43,7 @@ export class DataModelService {
 		let value: any;
 		switch (item)
 		{
-			case 'profile':  value = JSON.parse(JSON.stringify(this.dataModel.profile));              break;
+			case 'profile':        value = JSON.parse(JSON.stringify(this.dataModel.profile));        break;
 			case 'budgetDetails':  value = JSON.parse(JSON.stringify(this.dataModel.budgetDetails));  break;
 			case 'incomeDetails':  value = JSON.parse(JSON.stringify(this.dataModel.incomeDetails));  break;
 			default:
@@ -55,7 +56,7 @@ export class DataModelService {
 	putdata(item,value) {
 		switch (item)
 		{
-			case 'profile':  this.dataModel.profile = JSON.parse(JSON.stringify(value));              break;
+			case 'profile':        this.dataModel.profile = JSON.parse(JSON.stringify(value));        break;
 			case 'budgetDetails':  this.dataModel.budgetDetails = JSON.parse(JSON.stringify(value));  break;
 			case 'incomeDetails':  this.dataModel.incomeDetails = JSON.parse(JSON.stringify(value));  break;
 			default:
