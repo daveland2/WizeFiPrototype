@@ -9,6 +9,7 @@ import { BudgetDetailsComponent } from './budget-details/budget-details.componen
 import { BudgetDetailsDeactivateGuard } from './budget-details/budget-details-deactivate.guard';
 import { IncomeComponent } from './income/income.component';
 import { IncomeDetailsComponent } from './income-details/income-details.component';
+import { LogoutComponent } from './logout/logout.component';
 
 export const routes: Routes = [
   {
@@ -40,6 +41,10 @@ export const routes: Routes = [
   {
     path: 'site-map',
     component: SiteMapComponent,
+  },
+   {
+    path: 'logout',
+    component: LogoutComponent,
   },
   {
     path: '',

@@ -1,78 +1,100 @@
 import { Component, OnInit } from '@angular/core';
 
+declare const FB: any;
+
+/*
+let userID: string;
+let access_token: string;
+let email: string;
+*/
+
+interface IResponse {
+    authResponse: {
+    	accessToken: string,
+    	expiresIn: number,
+    	signedRequest: string,
+    	userID: string
+    },
+    status: string
+}
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-	FacebookAppID = '1436430629732183';
+	// FacebookAppID: string = '1436430629732183';  // processDataApp
+	FacebookAppID: string = '1862692110681013';  // WizeFiPrototypeApp
+	userID: string;
+	access_token: string;
+	email: string;
 
 	constructor() { }
 
 	ngOnInit() { }
 
-	function doFacebookLogin()
+   	doFacebookLogin()
 	{
-	    function getInfo(response)
-	    {
-	        userID = response.authResponse.userID;
-	        access_token = response.authResponse.accessToken;
-	        FB.api('/me', {locale: 'en_US', fields: 'email'}, function(response2)
-	        {
-	            email = response2.email;
-	            finishLogin();
-	        });
-	    }   // get Info
-
-	    loginMode = 'Facebook';
 	    console.log('Facebook login');
-
-	    // clear values on screen
-	    $('#email').val('');
-	    $('#val').val('');
 
 	    FB.init(
 	    {
-	        appId      : FacebookAppID,
-	        status     : true,
-	        xfbml      : true,
-	        version    : 'v2.8'
+	        appId:   this.FacebookAppID,
+	        status:  true,
+	        xfbml:   true,
+	        version: 'v2.8'
 	    });
 
-	    FB.getLoginStatus(function(response)
+	    FB.getLoginStatus((response:IResponse) =>
 	    {
 	        if (response.status === 'connected')
 	        {
 	            console.log('already logged in');
-	            getInfo(response);
+	            this.getInfo(response);
 	        }
 	        else
 	        {
-	            FB.login(function(response)
+	            FB.login((response) =>
 	            {
 	                if (response.authResponse)
 	                {
 	                    console.log('new login');
-	                    getInfo(response);
+	                    this.getInfo(response);
 	                }
 	                else
 	                {
 	                    console.log('Login was not successful');
 	                }
 	            },
-	            // {scope: 'public_profile,email'}
+	            {scope: 'public_profile,email'}
 	            // note: add auth_type: 'reauthenticate' property to force authentication even if already logged in to Facebook
-	            {scope: 'public_profile,email', auth_type: 'reauthenticate'}
+	            // {scope: 'public_profile,email', auth_type: 'reauthenticate'}
 	            );
 	        }
 	    });
 	}   // doFacebookLogin
 
-	function finishLogin()
+    getInfo(response: IResponse)
+    {
+        this.userID = response.authResponse.userID;
+        this.access_token = response.authResponse.accessToken;
+        FB.api('/me', {locale: 'en_US', fields: 'email'}, (response2) =>
+        {
+            this.email = response2.email;
+            this.finishLogin();
+        });
+    }   // get Info
+
+	finishLogin()
 	{
-	   return new Promise(function(resolve,reject)
+	   return new Promise((resolve,reject) =>
 	    {
+	        console.log("userID: " + this.userID);
+	        console.log("email: " + this.email);
+	        console.log('access_token: ' + this.access_token);
+
+            /*
 	        let logins;
 
 	        // set logins info
@@ -88,6 +110,8 @@ export class LoginComponent implements OnInit {
 	        lambda = new AWS.Lambda();
 	        console.log("Login completed")
 	        $("#loggedin").show();
+	        */
+	        console.log("finished login");
 	        resolve();
 	    });
 	}   // finishLogin

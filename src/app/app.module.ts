@@ -15,6 +15,7 @@ import { BudgetDetailsDeactivateGuard } from './budget-details/budget-details-de
 import { IncomeComponent } from './income/income.component';
 import { IncomeDetailsComponent } from './income-details/income-details.component';
 import { SiteMapComponent } from './site-map/site-map.component';
+import { LogoutComponent } from './logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { SiteMapComponent } from './site-map/site-map.component';
     BudgetDetailsComponent,
     IncomeComponent,
     IncomeDetailsComponent,
-    SiteMapComponent
+    SiteMapComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,
