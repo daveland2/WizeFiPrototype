@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { DataModelService} from '../data-model.service';
 import { CIncomeDetails } from './income-details.class';
+import { IVerifyResult } from '../utilities/validity-check.class';
 
 @Component({
   selector: 'app-incomedetails',
@@ -14,31 +15,31 @@ export class IncomeDetailsComponent implements OnInit {
 
   // transient data
   incomeTotal: number;
+  messages: string[] = [];
 
-  constructor(private datamodelService: DataModelService) {
+  constructor(private dataModelService: DataModelService) {
   }
 
   ngOnInit() {
-  	this.cIncomeDetails = new CIncomeDetails(this.datamodelService.getdata('incomeDetails'));
+  	this.cIncomeDetails = new CIncomeDetails(this.dataModelService.getdata('incomeDetails'));
     this.incomeTotal = this.cIncomeDetails.getIncomeDetailsSum();
   }
 
-  calctotal() {
-  	this.incomeTotal = this.cIncomeDetails.getIncomeDetailsSum();
-  }
-
-  digitOnly(event: any) {
-    const pattern = /[0-9]/;
-    let inputChar = String.fromCharCode(event.charCode);
-
-    if (!pattern.test(inputChar)) {
-      // invalid character, prevent input
-      event.preventDefault();
+  verify() {
+    this.messages = [];
+    let result: IVerifyResult = this.cIncomeDetails.verifyAllDataValues();
+    if (result.hadError) {
+      // report errors on screen
+      this.messages = result.messages;
+    }
+    else {
+      // update calculated values on screen
+      this.incomeTotal = this.cIncomeDetails.getIncomeDetailsSum();
     }
   }
 
   // update data model
   update() {
-  	this.datamodelService.putdata('incomeDetails', this.cIncomeDetails.incomeDetails);
+  	this.dataModelService.putdata('incomeDetails', this.cIncomeDetails.incomeDetails);
   }
 }   // IncomedetailsComponent

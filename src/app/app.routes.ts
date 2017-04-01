@@ -10,6 +10,7 @@ import { BudgetDetailsDeactivateGuard } from './budget-details/budget-details-de
 import { IncomeComponent } from './income/income.component';
 import { IncomeDetailsComponent } from './income-details/income-details.component';
 import { LogoutComponent } from './logout/logout.component';
+import { IncomeDetailsDeactivateGuard } from './income-details/income-details-deactivate.guard';
 
 export const routes: Routes = [
   {
@@ -37,6 +38,7 @@ export const routes: Routes = [
   {
     path: 'income-details',
     component: IncomeDetailsComponent,
+    canDeactivate: [IncomeDetailsDeactivateGuard]
   },
   {
     path: 'site-map',

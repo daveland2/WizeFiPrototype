@@ -1,6 +1,7 @@
 import { CanDeactivate } from '@angular/router';
 import { BudgetDetailsComponent } from './budget-details.component';
-import { IVerifyResult } from './budget-details.class';
+import { IVerifyResult } from '../utilities/validity-check.class';
+
 
 export class BudgetDetailsDeactivateGuard implements CanDeactivate<BudgetDetailsComponent> {
 

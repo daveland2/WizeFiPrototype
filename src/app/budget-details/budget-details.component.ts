@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { DataModelService } from '../data-model.service';
-import { CBudgetDetails, IVerifyResult } from './budget-details.class';
+import { CBudgetDetails} from './budget-details.class';
+import { IVerifyResult } from '../utilities/validity-check.class';
 
 @Component({
   selector: 'app-budgetdetails',
@@ -28,7 +29,7 @@ export class BudgetDetailsComponent implements OnInit, OnDestroy {
     console.log("BudgetDetailsComponent onDestroy");
   }
 
-  calcTotal() {
+  verify() {
     this.messages = [];
     let result: IVerifyResult = this.cBudgetDetails.verifyAllDataValues();
     if (result.hadError) {
@@ -36,6 +37,7 @@ export class BudgetDetailsComponent implements OnInit, OnDestroy {
       this.messages = result.messages;
     }
     else {
+      // update calculated values on screen
       this.budgetTotal = this.cBudgetDetails.getBudgetDetailsSum();
     }
 

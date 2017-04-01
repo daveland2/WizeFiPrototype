@@ -1,11 +1,8 @@
+import { CValidityCheck, IVerifyResult } from '../utilities/validity-check.class';
+
 export interface IBudgetDetails {
     housing: string;
     food: string;
-}
-
-export interface IVerifyResult {
-	hadError: boolean,
-	messages: string[]
 }
 
 export class CBudgetDetails {
@@ -16,25 +13,15 @@ export class CBudgetDetails {
         return Number(this.budgetDetails.housing) + Number(this.budgetDetails.food);
   	}   // getBudgetDetailsSum
 
-  	checkInteger(item,result) {
-  		let str = String(this.budgetDetails[item]);
-  		if (!str.match(/^[0-9]+$/)) {
-  			result.hadError = true;
-  			result.messages.push('Must enter integer value for ' + item);
-  		}
-  	}   // checkInteger
-
   	verifyAllDataValues(): IVerifyResult {
   		// initialize
-  		let result: IVerifyResult = {
-  			hadError:false,
-  			messages:[]
-  		};
+  		let result: IVerifyResult = {hadError:false, messages:[]};
 
   		// check each data field
-  		this.checkInteger('housing',result);
-  		this.checkInteger('food',result);
+  		CValidityCheck.checkInteger(this.budgetDetails,'housing',result);
+  		CValidityCheck.checkInteger(this.budgetDetails,'food',result);
 
   		return result;
   	}   // verifyAllDataValues
+
 }   // class CBudgetDetails

@@ -14,6 +14,7 @@ import { BudgetDetailsComponent } from './budget-details/budget-details.componen
 import { BudgetDetailsDeactivateGuard } from './budget-details/budget-details-deactivate.guard';
 import { IncomeComponent } from './income/income.component';
 import { IncomeDetailsComponent } from './income-details/income-details.component';
+import { IncomeDetailsDeactivateGuard } from './income-details/income-details-deactivate.guard';
 import { SiteMapComponent } from './site-map/site-map.component';
 import { LogoutComponent } from './logout/logout.component';
 
@@ -37,7 +38,8 @@ import { LogoutComponent } from './logout/logout.component';
   providers: [
     DataModelService,
     ProfileDeactivateGuard,
-    BudgetDetailsDeactivateGuard
+    BudgetDetailsDeactivateGuard,
+    IncomeDetailsDeactivateGuard
   ],
   bootstrap: [AppComponent]
 })
