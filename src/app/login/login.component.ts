@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
-declare const FB: any;
+import { DataModelService } from '../data-model.service';
 
-/*
-let userID: string;
-let access_token: string;
-let email: string;
-*/
+declare const FB: any;
+declare const AWS: any;
 
 interface IResponse {
     authResponse: {
@@ -26,17 +23,14 @@ interface IResponse {
 export class LoginComponent implements OnInit {
 	// FacebookAppID: string = '1436430629732183';  // processDataApp
 	FacebookAppID: string = '1862692110681013';  // WizeFiPrototypeApp
-	userID: string;
-	access_token: string;
-	email: string;
 
-	constructor() { }
+	constructor(private dataModelService: DataModelService) { }
 
 	ngOnInit() { }
 
-   	doFacebookLogin()
+   	login()
 	{
-	    console.log('Facebook login');
+	    console.log('Login started');
 
 	    FB.init(
 	    {
@@ -73,47 +67,41 @@ export class LoginComponent implements OnInit {
 	            );
 	        }
 	    });
-	}   // doFacebookLogin
+	}   // login
 
     getInfo(response: IResponse)
     {
-        this.userID = response.authResponse.userID;
-        this.access_token = response.authResponse.accessToken;
+        this.dataModelService.dataModel.config.userID = response.authResponse.userID;
+        this.dataModelService.dataModel.config.access_token = response.authResponse.accessToken;
         FB.api('/me', {locale: 'en_US', fields: 'email'}, (response2) =>
         {
-            this.email = response2.email;
+            this.dataModelService.dataModel.config.email = response2.email;
             this.finishLogin();
         });
     }   // get Info
 
 	finishLogin()
 	{
-	   return new Promise((resolve,reject) =>
-	    {
-	        console.log("userID: " + this.userID);
-	        console.log("email: " + this.email);
-	        console.log('access_token: ' + this.access_token);
+		// establish lambda object for invoking Lambda functions
+		let logins = {'graph.facebook.com': this.dataModelService.dataModel.config.access_token};
+		AWS.config.update({region: 'us-west-2'});
+		AWS.config.credentials = new AWS.CognitoIdentityCredentials(
+		{
+		    IdentityPoolId: 'us-west-2:a754ae55-d81e-4b0a-a697-17c5e32ee052',
+		    Logins: logins
+		});
+		this.dataModelService.dataModel.config.lambda = new AWS.Lambda();
 
-            /*
-	        let logins;
+		// simulate retrieval of persistent data
+		this.dataModelService.fetchdata();
 
-	        // set logins info
-	        logins = {'graph.facebook.com': access_token};
+		// show login results
+		console.log("userID: " + this.dataModelService.dataModel.config.userID);
+		console.log("email: " + this.dataModelService.dataModel.config.email);
+		console.log('access_token: ' + this.dataModelService.dataModel.config.access_token);
+		console.log("lambda client ID: " + this.dataModelService.dataModel.config.lambda._clientId);
+		console.log("Login completed")
 
-	        // establish lambda object for invoking Lambda functions
-	        AWS.config.update({region: 'us-west-2'});
-	        AWS.config.credentials = new AWS.CognitoIdentityCredentials(
-	        {
-	            IdentityPoolId: 'us-west-2:a754ae55-d81e-4b0a-a697-17c5e32ee052',
-	            Logins: logins
-	        });
-	        lambda = new AWS.Lambda();
-	        console.log("Login completed")
-	        $("#loggedin").show();
-	        */
-	        console.log("finished login");
-	        resolve();
-	    });
 	}   // finishLogin
 
 }   // class LoginComponent

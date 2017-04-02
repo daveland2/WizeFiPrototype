@@ -1,6 +1,6 @@
 export interface IProfile {
     name: string;
-    age: string;
+    age: number;
 }
 
 export class CProfile {

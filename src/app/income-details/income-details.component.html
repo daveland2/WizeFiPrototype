@@ -2,10 +2,10 @@
 <br>
 <form>
 <table>
-<tr><td>Salary</td><td><input type="text" name="salary" [(ngModel)]="cIncomeDetails.incomeDetails.salary" (blur)="verify()" size="10"></td></tr>
-<tr><td>Interest</td><td><input type="text" name="interest" [(ngModel)]="cIncomeDetails.incomeDetails.interest" (blur)="verify()" size="10"></td></tr>
+<tr><td>Salary</td><td><input type="number" name="salary" [(ngModel)]="cIncomeDetails.incomeDetails.salary" (blur)="verify()" size="10"></td></tr>
+<tr><td>Interest</td><td><input type="number" name="interest" [(ngModel)]="cIncomeDetails.incomeDetails.interest" (blur)="verify()" size="10"></td></tr>
 
-<tr><td>TOTAL</td><td><input type="text" value={{incomeTotal}} size="10" readonly></td></tr>
+<tr><td>TOTAL</td><td><input type="number" value={{incomeTotal}} size="10" readonly></td></tr>
 </table>
 </form>
 

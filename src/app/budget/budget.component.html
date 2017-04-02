@@ -1,8 +1,8 @@
 <h3>Budget</h3>
 <br>
 <table>
-<!-- <tr><td>Budget Total</td><td><input type="text" [(ngModel)]="budgettotal" size="10" readonly></td></tr> -->
-<tr><td>Budget Total</td><td><input type="text" value={{budgetTotal}} size="10" readonly></td></tr>
+<!-- <tr><td>Budget Total</td><td><input type="number" value={{budgetTotal}} size="10" readonly></td></tr> -->
+<tr><td>Budget Total</td><td><input type="text" [ngModel]="budgetTotal | currency:'USD':true:'1.0-0'" size="15" readonly></td></tr>
 </table>
 <br><br>
 <a [routerLink]="['/profile']">&lt;</a>

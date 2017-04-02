@@ -1,8 +1,8 @@
 import { CValidityCheck, IVerifyResult } from '../utilities/validity-check.class';
 
 export interface IIncomeDetails {
-    salary: string;
-    interest: string;
+    salary: number;
+    interest: number;
 }
 
 export class CIncomeDetails {

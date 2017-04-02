@@ -1,8 +1,8 @@
 import { CValidityCheck, IVerifyResult } from '../utilities/validity-check.class';
 
 export interface IBudgetDetails {
-    housing: string;
-    food: string;
+    housing: number;
+    food: number;
 }
 
 export class CBudgetDetails {
@@ -10,7 +10,7 @@ export class CBudgetDetails {
     constructor (public budgetDetails: IBudgetDetails) { }
 
     getBudgetDetailsSum() {
-        return Number(this.budgetDetails.housing) + Number(this.budgetDetails.food);
+        return this.budgetDetails.housing + this.budgetDetails.food;
   	}   // getBudgetDetailsSum
 
   	verifyAllDataValues(): IVerifyResult {

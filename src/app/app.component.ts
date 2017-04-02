@@ -13,15 +13,9 @@ export class AppComponent {
 
   constructor (private router: Router, private dataModelService: DataModelService) { }
 
-  ngOnInit() {
-  	// populate datamodel with information from persistent storage
-    this.dataModelService.fetchdata();
-  	console.log('AppComponent OnInit');
-  }
+  ngOnInit() { }
 
-  ngOnDestroy() {
-  	console.log('AppComponent OnDestroy');
-  }
+  ngOnDestroy() { }
 
   storedata() {
   	this.dataModelService.storedata();

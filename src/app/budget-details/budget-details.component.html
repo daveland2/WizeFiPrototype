@@ -1,9 +1,11 @@
 <h3>Budget Details</h3>
 <br>
 <table>
-<tr><td>Housing</td><td><input type="text" [(ngModel)]="cBudgetDetails.budgetDetails.housing" (blur)="verify()" size="10"></td></tr>
-<tr><td>Food</td><td><input type="text" [(ngModel)]="cBudgetDetails.budgetDetails.food" (blur)="verify()" size="10"></td></tr>
-<tr><td>TOTAL</td><td><input type="text" value={{budgetTotal}} size="10" readonly></td></tr>
+<tr><td>Housing</td><td><input type="number" [(ngModel)]="cBudgetDetails.budgetDetails.housing" (blur)="verify()" size="10"></td></tr>
+<tr><td>Food</td><td><input type="number" [(ngModel)]="cBudgetDetails.budgetDetails.food" (blur)="verify()" size="10"></td></tr>
+<tr><td>TOTAL</td><td><input type="text" [ngModel]="budgetTotal | number:'1.2-2'" size="10" readonly></td></tr>
+<tr><td>TOTAL</td><td><input type="text" [ngModel]="budgetTotal | currency" size="15" readonly></td></tr>
+<!-- <tr><td>TOTAL</td><td>{{budgetTotal | currency:'USD':true:'1.0-0'}}</td></tr> -->
 </table>
 <br><br>
 <a [routerLink]="['/budget']">/\</a>
