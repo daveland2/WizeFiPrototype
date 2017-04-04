@@ -40,7 +40,6 @@ export class BudgetDetailsComponent implements OnInit, OnDestroy {
       // update calculated values on screen
       this.budgetTotal = this.cBudgetDetails.getBudgetDetailsSum();
     }
-
   }
 
   // update data model

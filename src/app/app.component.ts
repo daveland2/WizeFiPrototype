@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { DataModelService } from './data-model.service';
 import {Router} from '@angular/router';
 
+import { NumberSeparators } from './utilities/number-separators.class';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -19,10 +21,6 @@ export class AppComponent {
 
   storedata() {
   	this.dataModelService.storedata();
-  }
-
-  sitemap() {
-    // router.parent.navigate(['/site-map']);
   }
 
 }   //class AppComponent

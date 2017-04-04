@@ -1,7 +1,8 @@
 <h3>Income</h3>
 <br>
 <table>
-<tr><td>Total</td><td><input type="text" value={{incomeTotal}} size="10" readonly></td></tr>
+<tr><td>Income Total</td><td><input type="text" [ngModel]="incomeTotal | currency:'USD':true:'1.0-0'" size="15" readonly></td></tr>
+
 </table>
 <br><br>
 <a [routerLink]="['/budget']">&lt;</a>

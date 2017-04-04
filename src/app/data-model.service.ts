@@ -7,8 +7,10 @@ import { IIncomeDetails } from './income-details/income-details.class';
 export interface IConfig {
 	userID: string,
 	email: string,
-	access_token: string;
-	lambda: any;
+	access_token: string,
+	lambda: any,
+	thousandsSeparator: string,
+	decimalSeparator: string
 }
 
 export interface IDataModel {
@@ -31,7 +33,9 @@ export class DataModelService {
 				userID: '123',
 				email: 'joe@abc.com',
 				access_token: '12345',
-				lambda: null
+				lambda: null,
+				thousandsSeparator: '',
+				decimalSeparator: ''
     		},
     		persistent: {
 				profile: {

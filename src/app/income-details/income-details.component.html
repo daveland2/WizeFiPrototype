@@ -1,13 +1,10 @@
 <h3>Income Details</h3>
 <br>
-<form>
 <table>
 <tr><td>Salary</td><td><input type="number" name="salary" [(ngModel)]="cIncomeDetails.incomeDetails.salary" (blur)="verify()" size="10"></td></tr>
 <tr><td>Interest</td><td><input type="number" name="interest" [(ngModel)]="cIncomeDetails.incomeDetails.interest" (blur)="verify()" size="10"></td></tr>
-
-<tr><td>TOTAL</td><td><input type="number" value={{incomeTotal}} size="10" readonly></td></tr>
+<tr><td>TOTAL</td><td><input type="text" [ngModel]="incomeTotal | currency:'USD':true:'1.0-0'" size="15" readonly></td></tr>
 </table>
-</form>
 
 <br>
 <a [routerLink]="['/income']">/\</a>

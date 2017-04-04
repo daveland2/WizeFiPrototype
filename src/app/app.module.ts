@@ -46,7 +46,7 @@ import { LogoutComponent } from './logout/logout.component';
 //  {provide: LOCALE_ID, useValue: "fr-FR" }  // 4 294 967 295,00  (get expected result)
 //  {provide: LOCALE_ID, useValue: "nb-NO" }  // 4.294.967.295,00  (get space, not .)
 //  {provide: LOCALE_ID, useValue: "it-IT" }  // 4'294'967'295,00  (get . not ')
-    {provide: LOCALE_ID, useValue: "ja-JP" }  // 4'294'967'295,00  (get . not ')
+//  {provide: LOCALE_ID, useValue: "ja-JP" }  // 4'294'967'295,00  (get . not ')
     // note: for currency pipe, default is USD and locale has no effect on which currency is in effect
     //       currency symbol for locale is NOT used
   ],
