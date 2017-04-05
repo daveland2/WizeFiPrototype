@@ -18,6 +18,8 @@ import { IncomeDetailsComponent } from './income-details/income-details.componen
 import { IncomeDetailsDeactivateGuard } from './income-details/income-details-deactivate.guard';
 import { SiteMapComponent } from './site-map/site-map.component';
 import { LogoutComponent } from './logout/logout.component';
+import { SettingsComponent } from './settings/settings.component';
+import { SettingsDeactivateGuard } from './settings/settings-deactivate.guard';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import { LogoutComponent } from './logout/logout.component';
     IncomeComponent,
     IncomeDetailsComponent,
     SiteMapComponent,
-    LogoutComponent
+    LogoutComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,
@@ -41,6 +44,7 @@ import { LogoutComponent } from './logout/logout.component';
     ProfileDeactivateGuard,
     BudgetDetailsDeactivateGuard,
     IncomeDetailsDeactivateGuard,
+    SettingsDeactivateGuard,
 //  {provide: LOCALE_ID, useValue: "en-US" }  // USD 4,294,967,295.00  (get expected result)  <=== default value in local tests
 //  {provide: LOCALE_ID, useValue: "de-DE" }  // EUR 4.294.967.295,00  (get expected result)
 //  {provide: LOCALE_ID, useValue: "fr-FR" }  // EUR 4 294 967 295,00  (get expected result)

@@ -9,8 +9,10 @@ import { BudgetDetailsComponent } from './budget-details/budget-details.componen
 import { BudgetDetailsDeactivateGuard } from './budget-details/budget-details-deactivate.guard';
 import { IncomeComponent } from './income/income.component';
 import { IncomeDetailsComponent } from './income-details/income-details.component';
-import { LogoutComponent } from './logout/logout.component';
 import { IncomeDetailsDeactivateGuard } from './income-details/income-details-deactivate.guard';
+import { LogoutComponent } from './logout/logout.component';
+import { SettingsComponent } from './settings/settings.component';
+import { SettingsDeactivateGuard } from './settings/settings-deactivate.guard';
 
 export const routes: Routes = [
   {
@@ -44,7 +46,12 @@ export const routes: Routes = [
     path: 'site-map',
     component: SiteMapComponent,
   },
-   {
+  {
+    path: 'settings',
+    component: SettingsComponent,
+    canDeactivate: [SettingsDeactivateGuard]
+  },
+  {
     path: 'logout',
     component: LogoutComponent,
   },

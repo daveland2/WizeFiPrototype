@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 
+import { ISettings } from './settings/settings.class';
 import { IProfile } from './profile/profile.class';
 import { IBudgetDetails } from './budget-details/budget-details.class';
 import { IIncomeDetails } from './income-details/income-details.class';
@@ -9,12 +10,6 @@ export interface IGlobal {
 	email: string,
 	access_token: string,
 	lambda: any,
-}
-
-export interface ISettings {
-	currencyCode: string,
-	thousandsSeparator: string,
-	decimalSeparator: string
 }
 
 export interface IDataModel {
@@ -42,7 +37,7 @@ export class DataModelService {
     		},
     		persistent: {
 				settings: {
-					currencyCode: 'EUR',
+					currencyCode: '',
 					thousandsSeparator: '',
 					decimalSeparator: ''
 	    		},
@@ -117,14 +112,14 @@ export class DataModelService {
 	}   // invokeDataHandlingFunction
 
 	fetchdata(): IDataModel {
-		// simulate fetch of data from persistent storage
+		// fetch data from persistent storage
 		this.invokeDataHandlingFunction('get');
 		console.log("fetch: " + JSON.stringify(this.dataModel.persistent));  //*//
 		return this.dataModel;
 	}   // fetchdata
 
 	storedata() {
-		// simulate store of data to persistent storage
+		// store data in persistent storage
 		this.invokeDataHandlingFunction('put');
 		console.log("store: " + JSON.stringify(this.dataModel.persistent));  //*//
 	}   // storedata
@@ -133,6 +128,7 @@ export class DataModelService {
 		let value: any;
 		switch (item)
 		{
+			case 'settings':       value = JSON.parse(JSON.stringify(this.dataModel.persistent.settings));       break;
 			case 'profile':        value = JSON.parse(JSON.stringify(this.dataModel.persistent.profile));        break;
 			case 'budgetDetails':  value = JSON.parse(JSON.stringify(this.dataModel.persistent.budgetDetails));  break;
 			case 'incomeDetails':  value = JSON.parse(JSON.stringify(this.dataModel.persistent.incomeDetails));  break;
@@ -146,6 +142,7 @@ export class DataModelService {
 	putdata(item,value) {
 		switch (item)
 		{
+			case 'settings':       this.dataModel.persistent.settings = JSON.parse(JSON.stringify(value));       break;
 			case 'profile':        this.dataModel.persistent.profile = JSON.parse(JSON.stringify(value));        break;
 			case 'budgetDetails':  this.dataModel.persistent.budgetDetails = JSON.parse(JSON.stringify(value));  break;
 			case 'incomeDetails':  this.dataModel.persistent.incomeDetails = JSON.parse(JSON.stringify(value));  break;
