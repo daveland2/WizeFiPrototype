@@ -1,11 +1,17 @@
 import { DataModelService } from '../data-model.service';
 
-export class NumberSeparators {
+export class ConfigValues {
 
     constructor (private dataModelService: DataModelService) { }
 
+    currencyCode() : string {
+        let code = this.dataModelService.dataModel.persistent.settings.currencyCode;
+        if (code == '') {code = 'USD'}  // default
+        return code;
+    }   // currencyCode
+
     thousandsSeparator() : string {
-        let separator = this.dataModelService.dataModel.config.thousandsSeparator;
+        let separator = this.dataModelService.dataModel.persistent.settings.thousandsSeparator;
         if (separator == '') {
             separator = ',';  // default
             if (typeof Number.prototype.toLocaleString === 'function') {
@@ -18,7 +24,7 @@ export class NumberSeparators {
     }   // thousandsSeparator
 
     decimalSeparator() : string {
-        let separator = this.dataModelService.dataModel.config.decimalSeparator;
+        let separator = this.dataModelService.dataModel.persistent.settings.decimalSeparator;
         if (separator == '') {
             separator = '.';  // default
             if (typeof Number.prototype.toLocaleString === 'function') {
@@ -30,4 +36,4 @@ export class NumberSeparators {
         return separator;
     }   // decimalSeparator
 
-}   // class NumberSeparators
+}   // class ConfigValues

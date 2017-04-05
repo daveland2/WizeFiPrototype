@@ -3,6 +3,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DataModelService } from '../data-model.service';
 import { CBudgetDetails} from './budget-details.class';
 import { IVerifyResult } from '../utilities/validity-check.class';
+import { ConfigValues } from '../utilities/config-values.class';
 
 @Component({
   selector: 'app-budgetdetails',
@@ -14,13 +15,17 @@ export class BudgetDetailsComponent implements OnInit, OnDestroy {
   cBudgetDetails: CBudgetDetails;
 
   // transient data
+  currencyCode: string;
   budgetTotal: number;
   messages: string[] = [];
 
-  constructor(private datamodelService: DataModelService) { }
+  constructor(private dataModelService: DataModelService) { }
 
   ngOnInit() {
-    this.cBudgetDetails = new CBudgetDetails(this.datamodelService.getdata('budgetDetails'));
+    let configValues = new ConfigValues(this.dataModelService);
+
+    this.cBudgetDetails = new CBudgetDetails(this.dataModelService.getdata('budgetDetails'));
+    this.currencyCode = configValues.currencyCode();
     this.budgetTotal = this.cBudgetDetails.getBudgetDetailsSum();
     console.log("BudgetDetailsComponent onInit");
   }
@@ -44,7 +49,7 @@ export class BudgetDetailsComponent implements OnInit, OnDestroy {
 
   // update data model
   update() {
-    this.datamodelService.putdata('budgetDetails', this.cBudgetDetails.budgetDetails);
+    this.dataModelService.putdata('budgetDetails', this.cBudgetDetails.budgetDetails);
   }
 
 }

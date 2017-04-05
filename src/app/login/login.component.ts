@@ -71,11 +71,11 @@ export class LoginComponent implements OnInit {
 
     getInfo(response: IResponse)
     {
-        this.dataModelService.dataModel.config.userID = response.authResponse.userID;
-        this.dataModelService.dataModel.config.access_token = response.authResponse.accessToken;
+        this.dataModelService.dataModel.global.userID = response.authResponse.userID;
+        this.dataModelService.dataModel.global.access_token = response.authResponse.accessToken;
         FB.api('/me', {locale: 'en_US', fields: 'email'}, (response2) =>
         {
-            this.dataModelService.dataModel.config.email = response2.email;
+            this.dataModelService.dataModel.global.email = response2.email;
             this.finishLogin();
         });
     }   // get Info
@@ -83,23 +83,23 @@ export class LoginComponent implements OnInit {
 	finishLogin()
 	{
 		// establish lambda object for invoking Lambda functions
-		let logins = {'graph.facebook.com': this.dataModelService.dataModel.config.access_token};
+		let logins = {'graph.facebook.com': this.dataModelService.dataModel.global.access_token};
 		AWS.config.update({region: 'us-west-2'});
 		AWS.config.credentials = new AWS.CognitoIdentityCredentials(
 		{
 		    IdentityPoolId: 'us-west-2:a754ae55-d81e-4b0a-a697-17c5e32ee052',
 		    Logins: logins
 		});
-		this.dataModelService.dataModel.config.lambda = new AWS.Lambda();
+		this.dataModelService.dataModel.global.lambda = new AWS.Lambda();
 
-		// simulate retrieval of persistent data
+		// retrieve persistent data
 		this.dataModelService.fetchdata();
 
 		// show login results
-		console.log("userID: " + this.dataModelService.dataModel.config.userID);
-		console.log("email: " + this.dataModelService.dataModel.config.email);
-		console.log('access_token: ' + this.dataModelService.dataModel.config.access_token);
-		console.log("lambda client ID: " + this.dataModelService.dataModel.config.lambda._clientId);
+		console.log("userID: " + this.dataModelService.dataModel.global.userID);
+		console.log("email: " + this.dataModelService.dataModel.global.email);
+		console.log('access_token: ' + this.dataModelService.dataModel.global.access_token);
+		console.log("lambda client ID: " + this.dataModelService.dataModel.global.lambda._clientId);
 		console.log("Login completed")
 
 	}   // finishLogin

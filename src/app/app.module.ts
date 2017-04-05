@@ -41,12 +41,12 @@ import { LogoutComponent } from './logout/logout.component';
     ProfileDeactivateGuard,
     BudgetDetailsDeactivateGuard,
     IncomeDetailsDeactivateGuard,
-//  {provide: LOCALE_ID, useValue: "en-US" }  // 4,294,967,295.00  (get expected result)  <=== default value in local tests
-//  {provide: LOCALE_ID, useValue: "de-DE" }  // 4.294.967.295,00  (get expected result)
-//  {provide: LOCALE_ID, useValue: "fr-FR" }  // 4 294 967 295,00  (get expected result)
-//  {provide: LOCALE_ID, useValue: "nb-NO" }  // 4.294.967.295,00  (get space, not .)
-//  {provide: LOCALE_ID, useValue: "it-IT" }  // 4'294'967'295,00  (get . not ')
-//  {provide: LOCALE_ID, useValue: "ja-JP" }  // 4'294'967'295,00  (get . not ')
+//  {provide: LOCALE_ID, useValue: "en-US" }  // USD 4,294,967,295.00  (get expected result)  <=== default value in local tests
+//  {provide: LOCALE_ID, useValue: "de-DE" }  // EUR 4.294.967.295,00  (get expected result)
+//  {provide: LOCALE_ID, useValue: "fr-FR" }  // EUR 4 294 967 295,00  (get expected result)
+//  {provide: LOCALE_ID, useValue: "nb-NO" }  // NOK 4.294.967.295,00  (get space, not .)
+//  {provide: LOCALE_ID, useValue: "it-IT" }  // EUR 4'294'967'295,00  (get . not ')
+//  {provide: LOCALE_ID, useValue: "ja-JP" }  // JPY 4'294'967'295,00  (get . not ')
     // note: for currency pipe, default is USD and locale has no effect on which currency is in effect
     //       currency symbol for locale is NOT used
   ],

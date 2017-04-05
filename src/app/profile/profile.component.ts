@@ -12,15 +12,15 @@ export class ProfileComponent implements OnInit {
   // persistent data
   cProfile: CProfile;
 
-  constructor(private datamodelService: DataModelService) { }
+  constructor(private dataModelService: DataModelService) { }
 
   ngOnInit() {
-    this.cProfile = new CProfile(this.datamodelService.getdata('profile'));
+    this.cProfile = new CProfile(this.dataModelService.getdata('profile'));
   }
 
   // update data model
   update() {
-    this.datamodelService.putdata('profile', this.cProfile.profile);
+    this.dataModelService.putdata('profile', this.cProfile.profile);
   }
 
 }

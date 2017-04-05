@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataModelService} from '../data-model.service';
 import { CIncomeDetails } from './income-details.class';
 import { IVerifyResult } from '../utilities/validity-check.class';
+import { ConfigValues } from '../utilities/config-values.class';
 
 @Component({
   selector: 'app-incomedetails',
@@ -14,6 +15,7 @@ export class IncomeDetailsComponent implements OnInit {
   cIncomeDetails: CIncomeDetails;
 
   // transient data
+  currencyCode: string;
   incomeTotal: number;
   messages: string[] = [];
 
@@ -21,7 +23,10 @@ export class IncomeDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
+    let configValues = new ConfigValues(this.dataModelService);
+
   	this.cIncomeDetails = new CIncomeDetails(this.dataModelService.getdata('incomeDetails'));
+    this.currencyCode = configValues.currencyCode();
     this.incomeTotal = this.cIncomeDetails.getIncomeDetailsSum();
   }
 
