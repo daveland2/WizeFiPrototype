@@ -15,25 +15,39 @@ export class LogoutComponent implements OnInit {
 
 	constructor(private dataModelService: DataModelService, private location: Location, private router: Router) { }
 
-	ngOnInit() {
-	}
+	ngOnInit() { }
 
 	logout() {
 		FB.logout(function(response) {
-		    console.log('Facebook logout');
+		    console.log('Facebook logout');  //%//
 		});
 	}
 
-    saveAndLogout() {
-    	this.dataModelService.storedata();
-    	this.logout();
-        this.router.navigateByUrl('/login');
+  saveAndLogout() {
+    // kludge to get information into scope of nested function
+    let logout = this.logout;
+    let router = this.router;
+
+    function handleLogout()
+    {
+      logout();
+      router.navigateByUrl('/login');
     }
 
-    ignoreAndLogout() {
-    	this.logout();
-        this.router.navigateByUrl('/login');
+    function handleError(err)
+    {
+      console.log(err);
     }
+
+  	this.dataModelService.storedata()
+    .then(handleLogout)
+    .catch(handleError)
+  }
+
+  ignoreAndLogout() {
+  	this.logout();
+    this.router.navigateByUrl('/login');
+  }
 
 	cancelLogout() {
 		this.location.back();

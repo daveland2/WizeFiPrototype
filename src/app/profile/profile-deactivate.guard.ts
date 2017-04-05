@@ -5,7 +5,6 @@ export class ProfileDeactivateGuard implements CanDeactivate<ProfileComponent> {
 
   canDeactivate(profileComponent: ProfileComponent) {
     console.log('canDeactivate called for ProfileComponent');
-  	// console.log("isDirty: " + ProfileComponent.isPristine);
 
   	// update the application data model
   	profileComponent.update();

@@ -22,7 +22,7 @@ interface IResponse {
 })
 export class LoginComponent implements OnInit {
 	// FacebookAppID: string = '1436430629732183';  // processDataApp
-	FacebookAppID: string = '1862692110681013';  // WizeFiPrototypeApp
+	FacebookAppID: string = '1862692110681013';  // WizeFiPrototype
 
 	constructor(private dataModelService: DataModelService) { }
 
@@ -82,26 +82,39 @@ export class LoginComponent implements OnInit {
 
 	finishLogin()
 	{
+		// kludge to get info into scope of nested function
+		let dataModel = this.dataModelService.dataModel;
+
+		function wrapup()
+		{
+			// show login results
+			console.log("userID: " + dataModel.global.userID);
+			console.log("email: " + dataModel.global.email);
+			console.log('access_token: ' + dataModel.global.access_token);
+			console.log("lambda client ID: " + dataModel.global.lambda._clientId);
+			console.log("isNewUser: " + dataModel.global.isNewUser);
+			console.log("Login completed");
+		}
+
+		function handleError(err)
+		{
+		    console.log(err);
+		}
+
 		// establish lambda object for invoking Lambda functions
 		let logins = {'graph.facebook.com': this.dataModelService.dataModel.global.access_token};
 		AWS.config.update({region: 'us-west-2'});
 		AWS.config.credentials = new AWS.CognitoIdentityCredentials(
 		{
-		    IdentityPoolId: 'us-west-2:a754ae55-d81e-4b0a-a697-17c5e32ee052',
+		    IdentityPoolId: 'us-west-2:59b6f6d7-03c4-47aa-8ac8-3e70c1e04a03',
 		    Logins: logins
 		});
 		this.dataModelService.dataModel.global.lambda = new AWS.Lambda();
 
 		// retrieve persistent data
-		this.dataModelService.fetchdata();
-
-		// show login results
-		console.log("userID: " + this.dataModelService.dataModel.global.userID);
-		console.log("email: " + this.dataModelService.dataModel.global.email);
-		console.log('access_token: ' + this.dataModelService.dataModel.global.access_token);
-		console.log("lambda client ID: " + this.dataModelService.dataModel.global.lambda._clientId);
-		console.log("Login completed")
-
+		this.dataModelService.fetchdata()
+		.then(wrapup)
+		.catch(handleError);
 	}   // finishLogin
 
 }   // class LoginComponent

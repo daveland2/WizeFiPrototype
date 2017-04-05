@@ -9,16 +9,12 @@ import {Router} from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'WizwFiPrototype';
+  title = 'WizeFiPrototype';
 
   constructor (private router: Router, private dataModelService: DataModelService) { }
 
   ngOnInit() { }
 
   ngOnDestroy() { }
-
-  storedata() {
-  	this.dataModelService.storedata();
-  }
 
 }   //class AppComponent
