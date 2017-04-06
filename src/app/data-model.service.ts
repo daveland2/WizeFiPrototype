@@ -87,6 +87,7 @@ export class DataModelService {
 		                    	{
 		                    		this.dataModel.global.isNewUser = true;
 		                    		this.dataModel.persistent.header.dateCreated = (new Date()).toISOString();
+		                    		this.dataModel.persistent.header.dateUpdated = this.dataModel.persistent.header.dateCreated;
 		                    		resolve();
 		                    	}
 		                    	else
