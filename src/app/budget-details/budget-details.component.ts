@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ApplicationRef } from '@angular/core';
 
 import { DataModelService } from '../data-model.service';
 import { CBudgetDetails} from './budget-details.class';
@@ -19,7 +20,7 @@ export class BudgetDetailsComponent implements OnInit, OnDestroy {
   budgetTotal: number;
   messages: string[] = [];
 
-  constructor(private dataModelService: DataModelService) { }
+  constructor(private ref: ApplicationRef, private dataModelService: DataModelService) { }
 
   ngOnInit() {
     let configValues = new ConfigValues(this.dataModelService);
@@ -28,7 +29,7 @@ export class BudgetDetailsComponent implements OnInit, OnDestroy {
     this.currencyCode = configValues.currencyCode();
     this.budgetTotal = this.cBudgetDetails.getBudgetDetailsSum();
     console.log("BudgetDetailsComponent onInit");
-  }
+  } // ngOnInit
 
   ngOnDestroy() {
     console.log("BudgetDetailsComponent onDestroy");
@@ -45,7 +46,8 @@ export class BudgetDetailsComponent implements OnInit, OnDestroy {
       // update calculated values on screen
       this.budgetTotal = this.cBudgetDetails.getBudgetDetailsSum();
     }
-  }
+    this.ref.tick();  // force change detection so screen will be updated
+  } //  verify
 
   // update data model
   update() {

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from '@angular/router';
 
 import { DataModelService } from '../data-model.service';
+import { ManageMessages } from '../utilities/manage-messages.class';
 
 declare const FB: any;
 declare const AWS: any;
@@ -21,16 +23,20 @@ interface IResponse {
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-	// FacebookAppID: string = '1436430629732183';  // processDataApp
 	FacebookAppID: string = '1862692110681013';  // WizeFiPrototype
 
-	constructor(private dataModelService: DataModelService) { }
+	// transient data
+	messages: string[] = [];
 
-	ngOnInit() { }
+	constructor(private router: Router, private dataModelService: DataModelService, private manageMessages: ManageMessages) { }
+
+	ngOnInit() {}
 
    	login()
 	{
-	    console.log('Login started');
+		// initialize
+	    console.log('Login started');  //%//
+	    this.messages = [];
 
 	    FB.init(
 	    {
@@ -44,7 +50,7 @@ export class LoginComponent implements OnInit {
 	    {
 	        if (response.status === 'connected')
 	        {
-	            console.log('already logged in');
+	            console.log('already logged in');  //%//
 	            this.getInfo(response);
 	        }
 	        else
@@ -53,12 +59,13 @@ export class LoginComponent implements OnInit {
 	            {
 	                if (response.authResponse)
 	                {
-	                    console.log('new login');
+	                    console.log('new login');  //%//
 	                    this.getInfo(response);
 	                }
 	                else
 	                {
-	                    console.log('Login was not successful');
+	                	this.manageMessages.update(this.messages,'Login was not successful');
+	                    console.log('Login was not successful');  //%//
 	                }
 	            },
 	            {scope: 'public_profile,email'}
@@ -82,23 +89,30 @@ export class LoginComponent implements OnInit {
 
 	finishLogin()
 	{
-		// kludge to get info into scope of nested function
+		// kludge to get information into scope of nested function
 		let dataModel = this.dataModelService.dataModel;
+		let router = this.router;
+		let messages = this.messages;
+		let manageMessages = this.manageMessages;
 
 		function wrapup()
 		{
 			// show login results
-			console.log("userID: " + dataModel.global.userID);
-			console.log("email: " + dataModel.global.email);
-			console.log('access_token: ' + dataModel.global.access_token);
-			console.log("lambda client ID: " + dataModel.global.lambda._clientId);
-			console.log("isNewUser: " + dataModel.global.isNewUser);
-			console.log("Login completed");
+			console.log("userID: " + dataModel.global.userID);                      //%//
+			console.log("email: " + dataModel.global.email);                        //%//
+			console.log('access_token: ' + dataModel.global.access_token);          //%//
+			console.log("lambda client ID: " + dataModel.global.lambda._clientId);  //%//
+			console.log("isNewUser: " + dataModel.global.isNewUser);                //%//
+			console.log("Login completed");                                         //%//
+			if (dataModel.global.isNewUser) router.navigateByUrl('/profile');
+			else router.navigateByUrl('/budget');
 		}
 
 		function handleError(err)
 		{
-		    console.log(err);
+			manageMessages.update(messages,'Error in attempting to retrieve user data');
+			console.log('Error in attempting to retrieve user data:');  //%//
+			console.log(err);  //%//
 		}
 
 		// establish lambda object for invoking Lambda functions

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ApplicationRef } from '@angular/core';
 
 import { DataModelService} from '../data-model.service';
 import { CIncomeDetails } from './income-details.class';
@@ -19,7 +20,7 @@ export class IncomeDetailsComponent implements OnInit {
   incomeTotal: number;
   messages: string[] = [];
 
-  constructor(private dataModelService: DataModelService) {
+  constructor(private ref: ApplicationRef, private dataModelService: DataModelService) {
   }
 
   ngOnInit() {
@@ -41,7 +42,8 @@ export class IncomeDetailsComponent implements OnInit {
       // update calculated values on screen
       this.incomeTotal = this.cIncomeDetails.getIncomeDetailsSum();
     }
-  }
+    this.ref.tick();  // force change detection so screen will be updated
+  } // verify
 
   // update data model
   update() {

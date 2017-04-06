@@ -11,7 +11,7 @@ export class CValidityCheck {
   		let str = String(object[item]);
   		if (!str.match(/^[0-9]+$/)) {
   			result.hadError = true;
-  			result.messages.push('Must enter integer value for ' + item);
+  			result.messages.push('Must enter whole number value for ' + item);
   		}
   	}   // checkInteger
 

@@ -4,8 +4,10 @@ import { ISettings } from './settings/settings.class';
 import { IProfile } from './profile/profile.class';
 import { IBudgetDetails } from './budget-details/budget-details.class';
 import { IIncomeDetails } from './income-details/income-details.class';
+import { dataModel } from './utilities/data-model_1.data'
 
 export interface IGlobal {
+	isLoggedIn: boolean,
 	isNewUser: boolean,
 	userID: string,
 	email: string,
@@ -37,39 +39,8 @@ export class DataModelService {
 
     constructor () {
     	// set data model to initial default configuration
-    	this.dataModel = {
-			global: {
-				isNewUser: true,
-				userID: '123',
-				email: 'joe@abc.com',
-				access_token: '12345',
-				lambda: null
-    		},
-    		persistent: {
-    			header: {
-    				dataVersion: 1,
-    				dateCreated: '2017-04-05T12:14:32.456Z',
-    				dateUpdated: '2017-04-05T12:15:32.456Z'
-    			},
-				settings: {
-					currencyCode: '',
-					thousandsSeparator: '',
-					decimalSeparator: ''
-	    		},
-				profile: {
-					name: '',
-					age: null
-				},
-				budgetDetails: {
-					housing: null,
-					food: 250
-				},
-				incomeDetails: {
-					salary: 3000,
-					interest: 400
-				}
-			}
-    	};
+    	this.dataModel = dataModel;
+
     }   // constructor
 
 	invokeDataHandlingFunction(mode)
@@ -120,7 +91,6 @@ export class DataModelService {
 		                    	}
 		                    	else
 		                    	{
-			                        console.log("errorMessage: " + payload.errorMessage);
 			                        reject("errorMessage: " + payload.errorMessage);
 		                    	}
 		                    }
@@ -158,7 +128,6 @@ export class DataModelService {
 
 			function handleError(err)
 			{
-			    console.log(err);
 			    reject(err);
 			}
 
