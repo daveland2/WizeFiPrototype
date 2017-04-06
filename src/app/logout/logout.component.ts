@@ -17,20 +17,23 @@ export class LogoutComponent implements OnInit {
 
 	ngOnInit() { }
 
-	logout() {
-		FB.logout(function(response) {
-		    console.log('Facebook logout');  //%//
+  // note: in order to deal with issues of the "this" qualifier, need to pass in argument to this function
+	logout(dataModelService) {
+      dataModelService.dataModel.global.isLoggedIn = false;
+    	FB.logout(function(response) {
+		  console.log('Facebook logout');  //%//
 		});
-	}
+	} // logout
 
   saveAndLogout() {
     // kludge to get information into scope of nested function
     let logout = this.logout;
     let router = this.router;
+    let dataModelService = this.dataModelService;
 
     function handleLogout()
     {
-      logout();
+      logout(dataModelService);
       router.navigateByUrl('/login');
     }
 
@@ -42,10 +45,10 @@ export class LogoutComponent implements OnInit {
   	this.dataModelService.storedata()
     .then(handleLogout)
     .catch(handleError)
-  }
+  } // saveAndLogout
 
   ignoreAndLogout() {
-  	this.logout();
+  	this.logout(this.dataModelService);
     this.router.navigateByUrl('/login');
   }
 

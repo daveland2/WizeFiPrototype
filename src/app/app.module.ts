@@ -22,6 +22,7 @@ import { LogoutComponent } from './logout/logout.component';
 import { SettingsComponent } from './settings/settings.component';
 import { ManageMessages } from './utilities/manage-messages.class';
 import { SettingsDeactivateGuard } from './settings/settings-deactivate.guard';
+import { ScreenLoginGuard } from './utilities/screen-login.guard';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { SettingsDeactivateGuard } from './settings/settings-deactivate.guard';
     BudgetDetailsDeactivateGuard,
     IncomeDetailsDeactivateGuard,
     SettingsDeactivateGuard,
+    ScreenLoginGuard,
     ManageMessages,
 //  {provide: LOCALE_ID, useValue: "en-US" }  // USD 4,294,967,295.00  (get expected result)  <=== default value in local tests
 //  {provide: LOCALE_ID, useValue: "de-DE" }  // EUR 4.294.967.295,00  (get expected result)

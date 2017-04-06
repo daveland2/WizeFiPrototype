@@ -89,12 +89,6 @@ export class LoginComponent implements OnInit {
 
 	finishLogin()
 	{
-		// kludge to get information into scope of nested function
-		let dataModel = this.dataModelService.dataModel;
-		let router = this.router;
-		let messages = this.messages;
-		let manageMessages = this.manageMessages;
-
 		function wrapup()
 		{
 			// show login results
@@ -104,6 +98,7 @@ export class LoginComponent implements OnInit {
 			console.log("lambda client ID: " + dataModel.global.lambda._clientId);  //%//
 			console.log("isNewUser: " + dataModel.global.isNewUser);                //%//
 			console.log("Login completed");                                         //%//
+			dataModel.global.isLoggedIn = true;
 			if (dataModel.global.isNewUser) router.navigateByUrl('/profile');
 			else router.navigateByUrl('/budget');
 		}
@@ -114,6 +109,12 @@ export class LoginComponent implements OnInit {
 			console.log('Error in attempting to retrieve user data:');  //%//
 			console.log(err);  //%//
 		}
+
+		// kludge to get information into scope of nested function
+		let dataModel = this.dataModelService.dataModel;
+		let router = this.router;
+		let messages = this.messages;
+		let manageMessages = this.manageMessages;
 
 		// establish lambda object for invoking Lambda functions
 		let logins = {'graph.facebook.com': this.dataModelService.dataModel.global.access_token};

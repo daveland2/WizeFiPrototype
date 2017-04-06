@@ -13,6 +13,7 @@ import { IncomeDetailsDeactivateGuard } from './income-details/income-details-de
 import { LogoutComponent } from './logout/logout.component';
 import { SettingsComponent } from './settings/settings.component';
 import { SettingsDeactivateGuard } from './settings/settings-deactivate.guard';
+import { ScreenLoginGuard } from './utilities/screen-login.guard';
 
 export const routes: Routes = [
   {
@@ -22,25 +23,30 @@ export const routes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
-    canDeactivate: [ProfileDeactivateGuard]
+    canDeactivate: [ProfileDeactivateGuard],
+    canActivate: [ScreenLoginGuard]
   },
   {
     path: 'budget',
     component: BudgetComponent,
+    canActivate: [ScreenLoginGuard]
   },
   {
     path: 'budget-details',
     component: BudgetDetailsComponent,
-    canDeactivate: [BudgetDetailsDeactivateGuard]
+    canDeactivate: [BudgetDetailsDeactivateGuard],
+    canActivate: [ScreenLoginGuard]
   },
   {
     path: 'income',
     component: IncomeComponent,
+    canActivate: [ScreenLoginGuard]
   },
   {
     path: 'income-details',
     component: IncomeDetailsComponent,
-    canDeactivate: [IncomeDetailsDeactivateGuard]
+    canDeactivate: [IncomeDetailsDeactivateGuard],
+    canActivate: [ScreenLoginGuard]
   },
   {
     path: 'site-map',
@@ -49,11 +55,13 @@ export const routes: Routes = [
   {
     path: 'settings',
     component: SettingsComponent,
-    canDeactivate: [SettingsDeactivateGuard]
+    canDeactivate: [SettingsDeactivateGuard],
+    canActivate: [ScreenLoginGuard]
   },
   {
     path: 'logout',
     component: LogoutComponent,
+    canActivate: [ScreenLoginGuard]
   },
   {
     path: '',
