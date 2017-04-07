@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 
-import { DataModelService } from './data-model.service';
 import {Router} from '@angular/router';
 
 @Component({
@@ -11,7 +10,7 @@ import {Router} from '@angular/router';
 export class AppComponent {
   title = 'WizeFiPrototype';
 
-  constructor (private router: Router, private dataModelService: DataModelService) { }
+  constructor (private router: Router) { }
 
   ngOnInit() { }
 

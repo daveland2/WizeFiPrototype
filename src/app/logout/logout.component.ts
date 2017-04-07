@@ -13,6 +13,8 @@ declare const FB: any;
 })
 export class LogoutComponent implements OnInit {
 
+  messages: string[] = [];
+
 	constructor(private dataModelService: DataModelService, private location: Location, private router: Router) { }
 
 	ngOnInit() { }
@@ -30,6 +32,7 @@ export class LogoutComponent implements OnInit {
     let logout = this.logout;
     let router = this.router;
     let dataModelService = this.dataModelService;
+    let messages = this.messages;
 
     function handleLogout()
     {
@@ -39,6 +42,7 @@ export class LogoutComponent implements OnInit {
 
     function handleError(err)
     {
+      messages.push(err);
       console.log(err);
     }
 
@@ -52,7 +56,30 @@ export class LogoutComponent implements OnInit {
     this.router.navigateByUrl('/login');
   }
 
-	cancelLogout() {
+  save() {
+    // kludge to get information into scope of nested function
+    let logout = this.logout;
+    let router = this.router;
+    let dataModelService = this.dataModelService;
+    let messages = this.messages;
+    let location = this.location;
+
+    function goback() {
+      location.back();
+    }
+
+    function handleError(err)
+    {
+      messages.push(err);
+      console.log(err);
+    }
+
+    this.dataModelService.storedata()
+    .then(goback)
+    .catch(handleError)
+  }
+
+	cancel() {
 		this.location.back();
 	}
 }
