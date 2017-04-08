@@ -1,0 +1,102 @@
+Inventory of screens with data inputs
+-------------------------------------
+
+https://xd.adobe.com/view/d14cabfe-32fd-4e7a-96ae-a863ead72b85/  (wire frames for WizeFi app)
+https://docs.google.com/spreadsheets/d/1kiGZexHNYjKBJnK8qD8kPnrKGBsZ-aoA_OQsB_lf6eM/edit?ts=58d18dcb#gid=0
+
+First estimate: around 60 data items the user can edit
+
+02  ManualLogin
+    Username (email)
+    Password
+
+03  FaceBookInfo
+    publicProfile
+    friendList
+    email
+    homeTown
+    currentCity
+    likes
+
+05  PersonalProfile
+    Name
+    Occupation
+    Date of Birth
+    Desired Retirement Age
+    Zip Code
+    Estimted Investmate Rate
+
+08  CurrentBudget
+    Giving
+    Housing
+    Transportation
+    Food
+    HealthInsurance
+    Clothing
+    Entertainment
+
+14  UsernameAndPassword
+    Username
+    Old Password
+    New Password
+    New Password Again
+
+15  Subscription
+    Payment Due Date
+
+16  SubscriptionInfo (to be managed in Stripe)
+    PaymentMethods
+    NameOnCard
+    CardNumber
+    ExpirationDate
+    SecurityCode
+    Address
+    City
+    State
+    CardZipCode
+    Country
+
+31  Emergency Savings
+    Name
+    MonthlyContribution
+    EmployerMatch
+    GrowthRate
+    Balance
+    TargetAmount
+
+34  CreditCardDebt
+    CardName
+    MinimumPaymentRequired
+    MonthlyPayment
+    InterestRate
+    Balance
+
+35  FoodDetails
+    Groceries
+    DiningOut
+    Other
+
+45  DebitCard
+    PaymentMethods
+    NameOnCard
+    CardNumber
+    ExpirationDate
+    SecurityCode
+
+47  GeneralSavings
+    Name
+    MonthlyContributions
+    EmployerMatch
+    GrowthRate
+    Balance
+    TargetAmount
+
+55  RealEstate  (is the following correct -- or pasted boiler plate in the wrong place?)
+    Name
+    MonthlyContribution
+    EmployerMatch
+    GrowthRate
+    Balance
+
+
+
