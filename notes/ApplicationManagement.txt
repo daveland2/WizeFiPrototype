@@ -1,0 +1,629 @@
+Notes on console utilities
+
+Create DynamoDB table
+---------------------
+1. Invoke DynamoDB Console
+
+   https://console.aws.amazon.com/dynamodb/home
+
+   After AWS login this becomes the following:
+
+   https://us-west-2.console.aws.amazon.com/dynamodb/home?region=us-west-2#
+
+2. Click on "Tables" in the left margin
+
+3. Click on "Create Table"
+   Table Name: Data
+   Primary key: email
+   Click on "Create"
+   Record the following information found on the "Overview" tab:
+      Amazon Resource Name (ARN)
+      arn:aws:dynamodb:us-west-2:418492632830:table/Data
+
+   // WizeFiPrototype info
+   Table Name: WizeFiPrototype
+   arn:aws:dynamodb:us-west-2:418492632830:table/WizeFiPrototype
+
+4. Click on the "Items" tab
+   Click on "Create Item"
+      email String : daveland@oru.edu
+   Click on the + icon and "Append" to add another attribute for this item
+      info String : {"val": "325"}    (this string contains data in JSON format)
+   Click on "Save"
+
+Create HTML file that defines the application (test10)
+------------------------------------------------------
+1. Edit the file processDataApp0.html
+   (this version utilizes direct calls to the DynamoDB database)
+
+2. Edit the file processDataApp.html
+   (this version uses a Lambda function to access the DynamoDB database)
+
+Create proper policies and roles
+--------------------------------
+1. Invoke IAM Management Console
+
+   https://console.aws.amazon.com/iam/home
+
+   After AWS login this becomes the following:
+
+   https://us-west-2.console.aws.amazon.com/iam/home?region=us-west-2#
+
+2. Click on "Policies" in the left margin
+
+3. Click on "Create Policy"
+
+4. Click on "Select" under "Create Your Own Policy"
+   Policy name: processDataAppDynamo
+   Description: Enable Lambda function to access DynamoDB table
+   Policy Document:
+   {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "dynamodb:*"
+            ],
+            "Resource": "arn:aws:dynamodb:us-west-2:418492632830:table/Data"
+        }
+      ]
+   }
+
+   // WizeFiPrototype info
+   Policy name: processWizeFiPrototypeDynamo
+   Description: Enable Lambda function to access DynamoDB table WizeFiPrototype
+   "Resource": arn:aws:dynamodb:us-west-2:418492632830:table/WizeFiPrototype
+
+   Click on "Validate Policy"
+   Click on "Create Policy"
+
+6. Return to IAM home page and click on "Roles" in the left margin
+
+7. Click on "Create New Role"
+   Role name: processDataAppRole
+   Click on "Next Step"
+
+   // WizeFiPrototype info
+   Role name: processWizeFiPrototypeRole
+
+8. Click on "Select" in the "AWS Lambda" section
+
+9. In the "Attach Policy" section, click on "Policy Type, Customer Managed"
+
+10. Click on checkbox to select processDataAppDynamo
+
+   // WizeFiPrototype info
+   processWizeFiPrototypeDynamo
+
+11. Click on "Next Step"
+
+12. Click on "Create Role"
+
+Create Lambda function
+----------------------
+1. Edit the file processDataLambda.js (in order to have a copy of the function)
+
+   // WizeFiPrototype info
+   processWizeFiPrototypeLambda.js
+
+2. Invoke Lambda Management Console
+
+   https://console.aws.amazon.com/lambda/home
+
+   After AWS login this becomes the following:
+
+   https://us-west-2.console.aws.amazon.com/lambda/home?region=us-west-2#
+
+3. Click on "Create a Lambda Function"
+
+4. Click on "Blank Function"
+
+5. Click on "Next" (skip triggers configuration)
+
+6. Fill in Configure function section:
+   Name: processData
+   Description: Process DynamoDB data
+   Lambda function code: copy and paste the content of processDataLambda.js
+   Role: Choose an existing role
+   Existing role: processDataAppRole
+
+   // WizeFiPrototype info
+   Name: processWizeFiPrototype
+   Description: Process WizeFiPrototype DynamoDB data
+   Lambda function code: copy and paste the content of processWizeFiPrototypeLambda.js
+   Existing role: processWizeFiPrototypeRole
+
+7. Click on "Next"
+
+8. Click on "Create function"
+
+9. Click on "Test"
+   Input test event as the following:
+   {
+      "mode": "get",
+      "email": "daveland@oru.edu",
+      "info": "{\"val\":\"525\"}"
+   }
+   Click on "Save and test"
+   Observe results
+
+  // WizeFiPrototype test data
+  {
+      "mode": "put",
+      "email": "daveland@oru.edu",
+      "persistent":
+      {
+        "header": {
+          "dataVersion": 1,
+          "dateCreated": "2017-04-05T12:14:32.456Z",
+          "dateUpdated": "2017-04-05T12:15:32.456Z"
+        },
+        "settings": {
+          "currencyCode": " ",
+          "thousandsSeparator": " ",
+          "decimalSeparator": " "
+        },
+        "profile": {
+          "name": "Joe",
+          "age": 25
+        },
+        "budgetDetails": {
+          "housing": 500,
+          "food": 250
+        },
+        "incomeDetails": {
+          "salary": 3000,
+          "interest": 400
+        }
+      }
+  }
+
+  Note: to see test data, on the function home page click on "Actions, Configure test event"
+
+10. Click on "Actions, Configure test event"
+    Change "get" to "put"
+    Click on "Save and test"
+    Observe results
+
+11. Note the ARN in the upper right corner of the screen
+    arn:aws:lambda:us-west-2:418492632830:function:processData
+
+    // WizeFiPrototype info
+    arn:aws:lambda:us-west-2:418492632830:function:processWizeFiPrototypeData
+
+Create policy to enable invocation of Lambda function
+-----------------------------------------------------
+1. Invoke IAM Management Console
+   https://console.aws.amazon.com/iam/home
+
+2. Click on "Policies"
+
+3. Click on "Create Policy"
+
+4. Click on "Select" under "Create Your Own Policy"
+   Policy name: invokeProcessData
+   Description: Enable invocation of Lambda function that will access DynamoDB table
+   Policy Document:
+   {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Effect": "Allow",
+                "Action": [
+                    "lambda:InvokeFunction"
+                ],
+                "Resource": [
+                    "arn:aws:lambda:us-west-2:418492632830:function:processData"
+                ]
+            }
+        ]
+    }
+
+   Click on "Validate Policy"
+   Click on "Create Policy"
+
+   // WizeFiPrototype info
+   Policy name: invokeProcessWizeFiPrototype
+   "Resource": arn:aws:lambda:us-west-2:418492632830:function:processWizeFiPrototype
+
+Create Google project to enable federated login
+-----------------------------------------------
+1. Invoke Google Developers console
+   https://console.developers.google.com
+
+   ID: processdataapp
+
+  https://console.developers.google.com/projectselector/apis/library
+
+  App Name:         processDataApp
+  Web client name:  processDataAppClient
+  Client ID:        540839842045-g9j9n3vimigiaoe7djesu3q96ja7m27f.apps.googleusercontent.com
+  Client secret:    -bNAjr68HL40f7tSvHOwkWhy
+
+Create Amazon project to enable federated login
+-----------------------------------------------
+1. Invoke Amazon Developer Portal
+   https://developer.amazon.com/login-with-amazon
+
+2. Click on Download API
+   Select Web option to download Amazon-Web-SDKs.zip
+
+3. Return to home page and click on "Sign up for a developer account"
+   App for Amazon store:
+   App ID:      amzn1.devportal.webapp.2ac738b5d57e462dbf7abc8b9e69834f
+   Release ID:  amzn1.devportal.apprelease.dbaf28f26af540be988d1da429b66895
+
+   App for login:
+   https://sellercentral.amazon.com/gp/homepage.html
+   App ID:      amzn1.application.c37779f5e55249f59f01ee7cb92c26d1
+   Client ID:   amzn1.application-oa2-client.c71532e3953a439f8e9173053ed5fcaf  <==== use this one
+
+Create Facebook project to enable federated login
+-------------------------------------------------
+1. Invoke Facebook Developers console
+   https://developers.facebook.com/
+
+2. Create application for login control:
+
+   Display name: processDataApp
+
+   // WizeFiPrototype information
+   Display name: WizeFiPrototype
+
+   Site URL (can only use one at a time):
+   https://persistentendeavors.com/
+
+   Note: add "Facebook Login" product
+
+3. To enable both production and debug test environments:
+   a) go to home page for WizeFiPrototype app
+   b) click on "Facebook Login" in left margin and make the following entries:
+      Valid OAuth redirect URIs
+      https://persistentendeavors.com/   http://localhost:4200/
+
+4. View app information
+
+   https://developers.facebook.com/apps/
+
+   App for processDataApp login:
+   APP ID: 1436430629732183
+   App Secret: e0a2d8075ce030983e233ccd803d0345
+
+   App for WizeFiPrototype login:
+   APP ID: 1862692110681013
+   App Secret: 77e9cc473be0aa09778d1311176768d5
+
+Create AWS Cognito information
+------------------------------
+1. Invoke Cognito console
+
+   https://console.aws.amazon.com/cognito/home
+
+   After AWS login this becomes the following:
+
+   https://us-west-2.console.aws.amazon.com/cognito/home?region=us-west-2
+
+2. Click on "Manage Federated Identies"
+
+3. Click on "Create new identity pool"
+   // see below for WizeFiPrototype info
+   Identity Pool Name: processDataAppPool
+   Click on "Unauthenticated identies"
+   Click the checkbox "Enable access to unauthenticated identities"
+   Click on "Create Pool"
+   Click on "View Details"
+   In the "Your unauthenticated identities would like access to Cognito" section, click on "View Policy Document"
+   Add the following as the first entry in the "Statement" list:
+    {
+        "Effect": "Allow",
+        "Action": [
+            "lambda:InvokeFunction"
+        ],
+        "Resource": [
+            "arn:aws:lambda:us-west-2:418492632830:function:processData"
+        ]
+    }
+
+    Note: this policy can later be found in the IAM Management Console under the following:
+    IAM > Roles > Cognito_processDataPoolUnauth_Role
+    Policy name: oneClick_Cognito_processDataPoolUnauth_Role_1486164740462
+
+    Identity pool name:  processDataPool
+    Identity pool ID:    us-west-2:a754ae55-d81e-4b0a-a697-17c5e32ee052
+    Identity Pool ARN:   arn:aws:cognito-identity:us-west-2:418492632830:identitypool/us-west-2:a754ae55-d81e-4b0a-a697-17c5e32ee052
+
+    User pool:
+    Pool name:     processDataAppPool
+    Pool Id:       us-west-2_YCfAmpur0
+    Pool ARN arn:  aws:cognito-idp:us-west-2:418492632830:userpool/us-west-2_YCfAmpur0
+
+    // WizeFiPrototype info
+    Identity Pool Name: processWizeFiPrototypePool
+    Click on "Authenticatiion providers, Facebook"
+        Facebook APP ID: 1862692110681013
+    Click on "Create Pool"
+    Click on "View Details"
+    In the "Your authenticated identities would like access to Cognito" section, click on "View Policy Document"
+    Add the following as the first entry in the "Statement" list:
+    {
+        "Effect": "Allow",
+        "Action": [
+            "lambda:InvokeFunction"
+        ],
+        "Resource": [
+            "arn:aws:lambda:us-west-2:418492632830:function:processWizeFiPrototype"
+        ]
+    },
+    Click on "Allow"
+
+    Click on "Edit identity pool" to see the following information:
+    Pool name: processWizeFiPrototypePool
+    Identity pool ID: us-west-2:59b6f6d7-03c4-47aa-8ac8-3e70c1e04a03   <==== this goes in call to AWS.config.credentials
+    Identity Pool ARN: arn:aws:cognito-identity:us-west-2:418492632830:identitypool/us-west-2:59b6f6d7-03c4-47aa-8ac8-3e70c1e04a03
+
+===============================================
+Tools used in establishing an operating environment for deploying a web application using Amazon Web Services
+
+DynamoDB Console
+----------------
+https://console.aws.amazon.com/dynamodb/home
+   Create DynamoDB table: Data
+
+IAM Console (Identity and Access Management)
+--------------------------------------------
+https://console.aws.amazon.com/iam/home
+   Create users:
+      processDataUser
+   Create roles:
+      dynamoAccess
+      invokeProcessDataRole
+      processDataAppRole
+      processDataAppPool-SMS-Role
+      Cognito_processDataPoolAuth_Role
+      Cognito_processDataPoolUnauth_Role
+   Create policies:
+      invokeProcessData
+      Cognito-1486161187755
+      processDataAppDynamo
+
+Lambda Console
+--------------
+https://console.aws.amazon.com/lambda/home
+   Create Lambda function: processData
+
+Cognito Console
+---------------
+https://console.aws.amazon.com/cognito/home
+   Create identity pool: processDataAppPool
+
+Amazon Developer Portal
+-----------------------
+https://developer.amazon.com/login-with-amazon
+https://developer.amazon.com/home.html
+   Create login information for application: processDataApp
+   (this is app for Amazon store)
+
+Seller Central App Console
+--------------------------
+https://sellercentral.amazon.com/gp/homepage.html
+   Edit properties of Amazon App involved in Amazon login process
+   (this is app for Amazon login service)   <====== use this one
+
+Google Developers console
+-------------------------
+https://console.developers.google.com
+   Create login information for application: processDataApp
+
+Facebook Developers Console
+---------------------------
+https://developers.facebook.com/
+    Create application for login control: processDataApp
+    Create application for login control: WizeFiPrototype
+===============================================
+
+Logout from underlying login provider
+-------------------------------------
+1. Google
+   a) login to google.com
+   b) click on user picture in upper right corner of screen
+   c) click on "Sign out"
+2. Amazon
+   a) login to amazon.com
+   b) hover over "Accounts and lists"
+   c) click on "Not <name>? Sign out"
+3. Facebook
+   a) login to facebook.com
+   b) click on the "v" (down arrow) icon at the right end of the blue bar at the top of the screen
+   c) click on "Log Out"
+
+Copy from Mac to Persistent Endeavors server
+--------------------------------------------
+$ cd /Users/daveland/BrickWire/MoneyOrganizer/tests/test11
+$ scp processDataApp.html pe:/home/deland/docs/brickwire/MoneyOrganizer/tests/test11
+
+Obtain a Client ID for Amazon login process
+-------------------------------------------
+1. Invoke "Login with Amazon application console"
+   http://login.amazon.com/manageApps
+   Click on "Sign in to the App console"
+   Click on "Register new application"
+   Name: processDataApp
+   Click on "Save"
+   Click on "Web Settings" section
+   Client ID: amzn1.application-oa2-client.c71532e3953a439f8e9173053ed5fcaf
+
+2. Look later to view Client ID
+   https://sellercentral.amazon.com/gp/homepage.html
+
+Error encountered when attempting to use the Amazon login option for authorized access:
+
+We're sorry!
+An error occurred when we tried to process your request. Rest assured, we're already working on the problem and expect to resolve it shortly.
+
+Error Summary
+400 Bad Request
+The domain on which you are using the JavaScript SDK has not been whitelisted for your application. Please add your website domain in the 'Allowed JavaScript Origins' section under 'Web Settings' on the Amazon Seller Central App Console for Login with Amazon.
+Request Details
+client_id=amzn1.application-oa2-client.c71532e3953a439f8e9173053ed5fcaf
+redirect_uri=https%3A%2F%2Fapi-cdn.amazon.com%2Fsdk%2F2017-01-13-fvyfhc4w%2Ftopic.html%3Furi%3Dhttp%253A%252F%252Fpersistentendeavors.com%252Fbrickwire%252FMoneyOrganizer%252Ftests%252Ftest11%252FprocessDataApp.html%26proxy%3Damazon-proxy-https-api_cdn_amazon_com%26topic%3DYNRu0yIqVg87myt5%26version%3D1
+response_type=token
+scope=profile
+language=
+ui_locales=
+
+NOTE: The whitelist entries must be https, but unable to utilize https on PersistentEndeavors.com
+
+Set up github repository
+------------------------
+
+1. Login to github
+   http://github.com
+   user: daveland2
+
+2. Create new git repository named WizeFiPrototype
+
+3. Populate repository with information from local Mac machine
+
+   git remote add origin https://github.com/daveland2/WizeFiPrototype.git
+   git push -u origin master
+   git push -u origin develop
+
+   This will push all your branches to the remote, and --set-upstream tracking correctly for you:
+   git push --all -u
+
+   Here is a command that gives you the branch tracking information:
+   $ git branch -vv
+
+   Create local branch that tracks remote branch
+   $ git fetch
+   $ git branch --track <branch-name> origin/<branch-name>   // generic pattern
+   $ git branch --track develop origin/develop               // specific example
+
+4. Steps to clone and use repository
+   $ cd <directory under which to place repository>
+   $ git clone https://github.com/daveland2/WizeFiPrototype.git
+   $ ng serve --open
+
+   May need to issue the following command if prompted to do so by ng command above
+   $ npm install
+
+Build production version for distribution
+-----------------------------------------
+$ cd <directory where project is located>
+$ ng build --prod --aot --bh <base ref directory>
+$ ng build --prod --aot --bh https://persistentendeavors.com/brickwire/MoneyOrganizer/tests/test17/WizeFiPrototype/dist/
+
+Another parameter specifies where to spit out the build, instead of the default ./dist folder
+--output-path <destination directory>
+--output-path ~/Sites/repairq/app/qpop
+
+Get app running in Safari on iPhone
+-----------------------------------
+1. Enable popups and cookies
+   Settings, Safari, Block Pop-ups (turn off)
+   Settings, Safari, Block Cookies (set to 'Allow from Current Website Only')
+
+   Restart Safari for changes to take effect:
+   Double tap on Home button and slide Safari up and off from the screen
+
+2. Save bookmark to app
+    a) go to the app web page to be saved as a bookmark:
+       https://persistentendeavors.com/brickwire/MoneyOrganizer/tests/test17/WizeFiPrototype/dist/
+    b) click on the (box with up arrow) icon
+    c) click on the "Add Bookmark" icon
+    d) click on LOCATION and make desired choice (e.g. Bookmarks or Favorites)
+    e) click on Save
+    f) click on the (open book) icon
+    g) click on Edit
+    h) click on the newly made WizeFiPrototype bookmark
+    i) click on the URL and change it to the following:
+       https://persistentendeavors.com/brickwire/MoneyOrganizer/tests/test17/WizeFiPrototype/dist/
+       Note that Safari cannot access Angular 2 route names, hence the absence of anything after the final dist/
+    j) click on Done (on the Edit Bookmark page)
+    k) click on Done (on the Bookmarks page)
+    l) click on the new WizeFiPrototype bookmark and verify that it works
+
+    In the future to run the app:
+    a) click on the Safari icon
+    b) click on the (open book) icon
+    c) click on the WizeFiPrototype bookmark
+
+3. Enable remote debug in Safari running on Mac laptop
+   On iPhone:
+   a) Settings, Safari, Advanced, Web inspector (turn on)  <==== need to do this just once
+   b) bring up WizeFiPrototype app on the iPhone
+   c) plug iPhone into Mac laptop via USB cable
+
+   On Mac laptop:
+   a) bring up Safari
+   b) Safari, Preferences (check on "Show develop menu in menu bar")  <==== need to do this just once
+   c) in Safari menu bar, click on "Develop, <name of connected iPhone device (e.g. Dave iPhone)>, Safari: persistentendeavors.com -- dist"
+   d) in the Web Instector screen, click on Console
+   e) on the iPhone click on the Facebook login button, and observe the results in the Console on the Mac laptop
+
+Get app running in Chrome on iPhone
+-----------------------------------
+1. On Mac laptop
+   a) bring up Chrome (using version 57 on my machine)
+   b) go to the app web page to be saved as a bookmark:
+      https://persistentendeavors.com/brickwire/MoneyOrganizer/tests/test17/WizeFiPrototype/dist/
+   c) click on the (star) icon at the right end of the URL to pick "Bookmark this page"
+   d) in the "Bookmark Added" popup screen, click on Edit and change the URL to the following:
+      https://persistentendeavors.com/brickwire/MoneyOrganizer/tests/test17/WizeFiPrototype/dist/
+      Note that Chrome cannot access Angular 2 route names, hence the absence of anything after the final dist/
+   e) for convenience (if necessary) drag the newly created bookmark to the desired place on the bookmark menu bar
+
+2. On iPhone
+   a) bring up Chrome (find and click on Chrome app icon -- download it from the App Store if not present)
+   b) click on the (three vertical dots) icon in the top right corner of the screen
+   c) click on Bookmarks
+   d) click on WizeFiPrototype bookmark
+
+Note: Chrome does not offer a way to do remote debugging (like what is available in Safari)
+
+*******************************************
+test11
+
+Get information on processDataApp that is registered with Amazon
+
+https://developer.amazon.com/login-with-amazon
+Click on "Sign up for a developer account" to get to the following:
+https://developer.amazon.com/home.html
+Click on "processDataApp" to get to the following:
+https://developer.amazon.com/application/general/M6JDZSNWXFK4K/detail.html
+App ID:  amzn1.devportal.webapp.2ac738b5d57e462dbf7abc8b9e69834f
+
+Alternative:
+http://login.amazon.com/manageApps
+Click on "Sign in to the App Console"
+Click on "processDataApp"
+App ID:     amzn1.application.c37779f5e55249f59f01ee7cb92c26d1
+Client ID:  amzn1.application-oa2-client.c71532e3953a439f8e9173053ed5fcaf
+*******************************************
+test12
+
+"Error: Missing credentials in config" problem when executing lambda function invoke was resolved by doing the following steps:
+
+Add credential provider information
+-----------------------------------
+1. Invoke Cognito console
+
+   https://console.aws.amazon.com/cognito/home
+
+   After AWS login this becomes the following:
+
+   https://us-west-2.console.aws.amazon.com/cognito/home?region=us-west-2
+
+2. Click on "Manage Federated Identities"
+
+3. Click on "processDataPool"
+
+4. Click on "Edit identity pool" (in upper right corner of screen)
+
+5. Click on "Authentication providers"
+
+6. Fill in information for Amazon, Google, and Facebook
+
+7. Click on "Save changes" at bottom of screen
+*******************************************
