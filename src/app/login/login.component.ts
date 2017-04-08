@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 
 import { DataModelService } from '../data-model.service';
 import { ManageMessages } from '../utilities/manage-messages.class';
@@ -23,14 +23,14 @@ interface IResponse {
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-	FacebookAppID: string = '1862692110681013';  // WizeFiPrototype
+	FacebookAppID: string = '1862692110681013';  // WizeFiPrototype;
 
 	// transient data
 	messages: string[] = [];
 
 	constructor(private router: Router, private dataModelService: DataModelService, private manageMessages: ManageMessages) { }
 
-	ngOnInit() {}
+	ngOnInit() { }
 
    	login()
 	{

@@ -66,20 +66,25 @@ export class DataModelService {
 		    {
 		        if (err)
 		        {
+		            console.log(err);  //%//
 		        	reject(err);
-		            console.log(err);
 		        }
 		        else
 		        {
 		            if (!data.hasOwnProperty('Payload'))
 		            {
-		                console.log("Data does not contain Payload attribute");
+		                console.log("Data does not contain Payload attribute");  //%//
 		                reject("Data does not contain Payload attribute");
 		            }
 		            else
 		            {
 		                payload = JSON.parse(data.Payload);
-		                if (mode == "get")
+		                if (mode == "put")
+		                {
+	                        console.log("persistent data has been stored");  //%//
+	                        resolve();
+		                }
+		                else
 		                {
 		                    if (payload.hasOwnProperty('errorMessage'))
 		                    {
@@ -99,14 +104,9 @@ export class DataModelService {
 		                    {
 	                    		this.dataModel.global.isNewUser = false;
 		                        this.dataModel.persistent = JSON.parse(payload);
-		                        console.log("persistent data has been retrieved");
+		                        console.log("persistent data has been retrieved");  //%//
 		                        resolve();
 		                    }
-		                }
-		                else
-		                {
-	                        console.log("persistent data has been stored");
-	                        resolve();
 		                }
 		            }
 		        }
@@ -153,7 +153,7 @@ export class DataModelService {
 
 			function handleError(err)
 			{
-			    console.log(err);
+			    console.log(err);  //%//
 			    reject(err);
 			}
 

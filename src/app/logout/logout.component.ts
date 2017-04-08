@@ -3,6 +3,7 @@ import {Location} from '@angular/common';
 import {Router} from '@angular/router';
 
 import { DataModelService } from '../data-model.service';
+import { ManageMessages } from '../utilities/manage-messages.class';
 
 declare const FB: any;
 
@@ -15,7 +16,12 @@ export class LogoutComponent implements OnInit {
 
   messages: string[] = [];
 
-	constructor(private dataModelService: DataModelService, private location: Location, private router: Router) { }
+	constructor(
+    private dataModelService: DataModelService,
+    private location: Location,
+    private router: Router,
+    private manageMessages: ManageMessages
+  ) { }
 
 	ngOnInit() { }
 
@@ -33,6 +39,7 @@ export class LogoutComponent implements OnInit {
     let router = this.router;
     let dataModelService = this.dataModelService;
     let messages = this.messages;
+    let manageMessages = this.manageMessages;
 
     function handleLogout()
     {
@@ -42,7 +49,7 @@ export class LogoutComponent implements OnInit {
 
     function handleError(err)
     {
-      messages.push(err);
+      manageMessages.update(messages,'Error in attempting to retrieve user data');
       console.log(err);
     }
 
@@ -62,6 +69,7 @@ export class LogoutComponent implements OnInit {
     let router = this.router;
     let dataModelService = this.dataModelService;
     let messages = this.messages;
+    let manageMessages = this.manageMessages;
     let location = this.location;
 
     function goback() {
@@ -70,7 +78,7 @@ export class LogoutComponent implements OnInit {
 
     function handleError(err)
     {
-      messages.push(err);
+      manageMessages.update(messages,'Error in attempting to retrieve user data');
       console.log(err);
     }
 
