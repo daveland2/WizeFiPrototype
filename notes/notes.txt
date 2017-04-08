@@ -1,8 +1,9 @@
 ********************************************************************
-https://github.com/jethfo/WizeFi  (github repository)
+https://github.com/jethfo/WizeFi  (github repository for WizeFi app)
+https://github.com/daveland2/WizeFiPrototype  (github repository for WizeFiPrototype app)
 https://xd.adobe.com/view/d14cabfe-32fd-4e7a-96ae-a863ead72b85/  (wire frames for WizeFi app)
-https://docs.google.com/spreadsheets/d/1kiGZexHNYjKBJnK8qD8kPnrKGBsZ-aoA_OQsB_lf6eM/edit?ts=58d18dcb#gid=0  (screen info seadsheet)
-https://persistentendeavors.com/brickwire/MoneyOrganizer/tests/test17/WizeFiPrototype/dist/index.html
+https://docs.google.com/spreadsheets/d/1kiGZexHNYjKBJnK8qD8kPnrKGBsZ-aoA_OQsB_lf6eM/edit?ts=58d18dcb#gid=0  (screen info spreadsheet)
+https://persistentendeavors.com/brickwire/MoneyOrganizer/tests/test17/WizeFiPrototype/dist/
 ********************************************************************
 https://angular.io/docs/ts/latest/guide/architecture.html
 ARCHITECTURE OVERVIEW

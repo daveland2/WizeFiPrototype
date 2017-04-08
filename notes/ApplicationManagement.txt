@@ -476,7 +476,6 @@ NOTE: The whitelist entries must be https, but unable to utilize https on Persis
 
 Set up github repository
 ------------------------
-
 1. Login to github
    http://github.com
    user: daveland2
@@ -500,13 +499,33 @@ Set up github repository
    $ git branch --track <branch-name> origin/<branch-name>   // generic pattern
    $ git branch --track develop origin/develop               // specific example
 
+   Create and checkout branch that tracks remote branch
+   $ git checkout --track -b develop origin/develop
+
 4. Steps to clone and use repository
-   $ cd <directory under which to place repository>
+   $ cd <directory under which to place github repository>
    $ git clone https://github.com/daveland2/WizeFiPrototype.git
+   $ ssh git@github.com:daveland2/WizeFiPrototype.git
    $ ng serve --open
 
    May need to issue the following command if prompted to do so by ng command above
    $ npm install
+
+5. Steps to synchrnoize things between local Mac laptop, github, and server at persistentendeavors.com
+
+   Update github from Mac laptop
+   $ cd /Users/daveland/BrickWire/MoneyOrganizer/tests/test17/WizeFiPrototype
+   $ git remote show origin    (review situation -- determine branches in need of update)
+   $ git checkout develop      (checkout branch to push to github)
+   $ git push origin develop   (push branch to github)
+
+   Update persistent endeavors from github
+   $ ssh pe
+   $ cd /home/deland/docs/brickwire/MoneyOrganizer/tests/test17/WizeFiPrototype
+   $ git fetch origin                  (update all remote branches to this local repository)
+   $ git remote show origin            (review situation -- determine branches in need of update)
+   $ git checkout develop              (checkout branch to be updated)
+   $ git merge develop origin/develop  (merge in updates)
 
 Build production version for distribution
 -----------------------------------------
