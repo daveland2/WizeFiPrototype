@@ -16,5 +16,9 @@
 	<input type="submit" value="Subscribe">
 	<br><br>
 	<span class="payment-message">{{message}}</span>
+	<br>
+	<ul>
+	  <li *ngFor="let message of messages">{{message}}</li>
+	</ul>
 
 </form>

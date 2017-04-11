@@ -380,6 +380,8 @@ Manage Stripe subscription information
    c) Click on "Plans" in the subscription screen
    d) Click on the "+ New" button
    e) Enter information and then click on "Create plan"
+      plan: "WizeFiPrototypePlan
+
 
 3. Create a user via the Stripe dashboard
    a) Invoke Stripe dashboard
@@ -396,15 +398,15 @@ Manage Stripe subscription information
    a) Invoke Stripe dashboard
       https://dashboard.stripe.com/dashboard
    b) Click on "API" in left margin
-      Test Secret Key:       sk_test_UwfiuaC8YUmbj1quTPvGZ0zz
-      Test Publishable Key:  pk_test_2RNabT8u28lQDlQTLmaD6N42
-      Live Secret Key:       sk_live_sr88YoHqrr3bW5Ml7yMdJoCg
-      Live Publishable Key:  pk_live_tl6nIGSo6WWbqLMdN4UHz9KB
+      Test Secret Key:       sk_test_....
+      Test Publishable Key:  pk_test_....
+      Live Secret Key:       sk_live_....
+      Live Publishable Key:  pk_live_....
 
 5. Create a customer programmatically
    https://stripe.com/docs/api#create_customer
 
-    var stripe = require("stripe")("sk_test_UwfiuaC8YUmbj1quTPvGZ0zz");
+    var stripe = require("stripe")("sk_test_....");
 
     stripe.customers.create({
       email: 'abigail.wilson@example.com',
@@ -418,7 +420,7 @@ Manage Stripe subscription information
    https://stripe.com/docs/api#create_subscription
    (create a new subscription on an existing customer)
 
-    var stripe = require("stripe")("sk_test_UwfiuaC8YUmbj1quTPvGZ0zz");
+    var stripe = require("stripe")("sk_test_....");
 
     stripe.subscriptions.create({
       customer: "cus_ARyJAjRa8pRzWW",
