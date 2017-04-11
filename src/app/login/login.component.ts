@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { DataModelService } from '../data-model.service';
+import { DataModelService } from '../data-model/data-model.service';
 import { ManageMessages } from '../utilities/manage-messages.class';
 
 declare const FB: any;

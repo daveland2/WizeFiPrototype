@@ -1,0 +1,20 @@
+<h3>Subscribe</h3>
+
+<form action="" method="POST" id="payment-form" (submit)="getToken()">
+
+	<table>
+		<tr><td>Card number</td><td><input [(ngModel)]="cardNumber" name="card-number" type="text" size="20" data-stripe="number"></td></tr>
+		<tr><td>Expiration</td>
+			<td><input [(ngModel)]="expiryMonth" name="expiry-month" type="text" size="2" data-stripe="exp_month">MM
+				&nbsp;&nbsp;<input [(ngModel)]="expiryYear" name="expiry-year" type="text" size="4" data-stripe="exp_year">YYYY
+			</td>
+		</tr>
+		<tr><td>CVC</td><td><input [(ngModel)]="cvc" name="cvc" type="text" size="4" data-stripe="cvc"></td></tr>
+	</table>
+
+	<br>
+	<input type="submit" value="Subscribe">
+	<br><br>
+	<span class="payment-message">{{message}}</span>
+
+</form>

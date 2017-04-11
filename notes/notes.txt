@@ -3549,11 +3549,11 @@ src/app/budget/budget.component.ts:import { CBudgetDetails } from '../budget-det
 src/app/budget/budget.component.ts:  cBudgetDetails: CBudgetDetails;
 src/app/budget/budget.component.ts:    this.cBudgetDetails = new CBudgetDetails(this.dataModelService.getdata('budgetDetails'));
 src/app/budget/budget.component.ts:    this.budgetTotal = this.cBudgetDetails.getBudgetDetailsSum();
-src/app/data-model.service.ts:import { IBudgetDetails } from './budget-details/budget-details.class';
-src/app/data-model.service.ts:  budgetDetails: IBudgetDetails,
-src/app/data-model.service.ts:                  budgetDetails: {
-src/app/data-model.service.ts:                  case 'budgetDetails':  value = JSON.parse(JSON.stringify(this.dataModel.budgetDetails));  break;
-src/app/data-model.service.ts:                  case 'budgetDetails':  this.dataModel.budgetDetails = JSON.parse(JSON.stringify(value));  break;
+src/app/data-model/data-model.service.ts:import { IBudgetDetails } from './budget-details/budget-details.class';
+src/app/data-model/data-model.service.ts:  budgetDetails: IBudgetDetails,
+src/app/data-model/data-model.service.ts:      budgetDetails: {
+src/app/data-model/data-model.service.ts:      case 'budgetDetails':  value = JSON.parse(JSON.stringify(this.dataModel.budgetDetails));  break;
+src/app/data-model/data-model.service.ts:      case 'budgetDetails':  this.dataModel.budgetDetails = JSON.parse(JSON.stringify(value));  break;
 
 The following files are affected:
 
@@ -4431,9 +4431,72 @@ http://blog.mgechev.com/2016/07/05/using-stripe-payment-with-angular-2/
 ********************************************************************
 https://stripe.com/
 ********************************************************************
+https://stripe.com/docs/subscriptions/quickstart
+https://stripe.com/docs/subscriptions/creating
+https://stripe.com/docs/subscriptions/plans
+https://stripe.com/docs/api
+https://stripe.com/docs/stripe.js
+https://dashboard.stripe.com/account/apikeys
+********************************************************************
+https://stripe.com/docs/api#subscriptions
+
+Subscriptions allow you to charge a customer's card on a recurring basis. A subscription ties a customer to a particular plan you've created.
+********************************************************************
+http://stackoverflow.com/questions/37824057/getting-stripe-customer-information-via-javascript-api-call-not-node-how
+
+There's no way to do any of this client-side with or without Stripe.js since it would require using your Secret API key. You never want to put the Secret API key in the Javascript code as anyone could get access to it otherwise and use it on your behalf.
+
+What you want to do instead is retrieve the customer server-side in your code first. Then, you share the data you need (customer id, card's id, last 4 or expiration date) to the client-side code to be able to display the information as needed.
+********************************************************************
 https://memberful.com/blog/stripe-vs-paypal/
 ********************************************************************
+http://stackoverflow.com/questions/36543747/import-stripe-using-angular2-and-stripe-js
+********************************************************************
+https://stripe.com/docs/recipes/subscription-signup
+
+Building a Subscription Signup Form
+
+An important note is that both Checkout and the server-side code are required. Checkout securely accepts the customer’s payment information and the server-side code creates the actual subscription in Stripe.
+********************************************************************
 https://dzone.com/articles/a-step-by-step-guide-to-javascript-localization-2
+
+What's the proper way to use Angular2 and Stripe.js? Ionic2 specifically would be nice but optional.
+
+------------
+
+Add the scripttag in the index.html and then put a declaration after the imports in home.ts
+
+declare var Stripe: any; I believe this is the correct way to import external libs in ng2
+
+Src: Nic Raboy There are a some more info there; the better way to install an external lib is to download the typedefs from DefinitelyTyped and install with $ typings install Then you should be able to import as usual
+
+This is, of course, if there are typedefs in the DefinitelyTyped repo. There does not seem to exist typedefs for the Stripe library, though.
+
+------------
+
+Stripe seems to have type definitions now so alongside
+
+npm install --save stripe
+you can also run the following to get TypeScript definitions:
+
+npm install --save @types/stripe
+you should then be able to so something like:
+
+import { Stripe } from 'stripe'
+The above is psudo code as Ive not tested it but will will be something similar.
+
+More info here: https://www.npmjs.com/package/@types/stripe
+
+********************************************************************
+https://stripe.com/blog/smarter-saved-cards
+
+Smarter saved cards
+
+Outdated card details are a big problem for online businesses. If your customers get a new card from their banks (or the number or expiry date changes), they have to manually re-add it to every service or the service stops working. It’s frustrating for customers, and loses paying customers for businesses needlessly.
+
+We’ve rolled out support for handling new cards nicely. Now, when you save a customer with Stripe, their card will continue to work even if the physical card gets replaced by the bank. Stripe works directly with card networks so that your customers can continue using your service without interruption.
+
+There’s no extra work required, and this feature works with most MasterCard, Discover, and Visa cards—without this improvement, over half of the cards stored with Stripe in the last year would stop working by 2016 if they weren’t updated.
 ********************************************************************
 http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/BestPractices.html
 
@@ -4915,7 +4978,99 @@ Make sure you have listed all URIs which are the domains from which Facebook SDK
 I develop at localhost:5000 and deploy to Heroku. Notice the format: http://domain.name/
 
 ********************************************************************
+http://stackoverflow.com/questions/26767150/stripe-is-it-possible-to-search-a-customer-by-their-email
+
+Stripe, is it possible to search a customer by their email?
+
+You need to retrieve and store the Stripe customer ID along with the other customer details in your database. You can then search for the email address in your database and retrieve the customer record from Stripe by using the Stripe customer ID.
+
+---------------
+
+I done by this API request.This API not available in stripe docs.I get their search request at dashboard customize according my requirements.
+
+    url :https://api.stripe.com/v1/search?query="+email+"&prefix=false",
+    method: GET
+    headers: {
+      "authorization": "Bearer Your_seceret Key",
+      "content-type": "application/x-www-form-urlencoded",
+    }
+
+---------------
+
+Since you specified that
+
+The documentation only indicate to search by created, ending_before, limit and starting_after, but no "email".
+You are right, you can't search using emails.
+
+If you still wish to do that, What you can do instead is to get a list of all the customer and filter on the response you get using email.
+
+For Example, in ruby you can do it as follows:
+
+customers = Stripe::Customer.all
+
+customer_i_need = customers.select do |c|
+  c.email == "foo@bar.com"
+end
+PS: Stripe can have multiple customers associated with one email address.
+
+---------------
+
+Stripe API does not supports any search-by-email feature. They have this search in their dashboard but not released any to API; from the architectural concept it seems that there is no possibility or plan from stripe to include this in API; every object in their API is retrievable only by that specific objects id given by stripe while its created. May be, they have kept it as a scope for third party application developers involvement!!
+
+So, the obvious solution is to store the customers in your own database that you want to be searchable in future - as Simeon Visser has said above
+
+btw, for a workaround, if you already have used the stripe API a lot and there are many customer data which you now need to be searchable - the only way is to go thru the 'List all customers' functionality of API & build the database for your own purpose; ofcourse, you've to use pagination shortcut to iterate thru the whole list for doing so.
+
+$customers = \Stripe\Customer::all(array("limit" => 3));
+foreach ($customers->autoPagingIterator() as $customer) {
+  // Do something with $customer
+}
 ********************************************************************
+https://support.stripe.com/questions/can-i-save-a-card-and-charge-it-later
+
+Can I save a card and charge it later?
+
+I’d like to be able to store card details, so returning users can click “Buy Now” and not have to re-enter their card number. Is there a way to do something like this with Stripe?
+
+-----------
+
+There are two ways: 1) from your dashboard, and 2) with our API.
+
+First, from your dashboard: You can store card details and charge them later by creating a customer from your Customers tab and clicking “+ New.” Once you’ve created a customer, you can view the customer details and click “Add card.” This will allow you to return and charge the card at a later date using the “+ Create Payment” link.
+
+Second, with our API: You just need to attach the card details to a customer object. Once you’ve done that, you can charge the customer at any time.
+
+Here’s some sample Ruby code:
+
+# get the credit card details submitted by the form or app
+token = params[:stripeToken]
+
+# create a Customer
+customer = Stripe::Customer.create(
+  card: token,
+  description: 'description for payinguser@example.com',
+  email: 'payinguser@example.com'
+)
+
+# charge the Customer instead of the card
+Stripe::Charge.create(
+    amount: 1000, # in cents
+    currency: 'usd',
+    customer: customer.id
+)
+
+# save the customer ID in your database so you can use it later
+save_stripe_customer_id(user, customer.id)
+
+# later
+customer_id = get_stripe_customer_id(user)
+
+Stripe::Charge.create(
+    amount: 1500, # $15.00 this time
+    currency: 'usd',
+    customer: customer_id
+)
+
 ********************************************************************
 ********************************************************************
 ********************************************************************

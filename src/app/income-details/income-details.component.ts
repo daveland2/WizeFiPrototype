@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApplicationRef } from '@angular/core';
 
-import { DataModelService} from '../data-model.service';
+import { DataModelService} from '../data-model/data-model.service';
 import { CIncomeDetails } from './income-details.class';
 import { IVerifyResult } from '../utilities/validity-check.class';
 import { ConfigValues } from '../utilities/config-values.class';

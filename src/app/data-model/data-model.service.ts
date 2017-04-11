@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 
-import { ISettings } from './settings/settings.class';
-import { IProfile } from './profile/profile.class';
-import { IBudgetDetails } from './budget-details/budget-details.class';
-import { IIncomeDetails } from './income-details/income-details.class';
-import { dataModel } from './utilities/data-model_1.data'
+import { ISettings } from '../settings/settings.class';
+import { IProfile } from '../profile/profile.class';
+import { IBudgetDetails } from '../budget-details/budget-details.class';
+import { IIncomeDetails } from '../income-details/income-details.class';
+import { dataModel } from './data-model_1.data'
 
 export interface IGlobal {
 	isLoggedIn: boolean,
@@ -18,8 +18,9 @@ export interface IGlobal {
 export interface IHeader {
 	dataVersion: number,
 	dateCreated: string,
-	dateUpdated: string
-	// note: date string is in ISO-8601 format: YYYY-MM-DDTHH:mm:ss.sssZ
+	dateUpdated: string,   // note: date string is in ISO-8601 format: YYYY-MM-DDTHH:mm:ss.sssZ
+	stripeUserID: string,
+	stripeSubscriptionID: string
 }
 
 export interface IDataModel {

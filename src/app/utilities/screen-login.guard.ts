@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router';
 
-import { DataModelService } from '../data-model.service';
+import { DataModelService } from '../data-model/data-model.service';
 
 @Injectable()
 export class ScreenLoginGuard implements CanActivate {

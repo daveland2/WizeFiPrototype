@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { DataModelService } from '../data-model.service';
+import { DataModelService } from '../data-model/data-model.service';
 import { CProfile } from './profile.class';
 
 @Component({

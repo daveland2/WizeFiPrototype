@@ -1,4 +1,4 @@
-import { IDataModel } from '../data-model.service';
+import { IDataModel } from './data-model.service';
 
 export const dataModel:IDataModel = {
 	global: {
@@ -13,7 +13,9 @@ export const dataModel:IDataModel = {
 		header: {
 			dataVersion: 1,
 			dateCreated: '2017-04-05T12:14:32.456Z',
-			dateUpdated: '2017-04-05T12:15:32.456Z'
+			dateUpdated: '2017-04-05T12:15:32.456Z',
+			stripeUserID: '',
+			stripeSubscriptionID: ''
 		},
 		settings: {
 			currencyCode: '',

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { DataModelService } from '../data-model.service';
+import { DataModelService } from '../data-model/data-model.service';
 import { CIncomeDetails } from '../income-details/income-details.class';
 import { ConfigValues } from '../utilities/config-values.class';
 

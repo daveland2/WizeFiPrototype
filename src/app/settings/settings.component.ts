@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { DataModelService } from '../data-model.service';
+import { DataModelService } from '../data-model/data-model.service';
 import { CSettings} from './settings.class';
 import { IVerifyResult } from '../utilities/validity-check.class';
 

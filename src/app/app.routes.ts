@@ -13,6 +13,7 @@ import { IncomeDetailsDeactivateGuard } from './income-details/income-details-de
 import { LogoutComponent } from './logout/logout.component';
 import { SettingsComponent } from './settings/settings.component';
 import { SettingsDeactivateGuard } from './settings/settings-deactivate.guard';
+import { SubscriptionComponent } from './subscription/subscription.component';
 import { ScreenLoginGuard } from './utilities/screen-login.guard';
 
 export const routes: Routes = [
@@ -49,8 +50,8 @@ export const routes: Routes = [
     canActivate: [ScreenLoginGuard]
   },
   {
-    path: 'site-map',
-    component: SiteMapComponent,
+    path: 'subscription',
+    component: SubscriptionComponent,
   },
   {
     path: 'settings',
@@ -62,6 +63,10 @@ export const routes: Routes = [
     path: 'logout',
     component: LogoutComponent,
     canActivate: [ScreenLoginGuard]
+  },
+  {
+    path: 'site-map',
+    component: SiteMapComponent,
   },
   {
     path: '',

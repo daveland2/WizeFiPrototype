@@ -362,6 +362,75 @@ Create AWS Cognito information
     Identity pool ID: us-west-2:59b6f6d7-03c4-47aa-8ac8-3e70c1e04a03   <==== this goes in call to AWS.config.credentials
     Identity Pool ARN: arn:aws:cognito-identity:us-west-2:418492632830:identitypool/us-west-2:59b6f6d7-03c4-47aa-8ac8-3e70c1e04a03
 
+Manage Stripe subscription information
+--------------------------------------
+1. Create Stripe account for administrative user
+   a) Invoke stripe home page
+      https://stripe.com/
+   b) Click on "CREATE ACCOUNT" button
+   c) Enter information
+      Email:    dave.r.eland@gmail.com
+      Password: Stripe_77
+
+2. Create a subscription plan
+   a) Invoke Stripe dashboard
+      https://dashboard.stripe.com/dashboard
+      https://dashboard.stripe.com/test/dashboard
+   b) Click on "Subscriptions" in the left margin
+   c) Click on "Plans" in the subscription screen
+   d) Click on the "+ New" button
+   e) Enter information and then click on "Create plan"
+
+3. Create a user via the Stripe dashboard
+   a) Invoke Stripe dashboard
+      https://dashboard.stripe.com/dashboard
+   b) Click on "Customers" in left margin
+   c) Click on the "+ New" button
+   d) Fill in information and click on "Create customer"
+      Email: daveland@oru.edu
+      Description: Dave Stripe user
+   e) Note the following information
+      customerID: cus_ARyJAjRa8pRzWW
+
+4. View the user API key values
+   a) Invoke Stripe dashboard
+      https://dashboard.stripe.com/dashboard
+   b) Click on "API" in left margin
+      Test Secret Key:       sk_test_UwfiuaC8YUmbj1quTPvGZ0zz
+      Test Publishable Key:  pk_test_2RNabT8u28lQDlQTLmaD6N42
+      Live Secret Key:       sk_live_sr88YoHqrr3bW5Ml7yMdJoCg
+      Live Publishable Key:  pk_live_tl6nIGSo6WWbqLMdN4UHz9KB
+
+5. Create a customer programmatically
+   https://stripe.com/docs/api#create_customer
+
+    var stripe = require("stripe")("sk_test_UwfiuaC8YUmbj1quTPvGZ0zz");
+
+    stripe.customers.create({
+      email: 'abigail.wilson@example.com',
+      description: 'Customer for abigail.wilson@example.com',
+      source: "tok_1A74I1BZ2rAV8piqmAAKxXyl" // obtained with Stripe.js
+    }, function(err, customer) {
+      // asynchronously called
+    });
+
+6. Create a subscription programmatically
+   https://stripe.com/docs/api#create_subscription
+   (create a new subscription on an existing customer)
+
+    var stripe = require("stripe")("sk_test_UwfiuaC8YUmbj1quTPvGZ0zz");
+
+    stripe.subscriptions.create({
+      customer: "cus_ARyJAjRa8pRzWW",
+      plan: "WizeFiPrototypePlan",
+      source: "zzzzzzzzzz"    // optional
+    }, function(err, subscription) {
+        // asynchronously called
+      }
+    );
+
+    The source can either be a token, like the ones returned by Elements, or a dictionary containing a user’s credit card details (with the options shown below). You must provide a source if the customer does not already have a valid source attached, and you are subscribing the customer for a plan that is not free. Passing source will create a new source object, make it the customer default source, and delete the old customer default if one exists. If you want to add an additional source to use with subscriptions, instead use the card creation API to add the card and then the customer update API to set it as the default. Whenever you attach a card to a customer, Stripe will automatically validate the card.
+
 ===============================================
 Tools used in establishing an operating environment for deploying a web application using Amazon Web Services
 

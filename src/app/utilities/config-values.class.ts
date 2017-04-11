@@ -1,4 +1,4 @@
-import { DataModelService } from '../data-model.service';
+import { DataModelService } from '../data-model/data-model.service';
 
 export class ConfigValues {
 
