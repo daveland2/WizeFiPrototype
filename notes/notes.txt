@@ -5072,10 +5072,62 @@ Stripe::Charge.create(
 )
 
 ********************************************************************
+http://stackoverflow.com/questions/31664313/aws-lambda-function-is-returning-cannot-find-module-index-yet-the-handler-in
+
+(shows steps to create zip file for use by lambda function)
 ********************************************************************
+https://forums.aws.amazon.com/thread.jspa?threadID=181471
+
+(issue of module not found in lambda function)
 ********************************************************************
+https://stripe.com/docs/elements#create-token
+
+Create a token to securely transmit card information
+
+The payment details collected using Elements can then be converted into token. Create an event handler that handles the submit event on the form. The handler sends the fields to Stripe for tokenization and prevents the form’s submission (the form is submitted by JavaScript in the next step).
+
+// Create a token or display an error the form is submitted.
+stripe.createToken(card).then(function(result)
+{
+    if (result.error)
+    {
+        // Inform the user there was an error
+        var errorElement = document.getElementById('card-errors');
+        errorElement.textContent = result.error.message;
+    }
+    else
+    {
+        // Send the token to your server
+        stripeTokenHandler(result.token);
+    }
+});
+
+stripe.createToken returns a Promise which resolves with a result object. This object has either:
+result.token: a Token was created successfully.
+result.error: there was an error. This includes client-side validation errors.
 ********************************************************************
+http://dev.splunk.com/view/event-collector/SP-CAAAE6Z
+
+(example of how to build Lambda deployment package -- the ZIP file)
+
+Upload the deployment package
+
+When you've got your deployment ZIP, you're ready to upload it to AWS Lambda.
+
+- Log into the AWS Lambda Console, and then click Create a Lambda function.
+- On the Select blueprint page, click Skip.
+- On the Configure function page, enter a name for the function. This should be the same value as the name key's value in the package.json file.
+- Enter a short description next to Description, and leave the Runtime pop-up menu set to Node.js.
+- Under Lambda function code, choose upload a ZIP file, and then click the Upload button. Upload your deployment ZIP.
+- Under Lambda function handler and role, enter the module-name.export value. If you've left the handler name as exports.handler, then leave the value as index.handler. In the Role pop-up menu, choose or create a role (likely lambda_basic_execution).
+- Finally, leave the Advanced settings section untouched, and then click Next.
+- On the Review page, review your settings. If you have to make any changes, click the Edit button. When you're done, click Create function.
 ********************************************************************
+https://forums.aws.amazon.com/thread.jspa?messageID=706444
+
+For anyone who runs into this issue into the future... Make sure that you are specifying the correct "Handler" in the configuration of your lambda function.
+
+If you have a single js or py file in your zip container (such as "my_script.js", you must specify in the Handler field in the configuration of your Lambda function, "my_script.handler" or "my_script.function_name". This will allow you to view that single file within the inline editor in the Lambda console.
 ********************************************************************
 ********************************************************************
 ********************************************************************

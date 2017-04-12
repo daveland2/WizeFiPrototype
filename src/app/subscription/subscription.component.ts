@@ -1,4 +1,7 @@
-import { Component, NgZone } from '@angular/core';
+import { Component } from '@angular/core';
+
+import { DataModelService } from '../data-model/data-model.service';
+import { ManageMessages } from '../utilities/manage-messages.class';
 
 @Component({
   selector: 'app-subscription',
@@ -13,27 +16,44 @@ export class SubscriptionComponent {
   cvc: string = '123';
   messages: string[] = [];
 
-  constructor(private zone: NgZone) { }
+  constructor(private dataModelService: DataModelService) { }
 
-  getToken() {
-    this.messages = [];
-    (<any>window).Stripe.card.createToken({
-      number: this.cardNumber,
-      exp_month: this.expiryMonth,
-      exp_year: this.expiryYear,
-      cvc: this.cvc
-    },
-    (status: number, response: any) => {
-      // wrap inside Angular zone in order to catch updates
-      this.zone.run(() => {
-        if (status === 200) {
-          this.messages.push('token: ' + response.card.id);
-        }
-        else {
-          this.messages.push(response.error.message);
-        }
-      });
-    });
-  } // getToken
+  establishSubscription()
+  {
+      // kludge to get information into scope of nested function
+      let dataModelService = this.dataModelService;
+      let cardNumber = this.cardNumber;
+      let expiryMonth = this.expiryMonth;
+      let expiryYear = this.expiryYear;
+      let cvc = this.cvc;
+      let messages = this.messages;
+
+      function getToken()
+      {
+        (<any>window).Stripe.card.createToken(
+        {
+            number: cardNumber,
+            exp_month: expiryMonth,
+            exp_year: expiryYear,
+            cvc: cvc
+        },
+        (status: number, response: any) =>
+        {
+            if (status === 200)
+            {
+                console.log('sourceToken:  ' + response.id);
+                // this.messages.push('token: ' + response.id);
+                //this.manageMessages.update(messages,'');
+            }
+            else
+            {
+                this.manageMessages.update(response.error.message);
+            }
+        });
+      }
+
+      messages = [];
+      getToken();
+  } // establishSubscription
 
 } // class SubscriptionComponent
