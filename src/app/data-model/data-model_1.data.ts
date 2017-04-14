@@ -14,7 +14,7 @@ export const dataModel:IDataModel = {
 			dataVersion: 1,
 			dateCreated: '2017-04-05T12:14:32.456Z',
 			dateUpdated: '2017-04-05T12:15:32.456Z',
-			stripeUserID: '',
+			stripeCustomerID: '',
 			stripeSubscriptionID: ''
 		},
 		settings: {

@@ -19,7 +19,7 @@ export class LogoutComponent implements OnInit {
 
 	ngOnInit() { }
 
-  logout = (): void =>
+  logout = ():void =>
 	// logout(dataModelService)
   {
       this.dataModelService.dataModel.global.isLoggedIn = false;
@@ -31,13 +31,13 @@ export class LogoutComponent implements OnInit {
 
   saveAndLogout = ():void =>
   {
-      let handleLogout = (): void =>
+      let handleLogout = ():void =>
       {
         this.logout();
         this.router.navigateByUrl('/login');
       }
 
-      let handleError = (err: any): void =>
+      let handleError = (err: any):void =>
       {
         this.messages.push('Error in attempting to retrieve user data');
         console.log(err);
@@ -57,12 +57,12 @@ export class LogoutComponent implements OnInit {
   save = ():void =>
   {
 
-      let goback = (): void =>
+      let goback = ():void =>
       {
           this.location.back();
       }
 
-      let handleError = (err: any): void =>
+      let handleError = (err: any):void =>
       {
           this.messages.push('Error in attempting to retrieve user data');
           console.log(err);

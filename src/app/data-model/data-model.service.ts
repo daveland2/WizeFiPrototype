@@ -12,14 +12,14 @@ export interface IGlobal {
 	userID: string,
 	email: string,
 	access_token: string,
-	lambda: any,
+	lambda: any
 }
 
 export interface IHeader {
 	dataVersion: number,
 	dateCreated: string,
 	dateUpdated: string,   // note: date string is in ISO-8601 format: YYYY-MM-DDTHH:mm:ss.sssZ
-	stripeUserID: string,
+	stripeCustomerID: string,
 	stripeSubscriptionID: string
 }
 
@@ -121,13 +121,13 @@ export class DataModelService {
 		// fetch data from persistent storage
 		return new Promise((resolve,reject) =>
 	    {
-	    	let finishFetch = (): void =>
+	    	let finishFetch = ():void =>
 	    	{
 				console.log("fetch: " + JSON.stringify(this.dataModel.persistent));  //%//
 				resolve();
 			}
 
-			let handleError = (err:any): void =>
+			let handleError = (err:any):void =>
 			{
 			    reject(err);
 			}
@@ -143,13 +143,13 @@ export class DataModelService {
 		// store data in persistent storage
 		return new Promise((resolve,reject) =>
 	    {
-	    	let finishStore = (): void =>
+	    	let finishStore = ():void =>
 	    	{
 				console.log("store: " + JSON.stringify(this.dataModel.persistent));  //%//
 				resolve();
 			}
 
-			let handleError = (err: any): void =>
+			let handleError = (err: any):void =>
 			{
 			    console.log(err);  //%//
 			    reject(err);

@@ -89,7 +89,7 @@ export class LoginComponent implements OnInit {
 	finishLogin = ():void =>
 	{
 		// define function is this manner to get "static" version of "this"
-		let wrapup = (): void =>
+		let wrapup = ():void =>
 		{
 			// show login results
 			console.log("userID: " + this.dataModelService.dataModel.global.userID);                      //%//
@@ -103,14 +103,14 @@ export class LoginComponent implements OnInit {
 			else this.router.navigateByUrl('/budget');
 		}
 
-		let handleError = (err: any): void =>
+		let handleError = (err: any):void =>
 		{
 			this.messages.push('Error in attempting to retrieve user data');
 			console.log('Error in attempting to retrieve user data:');  //%//
 			console.log(err);  //%//
 		}
 
-		// establish lambda object for invoking Lambda functions
+		// establish AWS object
 		let logins = {'graph.facebook.com': this.dataModelService.dataModel.global.access_token};
 		AWS.config.update({region: 'us-west-2'});
 		AWS.config.credentials = new AWS.CognitoIdentityCredentials(
@@ -118,6 +118,8 @@ export class LoginComponent implements OnInit {
 		    IdentityPoolId: 'us-west-2:59b6f6d7-03c4-47aa-8ac8-3e70c1e04a03',
 		    Logins: logins
 		});
+
+		// establish lambda object for invoking Lambda functions
 		this.dataModelService.dataModel.global.lambda = new AWS.Lambda();
 
 		// retrieve persistent data
