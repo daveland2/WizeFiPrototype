@@ -36,12 +36,12 @@ export interface IDataModel {
 
 @Injectable()
 export class DataModelService {
+
     dataModel: IDataModel;
 
     constructor () {
     	// set data model to initial default configuration
     	this.dataModel = dataModel;
-
     }   // constructor
 
 	invokeDataHandlingFunction(mode)
@@ -115,20 +115,19 @@ export class DataModelService {
 		});   // return new Promise
 	}   // invokeDataHandlingFunction
 
-	fetchdata() {
-		// kludge to get information into scope of nested function
-		let dataModel = this.dataModel;
+	fetchdata()
+	{
 
 		// fetch data from persistent storage
 		return new Promise((resolve,reject) =>
 	    {
-	    	function finishFetch()
+	    	let finishFetch = (): void =>
 	    	{
-				console.log("fetch: " + JSON.stringify(dataModel.persistent));  //%//
+				console.log("fetch: " + JSON.stringify(this.dataModel.persistent));  //%//
 				resolve();
 			}
 
-			function handleError(err)
+			let handleError = (err:any): void =>
 			{
 			    reject(err);
 			}
@@ -140,19 +139,17 @@ export class DataModelService {
 	}   // fetchdata
 
 	storedata() {
-		// kludge to get information into scope of nested function
-		let dataModel = this.dataModel;
 
 		// store data in persistent storage
 		return new Promise((resolve,reject) =>
 	    {
-	    	function finishStore()
+	    	let finishStore = (): void =>
 	    	{
-				console.log("store: " + JSON.stringify(dataModel.persistent));  //%//
+				console.log("store: " + JSON.stringify(this.dataModel.persistent));  //%//
 				resolve();
 			}
 
-			function handleError(err)
+			let handleError = (err: any): void =>
 			{
 			    console.log(err);  //%//
 			    reject(err);

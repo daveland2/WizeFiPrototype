@@ -52,6 +52,7 @@ export const routes: Routes = [
   {
     path: 'subscription',
     component: SubscriptionComponent,
+    canActivate: [ScreenLoginGuard]
   },
   {
     path: 'settings',

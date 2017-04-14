@@ -5,9 +5,6 @@
 <tr><td>Thousands separator</td><td><input type="text" [(ngModel)]="cSettings.settings.thousandsSeparator" (blur)="verify()" size="10"></td></tr>
 <tr><td>Decimal separator</td><td><input type="text" [(ngModel)]="cSettings.settings.decimalSeparator" (blur)="verify()" size="10"></td></tr>
 </table>
+
 <br>
-<ul>
-  <li *ngFor="let message of messages">
-    {{message}}
-  </li>
-</ul>
+<li *ngFor="let message of messages">{{message}}</li>

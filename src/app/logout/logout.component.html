@@ -7,9 +7,6 @@
 <button type="button" (click) = "save()">Save data but do not logout</button>
 <br><br>
 <button type="button" (click) = "cancel()">Cancel</button>
+
 <br>
-<ul>
-  <li *ngFor="let message of messages">
-    {{message}}
-  </li>
-</ul>
+<li *ngFor="let message of messages">{{message}}</li>

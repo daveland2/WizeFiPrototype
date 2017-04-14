@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { DataModelService } from '../data-model/data-model.service';
-import { ManageMessages } from '../utilities/manage-messages.class';
 
 declare const FB: any;
 declare const AWS: any;
@@ -28,11 +27,11 @@ export class LoginComponent implements OnInit {
 	// transient data
 	messages: string[] = [];
 
-	constructor(private router: Router, private dataModelService: DataModelService, private manageMessages: ManageMessages) { }
+	constructor(private router: Router, private dataModelService: DataModelService) { }
 
 	ngOnInit() { }
 
-   	login()
+   	login = ():void =>
 	{
 		// initialize
 	    console.log('Login started');  //%//
@@ -64,7 +63,7 @@ export class LoginComponent implements OnInit {
 	                }
 	                else
 	                {
-	                	this.manageMessages.update(this.messages,'Login was not successful');
+	                	this.messages.push('Login was not successful');
 	                    console.log('Login was not successful');  //%//
 	                }
 	            },
@@ -76,7 +75,7 @@ export class LoginComponent implements OnInit {
 	    });
 	}   // login
 
-    getInfo(response: IResponse)
+    getInfo = (response:IResponse):void =>
     {
         this.dataModelService.dataModel.global.userID = response.authResponse.userID;
         this.dataModelService.dataModel.global.access_token = response.authResponse.accessToken;
@@ -87,34 +86,29 @@ export class LoginComponent implements OnInit {
         });
     }   // get Info
 
-	finishLogin()
+	finishLogin = ():void =>
 	{
-		function wrapup()
+		// define function is this manner to get "static" version of "this"
+		let wrapup = (): void =>
 		{
 			// show login results
-			console.log("userID: " + dataModel.global.userID);                      //%//
-			console.log("email: " + dataModel.global.email);                        //%//
-			console.log('access_token: ' + dataModel.global.access_token);          //%//
-			console.log("lambda client ID: " + dataModel.global.lambda._clientId);  //%//
-			console.log("isNewUser: " + dataModel.global.isNewUser);                //%//
+			console.log("userID: " + this.dataModelService.dataModel.global.userID);                      //%//
+			console.log("email: " + this.dataModelService.dataModel.global.email);                        //%//
+			console.log('access_token: ' + this.dataModelService.dataModel.global.access_token);          //%//
+			console.log("lambda client ID: " + this.dataModelService.dataModel.global.lambda._clientId);  //%//
+			console.log("isNewUser: " + this.dataModelService.dataModel.global.isNewUser);                //%//
 			console.log("Login completed");                                         //%//
-			dataModel.global.isLoggedIn = true;
-			if (dataModel.global.isNewUser) router.navigateByUrl('/profile');
-			else router.navigateByUrl('/budget');
+			this.dataModelService.dataModel.global.isLoggedIn = true;
+			if (this.dataModelService.dataModel.global.isNewUser) this.router.navigateByUrl('/profile');
+			else this.router.navigateByUrl('/budget');
 		}
 
-		function handleError(err)
+		let handleError = (err: any): void =>
 		{
-			manageMessages.update(messages,'Error in attempting to retrieve user data');
+			this.messages.push('Error in attempting to retrieve user data');
 			console.log('Error in attempting to retrieve user data:');  //%//
 			console.log(err);  //%//
 		}
-
-		// kludge to get information into scope of nested function
-		let dataModel = this.dataModelService.dataModel;
-		let router = this.router;
-		let messages = this.messages;
-		let manageMessages = this.manageMessages;
 
 		// establish lambda object for invoking Lambda functions
 		let logins = {'graph.facebook.com': this.dataModelService.dataModel.global.access_token};

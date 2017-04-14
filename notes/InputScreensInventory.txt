@@ -1,0 +1,164 @@
+Inventory of screens with data inputs
+-------------------------------------
+
+https://xd.adobe.com/view/d14cabfe-32fd-4e7a-96ae-a863ead72b85/  (wire frames for WizeFi app)
+https://docs.google.com/spreadsheets/d/1kiGZexHNYjKBJnK8qD8kPnrKGBsZ-aoA_OQsB_lf6eM/edit?ts=58d18dcb#gid=0 (spreadsheet with list of screens)
+
+First estimate: around 60 data items the user can edit
+
+02  ManualLogin
+    Username (email)
+    Password
+
+05  PersonalProfile
+    Name
+    Occupation
+    Date of Birth
+    Desired Retirement Age
+    Zip Code
+    Monthly income (total from other screen)
+    Estimated Investment Rate
+    MonthlyIncomeForLifestyle
+    NumberOfYearsToReceiveIncome
+    InflationRateDuringLifetime
+    SocialSecurityIncome
+
+08  CurrentBudget (OriginalPlan)
+    Assets (total from other screen) ?
+    Liabilities (total from other screen) ?
+    Giving (total from other screen)
+    Housing (total from other screen)
+    Transportation (total from other screen?)
+    Food (total from other screen?)
+    HealthInsurance (total from other screen?)
+    Clothing (total from other screen?)
+    Entertainment (total from other screen)
+
+10  NewBudget  (InitialCurrentPlan)
+    Income (total from other screen)
+    CAFR (total from other screens)
+    Assets (total from other screen)
+    Liabilities (total from other screen)
+    Giving (total from other screen)
+    Housing (total from other screen)
+    Transportation (total from other screen)
+    Food (total from other screen?)
+    HealthInsurance (total from other screen?)
+    Clothing (total from other screen?)
+    Entertainment (total from other screen)
+
+14  UsernameAndPassword
+    Username
+    Old Password
+    New Password
+    New Password Again
+
+15  Subscription
+    Payment Due Date
+
+16  SubscriptionInfo (to be managed in Stripe)
+    PaymentMethods
+    NameOnCard
+    CardNumber
+    ExpirationDate
+    SecurityCode
+    CardAddress
+    CardCity
+    CardState
+    CardZipCode
+    CardCountry
+
+22  CurrentPlan
+    Income (total from other screen)
+    CAFR (total from other screens)
+    Assets (total from other screen)
+    Liabilities (total from other screen)
+    Giving (total from other screen)
+    Housing (total from other screen)
+    Transportation (total from other screen)
+    Food (total from other screen)
+    HealthInsurance (total from other screen?)
+    Clothing (total from other screen?)
+    Entertainment (total from other screen)
+
+25  Occupation pick list
+
+26  Birth data pick list
+
+27  Estimated Investment Rate pick list
+
+28  MonthlyIncome
+    Affiliate Earnings  (from other source of information)
+    HouseholdNetIncome  (from other screen)
+
+29  Assets
+    Emergency Savings
+    GeneralSavings
+    (dynamic list of asset type and amount)
+
+31  Emergency Savings
+    Name
+    MonthlyContribution
+    EmployerMatch
+    GrowthRate
+    Balance
+    TargetAmount
+
+32  Liabilities
+    (dynamic list of liability type and amount)
+
+33  LiabilityAddAccountType
+
+34  CreditCardDebt
+    CardName
+    MinimumPaymentRequired
+    CardMonthlyPayment
+    InterestRate
+    Balance
+
+35  FoodDetails
+    Groceries
+    DiningOut
+    Other
+
+38  NewBudget (same as screen 10?  leads to OLD and NEW columns)
+
+39  Assets  (has OLD and NEW columns)
+    Emergency Savings
+    General Savings
+    Tax Advantage
+    Pension
+    Social Security
+    Other
+
+40  Liabilities (has MINIMUM and NEW columns)
+    Credit Card 1
+    Credit Card 2
+    Auto Loan/Lease
+
+42  CAFR distribution schedule
+
+45  DebitCard
+    PaymentMethods
+    NameOnCard
+    CardNumber
+    ExpirationDate
+    SecurityCode
+
+47  GeneralSavings
+    Name
+    MonthlyContributions
+    EmployerMatch
+    GrowthRate
+    Balance
+    TargetAmount
+
+55  RealEstate  (is the following correct -- or pasted boiler plate in the wrong place?)
+    Name
+    MonthlyContribution
+    EmployerMatch
+    GrowthRate
+    Balance
+
+
+

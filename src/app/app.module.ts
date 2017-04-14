@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-// import { ApplicationRef } from '@angular/core';  // things seem to work without this
 import { FormsModule } from '@angular/forms';
 import { LOCALE_ID } from '@angular/core';
 
@@ -20,7 +19,6 @@ import { IncomeDetailsDeactivateGuard } from './income-details/income-details-de
 import { SiteMapComponent }             from './site-map/site-map.component';
 import { LogoutComponent }              from './logout/logout.component';
 import { SettingsComponent }            from './settings/settings.component';
-import { ManageMessages }               from './utilities/manage-messages.class';
 import { SettingsDeactivateGuard }      from './settings/settings-deactivate.guard';
 import { ScreenLoginGuard }             from './utilities/screen-login.guard';
 import { SubscriptionComponent }        from './subscription/subscription.component';
@@ -50,8 +48,7 @@ import { SubscriptionComponent }        from './subscription/subscription.compon
     BudgetDetailsDeactivateGuard,
     IncomeDetailsDeactivateGuard,
     SettingsDeactivateGuard,
-    ScreenLoginGuard,
-    ManageMessages,
+    ScreenLoginGuard
 // the following information is for testing different locales
 //  {provide: LOCALE_ID, useValue: "en-US" }  // USD 4,294,967,295.00  (get expected result)  <=== default value in local tests
 //  {provide: LOCALE_ID, useValue: "de-DE" }  // EUR 4.294.967.295,00  (get expected result)

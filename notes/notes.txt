@@ -3,6 +3,8 @@ https://github.com/jethfo/WizeFi  (github repository for WizeFi app)
 https://github.com/daveland2/WizeFiPrototype  (github repository for WizeFiPrototype app)
 https://xd.adobe.com/view/d14cabfe-32fd-4e7a-96ae-a863ead72b85/  (wire frames for WizeFi app)
 https://docs.google.com/spreadsheets/d/1kiGZexHNYjKBJnK8qD8kPnrKGBsZ-aoA_OQsB_lf6eM/edit?ts=58d18dcb#gid=0  (screen info spreadsheet)
+https://docs.google.com/spreadsheets/d/1GV_wirMlrqhycDoR78ZSPI2pGaiZ46bJ3GF3zV4hSMw/edit#gid=353626187  (WizeFi Worksheet with Categories, Subcategories and Fields)
+https://drive.google.com/drive/folders/0B29JDIBG6cIuVWllODdqOEJPYnM
 https://persistentendeavors.com/brickwire/MoneyOrganizer/tests/test17/WizeFiPrototype/dist/
 ********************************************************************
 https://angular.io/docs/ts/latest/guide/architecture.html
@@ -5128,6 +5130,173 @@ https://forums.aws.amazon.com/thread.jspa?messageID=706444
 For anyone who runs into this issue into the future... Make sure that you are specifying the correct "Handler" in the configuration of your lambda function.
 
 If you have a single js or py file in your zip container (such as "my_script.js", you must specify in the Handler field in the configuration of your Lambda function, "my_script.handler" or "my_script.function_name". This will allow you to view that single file within the inline editor in the Lambda console.
+********************************************************************
+https://pippinsplugins.com/stripe-integration-part-7-creating-and-storing-customers/
+
+Stripe Integration Part 7 – Creating and Storing Customers
+
+Anytime a recurring payment is created, a customer is created. This is because a customer is required in order to setup recurring billing. We created our customer like this:
+
+PHP code
+--------
+$customer = Stripe_Customer::create(array(
+        'card' => $token,
+        'plan' => $plan_id,
+        'email' => strip_tags(trim($_POST['email']))
+    )
+);
+
+NOTE USE OF PLAN PROPERTY -- will this automatically create a subscription?  or is this an older version of Stripe?
+
+********************************************************************
+https://www.wufoo.com/2014/04/24/stripe-subscription-billing-is-here/
+
+(example of working with Stripe subscriptions)
+(example of house cleaning company)
+********************************************************************
+https://rails.devcamp.com/ruby-gem-walkthroughs/payment/how-to-implement-subscriptions-in-stripe
+********************************************************************
+http://stackoverflow.com/questions/38855268/external-promises-dont-trigger-angular2-change-detection-update-they-do
+
+(problem with change detection with data changed in a promise)
+
+Promises don't make Angular run change detection with ChangeDetectionStrategy.OnPush except when you use the async pipe ... | async.
+
+When code is initialized outside Angular2 it runs outside Angulars zone. What you can do is to move initialization inside your Angular2 code or use ´zone.run(...)to move execution inside Angulars zone. There is nothing bad about zone.run(...)`.
+
+If the code executed only changes local properties of a component you can use ChangeDetectorRef.detectChanges() to run change detection for this component.
+
+If the code causes changes in other components (like for example this.router.navigate(...), then detectChanges() is not sufficient. For this case zone.run() should be used.
+
+setTimeout(...) triggers change detection for the whole application and should be avoided as a way to invoke change detection manually.
+********************************************************************
+https://www.lucidchart.com/techblog/2016/05/04/angular-2-best-practices-change-detector-performance/
+
+But almost nothing is changing!
+
+Why should the change detector be chewing up so much CPU when almost nothing is changing from one Javascript execution to the next? Well, you the programmer know that almost nothing has changed, but Angular 2 needs to empirically determine that each and every time, for every single piece of updateable DOM in your application. For a very detailed explanation of what’s going on, I recommend this excellent Thoughtram post.
+
+At this point, there are three things you can do, and you should do all of them:
+
+Have less DOM. This is a critically important piece of the puzzle. If DOM elements aren’t visible, you should remove them from the DOM by using *ngIf instead of simply hiding elements with CSS. As the saying goes, the fastest code is code that is not run—and the fastest DOM is DOM that doesn’t exist.
+Make your expressions faster. Move complex calculations into the ngDoCheck lifecycle hook, and refer to the calculated value in your view. Cache results to complex calculations as long as possible.
+Use the OnPush change detection strategy to tell Angular 2 there have been no changes. This lets you skip the entire change detection step on most of your application most of the time.
+
+OnPush change detection strategy
+
+By default, the change detection strategy on any component or directive is CheckAlways. There is another strategy, OnPush, which can be much more efficient if you build your application carefully.
+
+OnPush means that the change detector will only run on a component or directive if one of the following occurs:
+
+- An input property has changed to a new value
+- An event handler fired in the component or directive
+- You manually tell the change detector to look for changes
+- The change detector of a child component or directive runs
+- If you’re able to use OnPush throughout your application, you will ideally only ever run the change detector on components that have actually changed (and their direct ancestors). This reduces the time complexity of the change detector from O(n) to O(log n) in the number of component instances in your application.
+
+There are two ways to prepare a component or directive for OnPush: Using immutable inputs, or using observable inputs.
+
+Method 1: Only use immutable inputs
+
+When you use OnPush, the change detector will run whenever an input property changes. However, if you pass an object or array as an input to a component (which is very common), the change detector will not notice if something in that object or array changes. It only detects when you change to a different object entirely.
+
+The simplest way to make OnPush work perfectly is to use immutable objects throughout a component. If you change an object you are passing to a component, don’t change its properties in place; rather, construct a copy with the change applied. That way Angular 2 can see you’ve changed an input and adjust your DOM accordingly.
+
+Method 2: Only use observable inputs and injectables
+
+If you can reliably listen for when your data changes, then you can manage when the change detector runs yourself. It doesn’t matter if you’re using something like RxJS’s Observables, or if you roll your own change management system, as long as you are notified every time your data changes.
+********************************************************************
+http://stackoverflow.com/questions/34615425/how-to-watch-for-form-changes-in-angular-2
+
+To complete a bit more previous great answers, you need to be aware that forms leverage observables to detect and handle value changes. It's something really important and powerful. Both Mark and dfsq described this aspect in their answers.
+
+Observables allow not only to use the subscribe method (something similar to the then method of promises in Angular 1). You can go further if needed to implement some processing chains for updated data in forms.
+
+I mean you can specify at this level the debounce time with the debounceTime method. This allows you to wait for an amount of time before handling the change and correctly handle several inputs:
+
+this.form.valueChanges
+    .debounceTime(500)
+    .subscribe(data => console.log('form changes', data));
+You can also directly plug the processing you want to trigger (some asynchronous one for example) when values are updated. For example, if you want to handle a text value to filter a list based on an AJAX request, you can leverage the switchMap method:
+
+this.textValue.valueChanges
+    .debounceTime(500)
+    .switchMap(data => this.httpService.getListValues(data))
+    .subscribe(data => console.log('new list values', data));
+You even go further by linking the returned observable directly to a property of your component:
+
+this.list = this.textValue.valueChanges
+    .debounceTime(500)
+    .switchMap(data => this.httpService.getListValues(data))
+    .subscribe(data => console.log('new list values', data));
+and display it using the async pipe:
+
+<ul>
+  <li *ngFor="#elt of (list | async)">{{elt.name}}</li>
+</ul>
+Just to say that you need to think the way to handle forms differently in Angular2 (a much more powerful way
+********************************************************************
+https://stripe.com/docs/dashboard
+
+API keys
+
+Related to these universes are your API keys, available through the Dashboard. Each key exists either in the live universe or in the test universe, and this is how Stripe tells what universe you are interacting with. You should only use your test API keys for testing. This will make sure that you don't accidentally modify your live customers or charges.
+
+If you cannot see your API keys in the Dashboard, this means that you are not an administrator for the account, and have only Read & Write or Read Only access. You will need to contact your Stripe account's administrator to request access to view the API keys.
+
+In addition to live and test mode, there are also two types of API keys: publishable and secret.
+
+- Publishable API keys are meant solely to identify your account with Stripe, they aren't secret. In other words, they can safely be published in places like your Stripe.js JavaScript code, or in an Android or iPhone app. Publishable keys only have the power to create tokens.
+
+- Secret API keys should be kept confidential and only stored on your own servers. Your account's secret API key can perform any API request to Stripe without restriction.
+********************************************************************
+https://support.stripe.com/questions/can-i-pay-out-sellers-with-the-funds-i-collect-from-stripe
+
+Can I pay out my vendors, contractors, or service providers with the funds I collect from Stripe?
+
+Yes! You can can arrange for payment to third parties, anywhere where Stripe is available, using Stripe Connect.
+
+Through Stripe Connect, your platform can interact with both standalone and managed Stripe accounts. The first decision you need to make when using Connect is which type of account you will connect to (though you are welcome to simultaneously interact with both types, if you so choose).
+
+If you decide to support managed Stripe accounts, in which you fully control the relationship with your payees, it’s worth noting that you will be responsible for interacting with your accounts. This includes:
+
+- collecting the information we need to verify the sellers and determine whether the seller
+- can be supported by Stripe, and to make sure they get their money
+- building any reporting interfaces for them
+- sending any necessary tax reporting
+
+We’ll help you with all of these responsibilities through the various tools that we provide via the API, but you ultimately own the relationship with your sellers.
+********************************************************************
+https://support.stripe.com/questions/can-i-enable-my-users-to-receive-payments-from-others
+
+Can I enable my users to receive payments from others?
+
+For example, with marketplaces, SaaS payment services, crowdfunding campaigns, or donation portals.
+
+Yes! We’ve created Stripe Connect for exactly these use cases.
+
+With Stripe Connect, you can accept payments for your users without being involved in the flow of funds. When your users “Connect with Stripe”, they’ll be prompted to connect their existing Stripe account or frictionlessly create their own, and you’ll have access to their account to make API calls for them.
+
+For example, Shopify, Squarespace, and Bigcommerce help their users easily create online storefronts and integrate with Stripe Connect to handle store payments.
+
+Since the transactions are being run on your users' individual accounts, this means that:
+
+- No funds flow through your accounts (except if you’d like to take a cut of the transaction), so you’re not held responsible for any refunds or chargebacks.
+
+- Stripe will underwrite your sellers and take care of all tax reporting (namely, 1099-K’s for accounts that qualify).
+
+- Stripe will keep track of how much is owed to each individual user and automatically transfer funds to them on the schedule listed in their dashboard.
+
+- Your users will have access to the Stripe dashboard for reporting and analytics needs.
+
+However, you can still:
+
+- Take a cut of each transaction with application fees. All you need to do is specify the amount; we’ll take care of making sure both you and your vendor are paid.
+
+- Share customers across sellers; this is perfect for marketplaces or other services that need customers to purchase from multiple sellers at once.
+********************************************************************
+https://stripe.com/docs/connect/managed-accounts
+********************************************************************
 ********************************************************************
 ********************************************************************
 ********************************************************************

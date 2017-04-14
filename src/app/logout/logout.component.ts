@@ -3,7 +3,6 @@ import {Location} from '@angular/common';
 import {Router} from '@angular/router';
 
 import { DataModelService } from '../data-model/data-model.service';
-import { ManageMessages } from '../utilities/manage-messages.class';
 
 declare const FB: any;
 
@@ -16,78 +15,66 @@ export class LogoutComponent implements OnInit {
 
   messages: string[] = [];
 
-	constructor(
-    private dataModelService: DataModelService,
-    private location: Location,
-    private router: Router,
-    private manageMessages: ManageMessages
-  ) { }
+	constructor(private dataModelService: DataModelService, private location: Location, private router: Router) { }
 
 	ngOnInit() { }
 
-  // note: in order to deal with issues of the "this" qualifier, need to pass in argument to this function
-	logout(dataModelService) {
-      dataModelService.dataModel.global.isLoggedIn = false;
-    	FB.logout(function(response) {
-		  console.log('Facebook logout');  //%//
-		});
+  logout = (): void =>
+	// logout(dataModelService)
+  {
+      this.dataModelService.dataModel.global.isLoggedIn = false;
+    	FB.logout((response) =>
+      {
+		      console.log('Facebook logout');  //%//
+		  });
 	} // logout
 
-  saveAndLogout() {
-    // kludge to get information into scope of nested function
-    let logout = this.logout;
-    let router = this.router;
-    let dataModelService = this.dataModelService;
-    let messages = this.messages;
-    let manageMessages = this.manageMessages;
+  saveAndLogout = ():void =>
+  {
+      let handleLogout = (): void =>
+      {
+        this.logout();
+        this.router.navigateByUrl('/login');
+      }
 
-    function handleLogout()
-    {
-      logout(dataModelService);
-      router.navigateByUrl('/login');
-    }
+      let handleError = (err: any): void =>
+      {
+        this.messages.push('Error in attempting to retrieve user data');
+        console.log(err);
+      }
 
-    function handleError(err)
-    {
-      manageMessages.update(messages,'Error in attempting to retrieve user data');
-      console.log(err);
-    }
-
-  	this.dataModelService.storedata()
-    .then(handleLogout)
-    .catch(handleError)
+    	this.dataModelService.storedata()
+      .then(handleLogout)
+      .catch(handleError)
   } // saveAndLogout
 
-  ignoreAndLogout() {
-  	this.logout(this.dataModelService);
-    this.router.navigateByUrl('/login');
+  ignoreAndLogout = ():void =>
+  {
+    	this.logout();
+      this.router.navigateByUrl('/login');
   }
 
-  save() {
-    // kludge to get information into scope of nested function
-    let logout = this.logout;
-    let router = this.router;
-    let dataModelService = this.dataModelService;
-    let messages = this.messages;
-    let manageMessages = this.manageMessages;
-    let location = this.location;
+  save = ():void =>
+  {
 
-    function goback() {
-      location.back();
-    }
+      let goback = (): void =>
+      {
+          this.location.back();
+      }
 
-    function handleError(err)
-    {
-      manageMessages.update(messages,'Error in attempting to retrieve user data');
-      console.log(err);
-    }
+      let handleError = (err: any): void =>
+      {
+          this.messages.push('Error in attempting to retrieve user data');
+          console.log(err);
+      }
 
-    this.dataModelService.storedata()
-    .then(goback)
-    .catch(handleError)
-  }
+      this.dataModelService.storedata()
+      .then(goback)
+      .catch(handleError)
+  } // save
 
-	cancel() {
-		this.location.back();
+	cancel = ():void =>
+  {
+		  this.location.back();
 	}
 }

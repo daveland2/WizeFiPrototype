@@ -1,4 +1,20 @@
-Notes on console utilities
+Information on Application Management for WizeFi
+
+Links to console interfaces
+---------------------------
+https://console.aws.amazon.com/dynamodb/home
+https://console.aws.amazon.com/iam/home
+https://console.aws.amazon.com/lambda/home
+https://console.aws.amazon.com/cognito/home
+https://dashboard.stripe.com/dashboard
+https://developers.facebook.com
+https://console.developers.google.com
+https://developer.amazon.com/login-with-amazon
+https://sellercentral.amazon.com/gp/homepage.html
+
+Notes
+-----
+1. Converted code to define functions using the "fat arrow" notation in order to have "static" definition of "this" when a function is invoked.  This solved problem where change detection was not working properly.
 
 Create DynamoDB table
 ---------------------
@@ -352,7 +368,8 @@ Create AWS Cognito information
             "lambda:InvokeFunction"
         ],
         "Resource": [
-            "arn:aws:lambda:us-west-2:418492632830:function:processWizeFiPrototype"
+            "arn:aws:lambda:us-west-2:418492632830:function:processWizeFiPrototype",
+            "arn:aws:lambda:us-west-2:418492632830:function:establishSubscription"
         ]
     },
     Click on "Allow"
