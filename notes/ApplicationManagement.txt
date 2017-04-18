@@ -1,4 +1,4 @@
-Information on Application Management for WizeFi
+Information on Application Management for WizeFiPrototype
 
 Links to console interfaces
 ---------------------------
@@ -560,7 +560,7 @@ scope=profile
 language=
 ui_locales=
 
-NOTE: The whitelist entries must be https, but unable to utilize https on PersistentEndeavors.com
+NOTE: The whitelist entries must be https, but unable to utilize https on PersistentEndeavors.com (this has now been fixed)
 
 Set up github repository
 ------------------------
@@ -594,6 +594,7 @@ Set up github repository
    $ cd <directory under which to place github repository>
    $ git clone https://github.com/daveland2/WizeFiPrototype.git
    $ ssh git@github.com:daveland2/WizeFiPrototype.git
+   $ cd WizeFiPrototype
    $ ng serve --open
 
    May need to issue the following command if prompted to do so by ng command above

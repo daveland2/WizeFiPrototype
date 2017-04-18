@@ -5295,13 +5295,148 @@ However, you can still:
 
 - Share customers across sellers; this is perfect for marketplaces or other services that need customers to purchase from multiple sellers at once.
 ********************************************************************
+https://stripe.com/connect
+
+Easy setup for sellers and contractors
+
+Use Connect to spin up accounts and enable payments for your sellers, vendors, contractors, or fleet—with as much custom control over the experience as you’d like.
+
+Lightweight setup
+Connect your platform to thousands of existing Stripe sellers, or create new accounts with just an email address. We only need more details when it’s time to deposit funds.
+
+Custom flows for sellers
+Alternatively, you can have sellers provide payment info in your app, and you manage their accounts entirely via the API. Stripe stays out of the way.
+
+Secure bank transfers
+Sellers can connect to your platform via OAuth, or you can collect their bank account details securely with Stripe.js — sensitive data never hits your servers.
+********************************************************************
 https://stripe.com/docs/connect/managed-accounts
+https://stripe.com/docs/connect/standalone-accounts
 ********************************************************************
+https://support.stripe.com/questions/bank-account-and-payouts
+
+Setting up your bank account and receiving payouts
+
+In order to receive the funds from your charges, you’ll need to associate a bank account to your Stripe account and start receiving payouts. You can update your bank account information at any time, and you can also customize how frequently payouts are made.
+
+Setting Up & Modifying Your Bank Account
+
+Setting Up Your Bank Account for Payouts
+Associating Multiple Bank Accounts for Different Currencies
+Bank Accounts with Multiple Signors
+Viewing Your Bank Account Information in Dashboard
+Updating Your Bank Account Information
+
+Payout Schedules
+
+Your First Payout
+Minimum Volume Thresholds Before Payouts
+Automatic Payouts
+Payout Failures
+Alternative Payout Schedules
+
+Setting Up Your Bank Account For Payouts
+
+To receive payouts from Stripe, you’ll need to provide us with bank account details so that we know where to send your funds. The type of information required for a successful payout depends on where your bank is based.
 ********************************************************************
+http://stackoverflow.com/questions/26767150/stripe-is-it-possible-to-search-a-customer-by-their-email
+
+Using the Stripe API, I was wondering if it was possible to search a customer only by their email address?
+
+----------
+
+You need to retrieve and store the Stripe customer ID along with the other customer details in your database. You can then search for the email address in your database and retrieve the customer record from Stripe by using the Stripe customer ID.
+
 ********************************************************************
+https://stormpath.com/blog/how-to-add-billing-to-your-api-with-stripe-stormpath-and-node-js
+
+(includes illustration of how to set up email verification -- user is not authenticated until they reply to your email notification)
+
+Revoke Access When a User Fails to Pay
+
+Once your service blows up in popularity, it will become increasingly annoying to manually update every Account that stops paying. Stripe webhooks are a great way to automate this process. In our case, we want to setup a webhook that fires off whenever a customer’s subscription is deleted.
 ********************************************************************
+https://stripe.com/docs/webhooks
+
+
 ********************************************************************
+http://stackoverflow.com/questions/5643321/how-to-make-remote-rest-call-inside-node-js-any-curl
+
+In Node.js, other than using child process to make CURL call, is there a way to make CURL call to remote server REST API and get the return data?
+
+I also need to set up the request header to the remote REST call, and also query string as well in GET (or POST).
+
+--------------
+
+Look at http.request
+
+var options = {
+  host: url,
+  port: 80,
+  path: '/resource?id=foo&bar=baz',
+  method: 'POST'
+};
+
+http.request(options, function(res) {
+  console.log('STATUS: ' + res.statusCode);
+  console.log('HEADERS: ' + JSON.stringify(res.headers));
+  res.setEncoding('utf8');
+  res.on('data', function (chunk) {
+    console.log('BODY: ' + chunk);
+  });
+}).end();
+
+--------------
+
+I use node-fetch because it uses the familiar (if you are a web developer) fetch() API. fetch() is the new way to make arbitrary HTTP requests from the browser.
+
+Yes I know this is a node js question, but don't we want to reduce the number of API's developers have to memorize and understand, and improve re-useability of our javascript code? Fetch is a standard so how about we converge on that?
+
+The other nice thing about fetch() is that it returns a javascript Promise, so you can write async code like this:
+
+let fetch = require('node-fetch');
+
+fetch('http://localhost', {
+  method: 'POST',
+  headers: {'Content-Type': 'application/json'},
+  body: '{}'
+}).then(response => {
+  return response.json();
+}).catch(err => {console.log(err);})
+);
+
+Fetch supersedes XMLHTTPRequest. Here's some more info.
 ********************************************************************
+https://www.npmjs.com/package/node-fetch
+
+Motivation
+
+Instead of implementing XMLHttpRequest in Node.js to run browser-specific Fetch polyfill, why not go from native http to Fetch API directly? Hence node-fetch, minimal code for a window.fetch compatible API on Node.js runtime.
+
+API
+fetch(url, options)  // returns a Promise
+
+Install
+npm install node-fetch --save
+
+Usage
+var fetch = require('node-fetch');
+
+// plain text or html
+fetch('https://github.com/')
+    .then(function(res) {
+        return res.text();
+    }).then(function(body) {
+        console.log(body);
+    });
+
+// json
+fetch('https://api.github.com/users/github')
+    .then(function(res) {
+        return res.json();
+    }).then(function(json) {
+        console.log(json);
+    });
 ********************************************************************
 ********************************************************************
 ********************************************************************
