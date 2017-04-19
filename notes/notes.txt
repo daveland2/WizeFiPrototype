@@ -5438,7 +5438,19 @@ fetch('https://api.github.com/users/github')
         console.log(json);
     });
 ********************************************************************
+We solved the "dynamic" forms problem with Qpop (in RepairQ)
+
+See the following files:
+
+customForm.component.html <= html markup for custom form page
+customForm.component.ts <= component/model for the dynamic form
+dynamicFormQuestion.component.js <= dynamic form field component, which is injected once per dynamic form field in customForm.component.html
+questionBase.ts <= field base class
+questionCrs.ts <= extends questionBase
 ********************************************************************
+https://repairq.dapulse.com/
+dave.r.eland@gmai.com
+a_77
 ********************************************************************
 ********************************************************************
 ********************************************************************
