@@ -24,6 +24,7 @@ import { ScreenLoginGuard }             from './utilities/screen-login.guard';
 import { SubscriptionComponent }        from './subscription/subscription.component';
 import { ManagePlansComponent }         from './manage-plans/manage-plans.component';
 import { ManagePlansDeactivateGuard }   from './manage-plans/manage-plans-deactivate.guard';
+import { AssetsComponent } from './assets/assets.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { ManagePlansDeactivateGuard }   from './manage-plans/manage-plans-deacti
     SettingsComponent,
     SubscriptionComponent,
     ManagePlansComponent,
+    AssetsComponent,
   ],
   imports: [
     BrowserModule,

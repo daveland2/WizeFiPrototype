@@ -10,6 +10,8 @@ import { BudgetDetailsDeactivateGuard } from './budget-details/budget-details-de
 import { IncomeComponent } from './income/income.component';
 import { IncomeDetailsComponent } from './income-details/income-details.component';
 import { IncomeDetailsDeactivateGuard } from './income-details/income-details-deactivate.guard';
+import { AssetsComponent } from './assets/assets.component';
+// import { AssetsDeactivateGuard } from './assets/assets-deactivate.guard';
 import { LogoutComponent } from './logout/logout.component';
 import { SettingsComponent } from './settings/settings.component';
 import { SettingsDeactivateGuard } from './settings/settings-deactivate.guard';
@@ -50,6 +52,12 @@ export const routes: Routes = [
     component: IncomeDetailsComponent,
     canActivate: [ScreenLoginGuard],
     canDeactivate: [IncomeDetailsDeactivateGuard]
+  },
+  {
+    path: 'assets',
+    component: AssetsComponent,
+    canActivate: [ScreenLoginGuard],
+    // canDeactivate: [AssetsDeactivateGuard]
   },
   {
     path: 'subscription',
