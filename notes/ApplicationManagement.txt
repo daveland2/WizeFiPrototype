@@ -626,6 +626,11 @@ Another parameter specifies where to spit out the build, instead of the default 
 --output-path <destination directory>
 --output-path ~/Sites/repairq/app/qpop
 
+Copy app to Persistent Endeavors server
+---------------------------------------
+$ cd /Users/daveland/BrickWire/MoneyOrganizer/tests/test17/WizeFiPrototype
+$ scp -r dist pe:/home/deland/docs/brickwire/MoneyOrganizer/tests/test17/WizeFiPrototype/
+
 Get app running in Safari on iPhone
 -----------------------------------
 1. Enable popups and cookies

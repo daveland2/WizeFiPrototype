@@ -5654,10 +5654,269 @@ You Can Select the Id using a Function
 <option *ngFor="#c of countries" (change)="onchange(c.id)">{{c.name}}</option>
 
 ********************************************************************
+http://stackoverflow.com/questions/35241634/angular2-nested-ngfor
+
+Angular2 nested ngFor
+
+
+I have a sample that might be similar to what you want:
+
+<table id="spreadsheet">
+    <tr *ngFor="let row of visibleRows">
+        <td class="row-number-column">{{row.rowIndex}}</td>
+        <td *ngFor="let col of row.columns">
+            <input  data-id="{{col.rowIndex}}-{{col.columnIndex}}" [value]="col.cellValue" (input)="col.cellValue = $event.target.value" (click)="model.selectColumn(col)" (keyup)="navigate($event)" />
+        </td>
+    </tr>
+</table>
+I use this to render out a spreadsheet looking grid.
+
+-----------------
+
+Use the 'template' form of the ngFor syntax, seen here. It's a bit more verbose than the simpler *ngFor version, but this is how you achieve looping without output of html (until you intend to). One exception: you'll still get html comments within your <table> but I'm hoping that's ok. Here's a working plunkr: http://plnkr.co/edit/KLJFEQlwelPJfNZYVHrO?p=preview
+
+@Component({
+  selector: 'my-app',
+  providers: [],
+  directives: [],
+  template: `
+  <table>
+    <template ngFor #something [ngForOf]="somethings" #i="index">
+      <template ngFor #child [ngForOf]="something.children" #j="index">
+      <tr>{{child}}</tr>
+      </template>
+    </template>
+  </table>
+  `
+})
+export class App {
+  private somethings: string[][] = [
+    {children: ['foo1', 'bar1', 'baz1']},
+    {children: ['foo2', 'bar2', 'baz2']},
+    {children: ['foo3', 'bar3', 'baz3']},
+  ]
+}
+
+-----------------
+
+If you need 2 or more foreach loops to draw rows of a table you need to do similar to the following.
+
+<template ngFor let-rule [ngForOf]="model.rules" let-ruleIndex="index">
+    <template ngFor let-clause [ngForOf]="rule.clauses" let-clauseIndex="index">
+        <tr>
+            <td>{{clause.name}}</td>
+        </tr>
+    </template>
+</template>
+
+-----------------
+
+I misunderstood your question.
+No this doesn't work. You can't put ngFor on void. Instead prepare the data model in the components class, so that a nested ngFor isn't necessary.
+
 ********************************************************************
+http://stackoverflow.com/questions/41274129/angular2-nested-ngfor-is-nested-expressions-possible
+
+Angular2 nested ngFor. Is nested expressions possible?
+
+I'm trying to use a value in an expression binding. I know this isn't valid but want to know if something similar is possible. If not, is there another way to go about it.
+
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+selector: 'Home',
+templateUrl: './views/home/home.html'
+})
+export class HomeComponent implements OnInit{
+
+    rows = [
+       { 'FirstName': 'John', 'LastName': 'Doe' },
+       { 'FirstName': 'Ashley', 'LastName': 'Doe' }
+    ];
+
+    cols = [
+       { 'Desc': 'First Name', 'Data': 'FirstName' },
+       { 'Desc': 'Last Name', 'Data': 'LastName' }
+    ];
+}
+home.html
+
+<table>
+  <thead>
+    <tr>
+      <th *ngFor="let col of cols">{{col.Desc}}</th>
+    </tr>
+  </thead>
+  <tr *ngFor="let row of rows">
+    <td *ngFor="let col of cols">
+      {{row.{{col.Data}}}}
+    </td>
+  </tr>
+</table>
+
+---------------
+
+Use it like this:
+
+{{ row[col.Data] }}
+In Javascript you can access every property via obj.propName AND obj[propName], too!
+
 ********************************************************************
+http://stackoverflow.com/questions/35699962/how-to-use-angular2-templates-with-ngfor-to-create-a-table-out-of-nested-arrays
+
+Given the following array in component property groups:
+
+[
+   {
+     "name": "pencils",
+     "items": ["red pencil","blue pencil","yellow pencil"]
+   },
+   {
+     "name": "rubbers",
+     "items": ["big rubber","small rubber"]
+   },
+]
+How to create a html table with all items, each in one row? The expected HTML result:
+
+<table>
+    <tr><td><h1>pencils</h1></td></tr>
+    <tr><td>red pencil</td></tr>
+    <tr><td>blue pencil</td></tr>
+    <tr><td>yellow pencil</td></tr>
+    <tr><td><h1>rubbers</h1></td></tr>
+    <tr><td>big rubber</td></tr>
+    <tr><td>small rubber</td></tr>
+</table>
+The first level is easy:
+
+<table>
+    <tr *ngFor="#group of groups">
+        <td><h1>{{group.name}}</h1></td>
+    </tr>
+</table>
+But now I have to iterate #item of group. The problem is that I need the new <tr> elements after the </tr> element which defines group, not inside.
+
+Is there any solution for this kind of problems in Angular2 templating? I would expect some special tag which I could use instead of <tr> which is not written into the dom. Something similar to facets and fragments in JSF.
+
+---------------
+
+You can use the template syntax of ngFor on groups and the usual syntax inside it for the actual rows like:
+
+<table>
+  <template let-group ngFor [ngForOf]="groups">
+    <tr *ngFor="let row of group.items">{{row}}</tr>
+  </template>
+</table>
+
+---------------
+
+Try this. The scope of local variables defined by "template" directive.
+
+<table>
+  <template ngFor let-group="$implicit" [ngForOf]="groups">
+    <tr>
+      <td>
+        <h2>{{group.name}}</h2>
+      </td>
+    </tr>
+    <tr *ngFor="let item of group.items">
+                <td>{{item}}</td>
+            </tr>
+  </template>
+</table>
+
+---------------
+
+I am a fan of keeping logic out of the template as much as possible. I would suggest creating a helper function that returns the data that you care about to the template. For instance:
+
+getItemsForDisplay():String[] {
+ return [].concat.apply([],this.groups.map(group => group.items));
+};
+<tr *ngFor="let item of getItemsForDisplay()"><td>{{item}}</td></tr>
+
+This will let you keep your presentation free of special logic. This also lets you use your datasource "directly".
+
+---------------
+
+This worked for me.
+
+<table>
+  <tr>
+    <td *ngFor="#group of groups">
+       <h1>{{group.name}}</h1>
+   </td>
+  </tr>
+</table>
+
 ********************************************************************
+http://stackoverflow.com/questions/36469710/angular-2-ngmodel-bind-in-nested-ngfor
+
+I'm attempting convert an Angular 1 app to Angular 2. Looping through a jagged array of booleans (boolean[][]). I'm rendering out checkboxes with the following code:
+
+<div *ngFor="#cell of CellData; #parentIndex = index">
+    <input *ngFor="#col of cell; #childIndex = index" type="checkbox" [(ngModel)]="CellData[parentIndex][childIndex]" />
+</div>
+The checkboxes display correctly, however, if I select a checkbox the one to the right of it is also selected.
+
+This logic works fine in the Angular 1 app so I'm not sure if it's a problem with the way I am using ngModel or an issue with Angular 2.
+
+Any help would be much appreciated
+
+-----------------
+
+update
+------
+The official way to use ngForTrackBy seems to be
+
+      <input
+          *ngFor="let col of cell; let childIndex=index; trackBy:customTrackBy"
+          type="checkbox"
+          [(ngModel)]="CellData[parentIndex][childIndex]" />
+
+See http://angularjs.blogspot.co.at/2016/04/5-rookie-mistakes-to-avoid-with-angular.html for more details
+
+note the : in trackBy:customTrackBy
+
+original
+--------
+You can use *ngForTrackBy for this:
+
+@Component({
+  selector: 'my-app',
+  template: `
+    <div *ngFor="let cell of CellData; let parentIndex = index">
+      <input
+          *ngFor="let col of cell; let childIndex = index" type="checkbox"
+          *ngForTrackBy="customTrackBy"
+          [(ngModel)]="CellData[parentIndex][childIndex]" />
+    </div>
+
+    Data:<br/><br/>
+    {{CellData | json}}
+  `
+})
+export class AppComponent {
+  constructor() {
+    this.CellData = [
+      [ true, false, true, false ],
+      [ false, true, false, true ]
+    ]
+  }
+
+  customTrackBy(index: number, obj: any): any {
+    return index;
+  }
+}
+
+Angular by default tracks the object identity but different trues and falses have the same identity. Without *ngForTrackBy Angular looses track which true or false is at which position. With *ngForTrackBy="customTrackBy" we make *ngFor use the index instead of object identity.
+
 ********************************************************************
+https://webcake.co/object-properties-in-angular-2s-ngfor/
+
+Looping Over Object Properties in Angular 2’s ngFor
+
+(illustrates mapping of keys; using a pipe)
+
 ********************************************************************
 ********************************************************************
 ********************************************************************
