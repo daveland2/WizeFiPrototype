@@ -5452,6 +5452,244 @@ https://repairq.dapulse.com/
 dave.r.eland@gmai.com
 a_77
 ********************************************************************
+https://github.com/jethfo/RepairQ.git
+
+Master branch
+
+/app/protected/qpop
+
+$ git clone https://github.com/jethfo/RepairQ.git
+********************************************************************
+http://stackoverflow.com/questions/33700266/how-can-i-get-new-selection-in-select-in-angular-2
+
+If you don't need two-way data-binding:
+
+<select (change)="onChange($event.target.value)">
+    <option *ngFor="let i of devices">{{i}}</option>
+</select>
+
+onChange(deviceValue) {
+    console.log(deviceValue);
+}
+For two-way data-binding, separate the event and property bindings:
+
+<select [ngModel]="selectedDevice" (ngModelChange)="onChange($event)" name="sel2">
+    <option [value]="i" *ngFor="let i of devices">{{i}}</option>
+</select>
+export class AppComponent {
+  devices = 'one two three'.split(' ');
+  selectedDevice = 'two';
+  onChange(newValue) {
+    console.log(newValue);
+    this.selectedDevice = newValue;
+    // ... do other stuff here ...
+}
+If devices is array of objects, bind to ngValue instead of value:
+
+<select [ngModel]="selectedDeviceObj" (ngModelChange)="onChangeObj($event)" name="sel3">
+  <option [ngValue]="i" *ngFor="let i of deviceObjects">{{i.name}}</option>
+</select>
+{{selectedDeviceObj | json}}
+export class AppComponent {
+  deviceObjects = [{name: 1}, {name: 2}, {name: 3}];
+  selectedDeviceObj = this.deviceObjects[1];
+  onChangeObj(newObj) {
+    console.log(newObj);
+    this.selectedDeviceObj = newObj;
+    // ... do other stuff here ...
+  }
+}
+
+--------------
+
+You can pass the value back into the component by creating a reference variable on the select tag #device and passing it into the change handler onChange($event, device.value) should have the new value
+
+<select [(ng-model)]="selectedDevice" #device (change)="onChange($event, device.value)">
+    <option *ng-for="#i of devices">{{i}}</option>
+</select>
+
+onChange($event, deviceValue) {
+    console.log(deviceValue);
+}
+
+--------------
+
+Another option is to store the object in value as a string:
+
+<select [ngModel]="selectedDevice | json" (ngModelChange)="onChange($event)">
+    <option [value]="i | json" *ngFor="let i of devices">{{i}}</option>
+</select>
+component:
+
+onChange(val) {
+    this.selectedDevice = JSON.parse(val);
+}
+
+This was the only way I could get two way binding working to set the select value on page load. This was because my list that populates the select box was not the exact same object as my select was bound to and it needs to be the same object, not just same property values.
+********************************************************************
+http://stackoverflow.com/questions/37968712/angular-2-setting-selected-value-on-dropdown-list
+
+Thanks for the tip Günter, it got me moving in the right direction. There was a mis-matched spelling of 'color' in my solution which was causing issues and I needed to use 'ngValue' not 'value' in the template html.
+
+Here is the complete solution using objects for the ngModel and select list options and avoiding use of the [selected] attribute.
+
+I have updated the Plunker to show the full working solution. https://plnkr.co/edit/yIVEeLK7PUY4VQFrR48g?p=preview
+
+Component template
+
+ <div>
+        <label>Colour</label>
+        <div *ngIf="car != null">
+            <select [(ngModel)]="car.colour">
+                <option *ngFor="let x of colours" [ngValue]="x" >{{x.name}}</option>
+            </select>
+        </div>
+    </div>
+Component
+
+import { Component, OnInit } from '@angular/core';
+import {AbstractControl,FORM_DIRECTIVES } from '@angular/common';
+
+@Component({
+    selector:'dropdown',
+    templateUrl:'app/components/dropdown/dropdown.component.html',
+    directives:[FORM_DIRECTIVES]
+})
+export class DropdownComponent implements OnInit
+{
+    car:Car;
+    colours: Array<Colour>;
+
+    ngOnInit(): void {
+
+        this.colours = Array<Colour>();
+        this.colours.push(new Colour(-1, 'Please select'));
+        this.colours.push(new Colour(1, 'Green'));
+        this.colours.push(new Colour(2, 'Pink'));
+
+        this.car = new Car();
+        this.car.colour = this.colours[1];
+    }
+}
+
+export class Car
+{
+    colour:Colour;
+}
+
+export class Colour
+{
+    constructor(id:number, name:string) {
+        this.id=id;
+        this.name=name;
+    }
+
+    id:number;
+    name:string;
+}
+********************************************************************
+http://stackoverflow.com/questions/35945001/binding-select-element-to-object-in-angular-2
+
+I'm new to Angular2 and trying to get up to speed with the new way of doing things.
+
+I'd like to bind a select element to a list of objects -- which is easy enough:
+
+@Component({
+   selector: 'myApp',
+   template: `<h1>My Application</h1>
+              <select [(ngModel)]="selectedValue">
+                 <option *ngFor="#c of countries" value="c.id">{{c.name}}</option>
+              </select>`
+})
+export class AppComponent{
+    countries = [
+       {id: 1, name: "United States"},
+       {id: 2, name: "Australia"}
+       {id: 3, name: "Canada"}
+       {id: 4, name: "Brazil"}
+       {id: 5, name: "England"}
+     ];
+    selectedValue = null;
+}
+In this case, it appears that selectedValue would be a number -- the id of the selected item.
+
+However, I'd actually like to bind to the country object itself so that selectedValue is the object rather than just the id. I tried changing the value of the option like so:
+
+<option *ngFor="#c of countries" value="c">{{c.name}}</option>
+but this does not seem to work. It seems to place an object in my selectedValue -- but not the object that I'm expecting. You can see this in my Plunker example.
+
+I also tried binding to the change event so that I could set the object myself based on the selected id; however, it appears that the change event fires before the bound ngModel is updated -- meaning I don't have access to the newly selected value at that point.
+
+Is there a clean way to bind a select element to an object with Angular 2?
+
+--------------
+
+<h1>My Application</h1>
+<select [(ngModel)]="selectedValue">
+  <option *ngFor="let c of countries" [ngValue]="c">{{c.name}}</option>
+</select>
+Plunker example
+
+NOTE: you can use [ngValue]="c" instead of [ngValue]="c.id" where c is the complete country object.
+
+[value]="..." only supports string values
+[ngValue]="..." supports any type
+
+update
+
+If the value is an object, the preselected instance needs to be identical with one of the values.
+
+--------------
+
+This could help:
+
+<select [(ngModel)]="selectedValue">
+      <option *ngFor="#c of countries" [value]="c.id">{{c.name}}</option>
+</select>
+
+--------------
+
+You Can Select the Id using a Function
+
+<option *ngFor="#c of countries" (change)="onchange(c.id)">{{c.name}}</option>
+
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
 ********************************************************************
 ********************************************************************
 ********************************************************************

@@ -6,7 +6,8 @@ import { IBudgetDetails } from '../budget-details/budget-details.class';
 import { IIncomeDetails } from '../income-details/income-details.class';
 import { dataModel } from './data-model_1.data'
 
-export interface IGlobal {
+export interface IGlobal
+{
 	isLoggedIn: boolean,
 	isNewUser: boolean,
 	userID: string,
@@ -15,31 +16,43 @@ export interface IGlobal {
 	lambda: any
 }
 
-export interface IHeader {
+export interface IHeader
+{
 	dataVersion: number,
 	dateCreated: string,
 	dateUpdated: string,   // note: date string is in ISO-8601 format: YYYY-MM-DDTHH:mm:ss.sssZ
 	stripeCustomerID: string,
-	stripeSubscriptionID: string
+	stripeSubscriptionID: string,
+	curplan: string
 }
 
-export interface IDataModel {
+export interface IPlan
+{
+	budgetDetails: IBudgetDetails,
+	incomeDetails: IIncomeDetails
+}
+
+export interface IDataModel
+{
 	global: IGlobal,
 	persistent: {
 		header: IHeader,
 		settings: ISettings,
 		profile: IProfile,
-		budgetDetails: IBudgetDetails,
-		incomeDetails: IIncomeDetails
+		plans: {
+			original: IPlan,
+			current: IPlan
+	    }
     }
 }
 
 @Injectable()
-export class DataModelService {
-
+export class DataModelService
+{
     dataModel: IDataModel;
 
-    constructor () {
+    constructor ()
+    {
     	// set data model to initial default configuration
     	this.dataModel = dataModel;
     }   // constructor
@@ -117,7 +130,6 @@ export class DataModelService {
 
 	fetchdata()
 	{
-
 		// fetch data from persistent storage
 		return new Promise((resolve,reject) =>
 	    {
@@ -138,8 +150,8 @@ export class DataModelService {
 		}); // return new Promise
 	}   // fetchdata
 
-	storedata() {
-
+	storedata()
+	{
 		// store data in persistent storage
 		return new Promise((resolve,reject) =>
 	    {
@@ -162,14 +174,17 @@ export class DataModelService {
 		}); // return new Promise
 	}   // storedata
 
-	getdata(item) {
+	getdata(item)
+	{
 		let value: any;
+		let plan = this.dataModel.persistent.header.curplan;
+
 		switch (item)
 		{
 			case 'settings':       value = JSON.parse(JSON.stringify(this.dataModel.persistent.settings));       break;
 			case 'profile':        value = JSON.parse(JSON.stringify(this.dataModel.persistent.profile));        break;
-			case 'budgetDetails':  value = JSON.parse(JSON.stringify(this.dataModel.persistent.budgetDetails));  break;
-			case 'incomeDetails':  value = JSON.parse(JSON.stringify(this.dataModel.persistent.incomeDetails));  break;
+			case 'budgetDetails':  value = JSON.parse(JSON.stringify(this.dataModel.persistent.plans[plan].budgetDetails));  break;
+			case 'incomeDetails':  value = JSON.parse(JSON.stringify(this.dataModel.persistent.plans[plan].incomeDetails));  break;
 			default:
 			    value = null;
 			    console.log(item + ' not found in getdata in DataModelService');
@@ -177,13 +192,16 @@ export class DataModelService {
 		return value;
 	}   // getdata
 
-	putdata(item,value) {
+	putdata(item,value)
+	{
+		let plan = this.dataModel.persistent.header.curplan;
+
 		switch (item)
 		{
-			case 'settings':       this.dataModel.persistent.settings      = JSON.parse(JSON.stringify(value));  break;
-			case 'profile':        this.dataModel.persistent.profile       = JSON.parse(JSON.stringify(value));  break;
-			case 'budgetDetails':  this.dataModel.persistent.budgetDetails = JSON.parse(JSON.stringify(value));  break;
-			case 'incomeDetails':  this.dataModel.persistent.incomeDetails = JSON.parse(JSON.stringify(value));  break;
+			case 'settings':       this.dataModel.persistent.settings                  = JSON.parse(JSON.stringify(value));  break;
+			case 'profile':        this.dataModel.persistent.profile                   = JSON.parse(JSON.stringify(value));  break;
+			case 'budgetDetails':  this.dataModel.persistent.plans[plan].budgetDetails = JSON.parse(JSON.stringify(value));  break;
+			case 'incomeDetails':  this.dataModel.persistent.plans[plan].incomeDetails = JSON.parse(JSON.stringify(value));  break;
 			default:
 			    console.log(item + ' not found in putdata in DataModelService');
 		}

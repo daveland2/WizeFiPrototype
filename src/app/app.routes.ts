@@ -14,6 +14,8 @@ import { LogoutComponent } from './logout/logout.component';
 import { SettingsComponent } from './settings/settings.component';
 import { SettingsDeactivateGuard } from './settings/settings-deactivate.guard';
 import { SubscriptionComponent } from './subscription/subscription.component';
+import { ManagePlansComponent } from './manage-plans/manage-plans.component';
+import { ManagePlansDeactivateGuard } from './manage-plans/manage-plans-deactivate.guard';
 import { ScreenLoginGuard } from './utilities/screen-login.guard';
 
 export const routes: Routes = [
@@ -24,8 +26,8 @@ export const routes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
-    canDeactivate: [ProfileDeactivateGuard],
-    canActivate: [ScreenLoginGuard]
+    canActivate: [ScreenLoginGuard],
+    canDeactivate: [ProfileDeactivateGuard]
   },
   {
     path: 'budget',
@@ -35,8 +37,8 @@ export const routes: Routes = [
   {
     path: 'budget-details',
     component: BudgetDetailsComponent,
-    canDeactivate: [BudgetDetailsDeactivateGuard],
-    canActivate: [ScreenLoginGuard]
+    canActivate: [ScreenLoginGuard],
+    canDeactivate: [BudgetDetailsDeactivateGuard]
   },
   {
     path: 'income',
@@ -46,8 +48,8 @@ export const routes: Routes = [
   {
     path: 'income-details',
     component: IncomeDetailsComponent,
-    canDeactivate: [IncomeDetailsDeactivateGuard],
-    canActivate: [ScreenLoginGuard]
+    canActivate: [ScreenLoginGuard],
+    canDeactivate: [IncomeDetailsDeactivateGuard]
   },
   {
     path: 'subscription',
@@ -55,10 +57,15 @@ export const routes: Routes = [
     canActivate: [ScreenLoginGuard]
   },
   {
+    path: 'manage-plans',
+    component: ManagePlansComponent,
+    canActivate: [ScreenLoginGuard],
+    canDeactivate: [ManagePlansDeactivateGuard],
+  },  {
     path: 'settings',
     component: SettingsComponent,
-    canDeactivate: [SettingsDeactivateGuard],
-    canActivate: [ScreenLoginGuard]
+    canActivate: [ScreenLoginGuard],
+    canDeactivate: [SettingsDeactivateGuard]
   },
   {
     path: 'logout',

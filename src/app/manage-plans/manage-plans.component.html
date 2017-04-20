@@ -1,0 +1,20 @@
+<h3>Manage Plans</h3>
+
+<br>
+Available plans
+<br>
+<li *ngFor="let plan of plans">{{plan}}</li>
+
+<br>
+Selected plan &nbsp;
+<select [(ngModel)]="selectedPlan">
+      <option *ngFor="let plan of plans" [value]="plan">{{plan}}</option>
+</select>
+
+<br><br>
+<button (click)="clonePlan()" title="Copy currently selected plan as starting point for a new plan">Clone</button>
+&nbsp;&nbsp;&nbsp;
+<button (click)="deletePlan()" title="Delete the currently selected plan">Delete</button>
+
+<br><br>
+<li *ngFor="let message of messages">{{message}}</li>

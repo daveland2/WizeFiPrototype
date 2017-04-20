@@ -22,6 +22,8 @@ import { SettingsComponent }            from './settings/settings.component';
 import { SettingsDeactivateGuard }      from './settings/settings-deactivate.guard';
 import { ScreenLoginGuard }             from './utilities/screen-login.guard';
 import { SubscriptionComponent }        from './subscription/subscription.component';
+import { ManagePlansComponent }         from './manage-plans/manage-plans.component';
+import { ManagePlansDeactivateGuard }   from './manage-plans/manage-plans-deactivate.guard';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,7 @@ import { SubscriptionComponent }        from './subscription/subscription.compon
     LogoutComponent,
     SettingsComponent,
     SubscriptionComponent,
+    ManagePlansComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,6 +51,7 @@ import { SubscriptionComponent }        from './subscription/subscription.compon
     BudgetDetailsDeactivateGuard,
     IncomeDetailsDeactivateGuard,
     SettingsDeactivateGuard,
+    ManagePlansDeactivateGuard,
     ScreenLoginGuard
 // the following information is for testing different locales
 //  {provide: LOCALE_ID, useValue: "en-US" }  // USD 4,294,967,295.00  (get expected result)  <=== default value in local tests
