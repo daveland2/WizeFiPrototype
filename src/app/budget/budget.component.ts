@@ -14,7 +14,6 @@ export class BudgetComponent implements OnInit {
   // transient data
   cBudgetDetails: CBudgetDetails;
   currencyCode: string;
-  budgetTotal: number;
 
   constructor(private dataModelService: DataModelService) { }
 
@@ -23,7 +22,6 @@ export class BudgetComponent implements OnInit {
 
     this.cBudgetDetails = new CBudgetDetails(this.dataModelService.getdata('budgetDetails'));
     this.currencyCode = configValues.currencyCode();
-    this.budgetTotal = this.cBudgetDetails.getBudgetDetailsSum();
   }
 
 }   // class BudgetComponent

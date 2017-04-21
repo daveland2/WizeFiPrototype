@@ -82,14 +82,12 @@ export class DataModelService
 		    {
 		        if (err)
 		        {
-		            console.log(err);  //%//
 		        	reject(err);
 		        }
 		        else
 		        {
 		            if (!data.hasOwnProperty('Payload'))
 		            {
-		                console.log("Data does not contain Payload attribute");  //%//
 		                reject("Data does not contain Payload attribute");
 		            }
 		            else
@@ -97,7 +95,6 @@ export class DataModelService
 		                payload = JSON.parse(data.Payload);
 		                if (mode == "put")
 		                {
-	                        console.log("persistent data has been stored");  //%//
 	                        resolve();
 		                }
 		                else
@@ -120,7 +117,6 @@ export class DataModelService
 		                    {
 	                    		this.dataModel.global.isNewUser = false;
 		                        this.dataModel.persistent = JSON.parse(payload);
-		                        console.log("persistent data has been retrieved");  //%//
 		                        resolve();
 		                    }
 		                }
@@ -165,7 +161,6 @@ export class DataModelService
 
 			let handleError = (err: any):void =>
 			{
-			    console.log(err);  //%//
 			    reject(err);
 			}
 
@@ -175,6 +170,21 @@ export class DataModelService
 			.catch(handleError);
 		}); // return new Promise
 	}   // storedata
+
+	viewData()
+	{
+		let saveLambda: any;
+
+		// remove lambda item to eliminate "circular reference" error upon doing JSON.stringify
+		saveLambda = this.dataModel.global.lambda;
+		this.dataModel.global.lambda = 'lambda object';
+
+		// report information
+		console.log("view: " + JSON.stringify(this.dataModel));
+
+		// restore lambda item
+		this.dataModel.global.lambda = saveLambda;
+	}   // viewData
 
 	getdata(item)
 	{

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { DataModelService } from '../data-model/data-model.service';
 import { CIncomeDetails } from '../income-details/income-details.class';
@@ -9,12 +9,11 @@ import { ConfigValues } from '../utilities/config-values.class';
   templateUrl: './income.component.html',
   styleUrls: ['./income.component.css']
 })
-export class IncomeComponent implements OnInit, OnDestroy {
+export class IncomeComponent implements OnInit {
 
   // transient data
   cIncomeDetails: CIncomeDetails;
   currencyCode: string;
-  incomeTotal: number;
 
   constructor(private dataModelService: DataModelService) { }
 
@@ -23,12 +22,6 @@ export class IncomeComponent implements OnInit, OnDestroy {
 
     this.cIncomeDetails = new CIncomeDetails(this.dataModelService.getdata('incomeDetails'));
     this.currencyCode = configValues.currencyCode();
-    this.incomeTotal = this.cIncomeDetails.getIncomeDetailsSum();
-  	console.log('IncomeComponent OnInit');
-  }
-
-  ngOnDestroy() {
-  	console.log('IncomeComponent OnDestroy');
   }
 
 }

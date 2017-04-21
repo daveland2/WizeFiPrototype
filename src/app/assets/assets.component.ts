@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ApplicationRef } from '@angular/core';
 
 import { DataModelService } from '../data-model/data-model.service';
+import { IVerifyResult } from '../utilities/validity-check.class';
 import { CAssets} from './assets.class';
 
 @Component({
@@ -14,12 +16,11 @@ export class AssetsComponent implements OnInit
     cAssets: CAssets;
 
     // transient data
-	messages: string[] = [];
-	sampleNumber: number = 5250;
 	assetSubcategories: string[];
 	assetTypes: any;
+	messages: string[] = [];
 
-	constructor(private dataModelService: DataModelService) { }
+	constructor(private ref: ApplicationRef, private dataModelService: DataModelService) { }
 
 	ngOnInit()
 	{
@@ -55,7 +56,6 @@ export class AssetsComponent implements OnInit
 	verify()
 	{
 		this.messages = [];
-		/*
 		let result: IVerifyResult = this.cAssets.verifyAllDataValues();
 		if (result.hadError) {
 			// report errors on screen
@@ -67,7 +67,6 @@ export class AssetsComponent implements OnInit
 			// this.budgetTotal = this.cAssets.getAssetsSum();
 		}
 		this.ref.tick();  // force change detection so screen will be updated
-		*/
 	} //  verify
 
 	// update data model

@@ -5966,8 +5966,66 @@ Data bind radio button lists with Angular 2
 
 (good presentation)
 ********************************************************************
+
+----------------
+
+As per the JSON docs at Mozilla, JSON.Stringify has a second parameter censor which can be used to filter/ignore children items while parsing the tree. However, perhaps you can avoid the circular references.
+
+In Node.js we cannot. So we can do something like this:
+
+function censor(censor) {
+  var i = 0;
+
+  return function(key, value) {
+    if(i !== 0 && typeof(censor) === 'object' && typeof(value) == 'object' && censor == value)
+      return '[Circular]';
+
+    if(i >= 29) // seems to be a harded maximum of 30 serialized objects?
+      return '[Unknown]';
+
+    ++i; // so we know we aren't using the original object anymore
+
+    return value;
+  }
+}
+
+var b = {foo: {bar: null}};
+
+b.foo.bar = b;
+
+console.log("Censoring: ", b);
+
+console.log("Result: ", JSON.stringify(b, censor(b)));
+The result:
+
+Censoring:  { foo: { bar: [Circular] } }
+Result: {"foo":{"bar":"[Circular]"}}
+Unfortunately there seems to be a maximum of 30 iterations before it automatically assumes it's circular. Otherwise, this should work. I even used areEquivalent from here, but JSON.Stringify still throws the exception after 30 iterations. Still, it's good enough to get a decent representation of the object at a top level, if you really need it.
+
+----------------
+
+One approach is to strip object and functions from main object. And stringify the simpler form
+
+function simpleStringify (object){
+    var simpleObject = {};
+    for (var prop in object ){
+        if (!object.hasOwnProperty(prop)){
+            continue;
+        }
+        if (typeof(object[prop]) == 'object'){
+            continue;
+        }
+        if (typeof(object[prop]) == 'function'){
+            continue;
+        }
+        simpleObject[prop] = object[prop];
+    }
+    return JSON.stringify(simpleObject); // returns cleaned up JSON
+};
 ********************************************************************
+https://medium.com/front-end-hacking/angular-2-a-quick-intro-about-template-syntax-121f9b160a64
 ********************************************************************
+https://angular.io/docs/ts/latest/guide/template-syntax.html
 ********************************************************************
 ********************************************************************
 ********************************************************************

@@ -5,7 +5,7 @@
         <tr class="subcategory">
         	<td>{{subcat}}</td>
         	<td>
-         		<input class="subcategory" type="number" [(ngModel)]="sampleNumber" size="8" readonly>
+         		<input class="subcategory" type="number" [value]="cAssets.getSubcategorySum(subcat)" size="8" readonly>
         	</td>
         </tr>
 	    <template ngFor let-type [ngForOf]="assetTypes[subcat]">
@@ -18,11 +18,12 @@
 	    </template>
 	</template>
 </table>
+Total assets&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{cAssets.getCategorySum()}}
 
 <br><br>
 Subcategory
 <br>
-<input type="radio" name="subcat" checked="checked" />Add
+<input type="radio" name="subcat" value="Add" checked="checked" />Add
 &nbsp;&nbsp;
 <input type="radio" name="subcat" value="Delete" />Delete
 <br>
@@ -51,7 +52,7 @@ Subcategory
 <br><br><br>
 Type
 <br>
-<input type="radio" name="type" checked="checked" />Add
+<input type="radio" name="type" value="Add" checked="checked" />Add
 &nbsp;&nbsp;
 <input type="radio" name="type" value="Delete" />Delete
 <br>
@@ -74,5 +75,5 @@ Type
 <br>
 <button>Add type</button>
 
-<br>
+<br><br>
 <li *ngFor="let message of messages">{{message}}</li>

@@ -1,27 +1,51 @@
 import { CValidityCheck, IVerifyResult } from '../utilities/validity-check.class';
 
-export interface IAssets {
+export interface IAssets
+{
 }
 
-export class CAssets {
+export class CAssets
+{
 
     constructor (public assets: IAssets) { }
 
-    getAssetsSum() {
-        return 0;  //%//
-  	}   // getAssetsSum
+    getSubcategorySum(subcat)
+    {
+        let sum = 0;
+        for (var type of Object.keys(this.assets[subcat]))
+        {
+            sum = sum + this.assets[subcat][type];
+        }
+        return sum;
+  	}   // getSubcategorySum
 
-  	verifyAllDataValues(): IVerifyResult {
-  		// initialize
-  		let result: IVerifyResult = {hadError:false, messages:[]};
+    getCategorySum()
+    {
+        let sum = 0;
+        for (var subcat of Object.keys(this.assets))
+        {
+            for (var type of Object.keys(this.assets[subcat]))
+            {
+                sum = sum + this.assets[subcat][type];
+            }
+        }
+        return sum;
+    }   // getCategorySum
 
-      /*
-  		// check each data field
-  		CValidityCheck.checkInteger(this.assets,'housing',result);
-  		CValidityCheck.checkInteger(this.assets,'food',result);
-      */
+  	verifyAllDataValues(): IVerifyResult
+    {
+    		// initialize
+    		let result: IVerifyResult = {hadError:false, messages:[]};
 
-  		return result;
+        for (var subcat of Object.keys(this.assets))
+        {
+            for (var type of Object.keys(this.assets[subcat]))
+            {
+                CValidityCheck.checkInteger2(this.assets,subcat,type,result);
+            }
+        }
+
+    		return result;
   	}   // verifyAllDataValues
 
 }   // class CAssets

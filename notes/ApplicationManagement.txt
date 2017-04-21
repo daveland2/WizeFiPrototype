@@ -616,6 +616,12 @@ Set up github repository
    $ git checkout develop              (checkout branch to be updated)
    $ git merge develop origin/develop  (merge in updates)
 
+Helpful utility scripts
+-----------------------
+showLog.sh                  -- show git log information
+showFileHistory.sh <fname>  -- use git log to find history for a given file
+fullPathName.sh <fname>     -- show full path name of given file
+
 Build production version for distribution
 -----------------------------------------
 $ cd <directory where project is located>
