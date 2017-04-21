@@ -4,6 +4,7 @@ https://github.com/daveland2/WizeFiPrototype  (github repository for WizeFiProto
 https://xd.adobe.com/view/d14cabfe-32fd-4e7a-96ae-a863ead72b85/  (wire frames for WizeFi app)
 https://docs.google.com/spreadsheets/d/1kiGZexHNYjKBJnK8qD8kPnrKGBsZ-aoA_OQsB_lf6eM/edit?ts=58d18dcb#gid=0  (screen info spreadsheet)
 https://docs.google.com/spreadsheets/d/1GV_wirMlrqhycDoR78ZSPI2pGaiZ46bJ3GF3zV4hSMw/edit#gid=353626187  (WizeFi Worksheet with Categories, Subcategories and Fields)
+https://repairq.dapulse.com/boards/38523976/pulses/38524000  (screen inventory)
 https://drive.google.com/drive/folders/0B29JDIBG6cIuVWllODdqOEJPYnM
 https://persistentendeavors.com/brickwire/MoneyOrganizer/tests/test17/WizeFiPrototype/dist/
 ********************************************************************
@@ -5918,9 +5919,52 @@ Looping Over Object Properties in Angular 2’s ngFor
 (illustrates mapping of keys; using a pipe)
 
 ********************************************************************
+http://stackoverflow.com/questions/35534959/access-key-and-value-of-object-using-ngfor
+
+I think Object.keys is the best solution to this problem. For anyone that comes across this answer and is trying to find out why Object.keys is giving them ['0', '1'] instead of ['key1', 'key2'], a cautionary tale - beware the difference between "of" and "in":
+
+I was already using Object.keys, something similar to this:
+
+interface demo {
+    key: string;
+    value: string;
+}
+
+createDemo(mydemo: any): Array<demo> {
+    const tempdemo: Array<demo> = [];
+
+    // Caution: use "of" and not "in"
+    for (const key of Object.keys(mydemo)) {
+        tempdemo.push(
+            { key: key, value: mydemo[key]}
+        );
+    }
+
+    return tempdemo;
+}
+
+However, instead of
+
+for (const key OF Object.keys(mydemo)) {
+I had inadvertently wrote
+
+for (const key IN Object.keys(mydemo)) {
+which "worked" perfectly fine without any error and returned
+
+[{key: '0', value: undefined}, {key: '1', value: undefined}]
+That cost me about 2 hours googling and cursing..
+
+(slaps forehead)
 ********************************************************************
+https://toddmotto.com/angular-ngfor-template-element
 ********************************************************************
+http://stackoverflow.com/questions/31879497/angular2-radio-button-binding
 ********************************************************************
+https://juristr.com/blog/2016/11/ng2-binding-radiobutton-lists/
+
+Data bind radio button lists with Angular 2
+
+(good presentation)
 ********************************************************************
 ********************************************************************
 ********************************************************************

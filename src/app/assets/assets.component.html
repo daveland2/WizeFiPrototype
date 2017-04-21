@@ -1,3 +1,78 @@
-<p>
-  assets works!
-</p>
+<h3>Assets</h3>
+
+<table>
+	<template ngFor let-subcat [ngForOf]="assetSubcategories">
+        <tr class="subcategory">
+        	<td>{{subcat}}</td>
+        	<td>
+         		<input class="subcategory" type="number" [(ngModel)]="sampleNumber" size="8" readonly>
+        	</td>
+        </tr>
+	    <template ngFor let-type [ngForOf]="assetTypes[subcat]">
+	        <tr class="type">
+	        	<td>{{type}}</td>
+	         	<td>
+	         		<input class="type" type="number" [(ngModel)]="cAssets.assets[subcat][type]" (blur)="verify()" size="8">
+	         	</td>
+	        </tr>
+	    </template>
+	</template>
+</table>
+
+<br><br>
+Subcategory
+<br>
+<input type="radio" name="subcat" checked="checked" />Add
+&nbsp;&nbsp;
+<input type="radio" name="subcat" value="Delete" />Delete
+<br>
+<select>
+	<option value="bankAccount">bankAccount</option>
+	<option value="cd">cd</option>
+	<option value="taxable">taxable</option>
+	<option value="taxadvantaged">taxadvantaged</option>
+	<option value="realEstate">realEstate</option>
+	<option value="personal">personal</option>
+	<option value="custom">custom</option>
+</select>&nbsp;(selected subcategory)
+<br>
+<input type="text" size=20>&nbsp;(new subcategory name)
+<br>
+<select>
+	<option value="checking">checking</option>
+	<option value="savings">savings</option>
+	<option value="custom">custom</option>
+</select>&nbsp;(selected type)
+<br>
+<input type="text" size=20>&nbsp;(new type name)
+<br>
+<button>Add subcategory</button>
+
+<br><br><br>
+Type
+<br>
+<input type="radio" name="type" checked="checked" />Add
+&nbsp;&nbsp;
+<input type="radio" name="type" value="Delete" />Delete
+<br>
+<select>
+	<option value="bankAccount">bankAccount</option>
+	<option value="cd">cd</option>
+	<option value="taxable">taxable</option>
+	<option value="taxadvantaged">taxadvantaged</option>
+	<option value="realEstate">realEstate</option>
+	<option value="personal">personal</option>
+</select>&nbsp;(selected subcategory)
+<br>
+<select>
+	<option value="checking">checking</option>
+	<option value="savings">savings</option>
+	<option value="custom">custom</option>
+</select>&nbsp;(selected type)
+<br>
+<input type="text" size=20>&nbsp;(new type name)
+<br>
+<button>Add type</button>
+
+<br>
+<li *ngFor="let message of messages">{{message}}</li>

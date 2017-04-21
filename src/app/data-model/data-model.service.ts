@@ -4,6 +4,7 @@ import { ISettings } from '../settings/settings.class';
 import { IProfile } from '../profile/profile.class';
 import { IBudgetDetails } from '../budget-details/budget-details.class';
 import { IIncomeDetails } from '../income-details/income-details.class';
+import { IAssets } from '../assets/assets.class';
 import { dataModel } from './data-model_1.data'
 
 export interface IGlobal
@@ -29,7 +30,8 @@ export interface IHeader
 export interface IPlan
 {
 	budgetDetails: IBudgetDetails,
-	incomeDetails: IIncomeDetails
+	incomeDetails: IIncomeDetails,
+	assets: IAssets
 }
 
 export interface IDataModel
@@ -181,10 +183,11 @@ export class DataModelService
 
 		switch (item)
 		{
-			case 'settings':       value = JSON.parse(JSON.stringify(this.dataModel.persistent.settings));       break;
-			case 'profile':        value = JSON.parse(JSON.stringify(this.dataModel.persistent.profile));        break;
+			case 'settings':       value = JSON.parse(JSON.stringify(this.dataModel.persistent.settings));                   break;
+			case 'profile':        value = JSON.parse(JSON.stringify(this.dataModel.persistent.profile));                    break;
 			case 'budgetDetails':  value = JSON.parse(JSON.stringify(this.dataModel.persistent.plans[plan].budgetDetails));  break;
 			case 'incomeDetails':  value = JSON.parse(JSON.stringify(this.dataModel.persistent.plans[plan].incomeDetails));  break;
+			case 'assets':         value = JSON.parse(JSON.stringify(this.dataModel.persistent.plans[plan].assets));         break;
 			default:
 			    value = null;
 			    console.log(item + ' not found in getdata in DataModelService');
@@ -202,6 +205,7 @@ export class DataModelService
 			case 'profile':        this.dataModel.persistent.profile                   = JSON.parse(JSON.stringify(value));  break;
 			case 'budgetDetails':  this.dataModel.persistent.plans[plan].budgetDetails = JSON.parse(JSON.stringify(value));  break;
 			case 'incomeDetails':  this.dataModel.persistent.plans[plan].incomeDetails = JSON.parse(JSON.stringify(value));  break;
+			case 'assets':         this.dataModel.persistent.plans[plan].assets        = JSON.parse(JSON.stringify(value));  break;
 			default:
 			    console.log(item + ' not found in putdata in DataModelService');
 		}

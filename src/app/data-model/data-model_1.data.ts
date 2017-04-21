@@ -46,6 +46,37 @@ export const dataModel:IDataModel =
 				{
 					salary: 0,
 					interest: 0
+				},
+				assets:
+				{
+					bankAccount:
+					{
+						checking: 0,
+						savings: 0
+					},
+					cd:
+					{
+						cd: 0
+					},
+					taxable:
+					{
+						brokerage: 0,
+						pension: 0
+					},
+					taxadvantaged:
+					{
+						IRA: 0,
+						x401k: 0
+					},
+					realEstate:
+					{
+						realEstate: 0,
+						lakeHouse: 0
+					},
+					personal:
+					{
+						personal: 0
+					}
 				}
 			},
 			current:
@@ -59,6 +90,37 @@ export const dataModel:IDataModel =
 				{
 					salary: 0,
 					interest: 0
+				},
+				assets:
+				{
+					bankAccount:
+					{
+						checking: 0,
+						savings: 0
+					},
+					cd:
+					{
+						cd: 0
+					},
+					taxable:
+					{
+						brokerage: 0,
+						pension: 0
+					},
+					taxadvantaged:
+					{
+						IRA: 0,
+						x401k: 0
+					},
+					realEstate:
+					{
+						realEstate: 0,
+						lakeHouse: 0
+					},
+					personal:
+					{
+						personal: 0
+					}
 				}
 			}
 		}

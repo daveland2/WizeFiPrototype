@@ -24,7 +24,8 @@ import { ScreenLoginGuard }             from './utilities/screen-login.guard';
 import { SubscriptionComponent }        from './subscription/subscription.component';
 import { ManagePlansComponent }         from './manage-plans/manage-plans.component';
 import { ManagePlansDeactivateGuard }   from './manage-plans/manage-plans-deactivate.guard';
-import { AssetsComponent } from './assets/assets.component';
+import { AssetsComponent }              from './assets/assets.component';
+import { AssetsDeactivateGuard }        from './assets/assets-deactivate.guard';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { AssetsComponent } from './assets/assets.component';
     ProfileDeactivateGuard,
     BudgetDetailsDeactivateGuard,
     IncomeDetailsDeactivateGuard,
+    AssetsDeactivateGuard,
     SettingsDeactivateGuard,
     ManagePlansDeactivateGuard,
     ScreenLoginGuard

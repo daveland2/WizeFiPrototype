@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ApplicationRef } from '@angular/core';
 
 import { DataModelService } from '../data-model/data-model.service';
@@ -11,7 +11,7 @@ import { ConfigValues } from '../utilities/config-values.class';
   templateUrl: './budget-details.component.html',
   styleUrls: ['./budget-details.component.css']
 })
-export class BudgetDetailsComponent implements OnInit, OnDestroy {
+export class BudgetDetailsComponent implements OnInit {
   // persistent data
   cBudgetDetails: CBudgetDetails;
 
@@ -30,10 +30,6 @@ export class BudgetDetailsComponent implements OnInit, OnDestroy {
     this.budgetTotal = this.cBudgetDetails.getBudgetDetailsSum();
     console.log("BudgetDetailsComponent onInit");
   } // ngOnInit
-
-  ngOnDestroy() {
-    console.log("BudgetDetailsComponent onDestroy");
-  }
 
   verify() {
     this.messages = [];
