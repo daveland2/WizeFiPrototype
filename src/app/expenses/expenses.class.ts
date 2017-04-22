@@ -1,37 +1,37 @@
 import { CValidityCheck, IVerifyResult } from '../utilities/validity-check.class';
-import { possibleAssets } from './assets.data'
+import { possibleExpenses } from './expenses.data'
 
-export class CAssets
+export class CExpenses
 {
 
-    constructor (public assets)
+    constructor (public expenses)
     {
-        //possibleAssetSubcategories = this.
+        //possibleExpenseSubcategories = this.
     }
 
-    getAssetSubcategories(assets)
+    getExpenseSubcategories(expenses:any): string[]
     {
           let result = [];
-          for (var subcat of Object.keys(assets))
+          for (var subcat of Object.keys(expenses))
           {
               result.push(subcat);
           }
         return result;
-    }  // getAssetSubcategories
+    }  // getExpenseSubcategories
 
-    getAssetTypes(assets)
+    getExpenseTypes(expenses:any): any
     {
         let result = {};
-        for (var subcat of Object.keys(assets))
+        for (var subcat of Object.keys(expenses))
         {
             result[subcat] = [];
-            for (var type of Object.keys(assets[subcat]))
+            for (var type of Object.keys(expenses[subcat]))
             {
             result[subcat].push(type);
             }
         }
         return result;
-    }   // getAssetTypes
+    }   // getExpenseTypes
 
     getSubcatListForSubcat(action:string): string[]
     {
@@ -42,8 +42,8 @@ export class CAssets
       // build list of possible subcategories to add (possiblelist - currentlist)
       if (action == 'Add')
       {
-          possibleSubcat = this.getAssetSubcategories(possibleAssets);
-          currentSubcat = this.getAssetSubcategories(this.assets);
+          possibleSubcat = this.getExpenseSubcategories(possibleExpenses);
+          currentSubcat = this.getExpenseSubcategories(this.expenses);
           for (let subcat of possibleSubcat)
           {
               if (currentSubcat.indexOf(subcat) == -1) result.push(subcat);
@@ -54,7 +54,7 @@ export class CAssets
       // build list of possible subcategories to delete (currentlist)
       if (action == 'Delete')
       {
-          result = this.getAssetSubcategories(this.assets);
+          result = this.getExpenseSubcategories(this.expenses);
       }
       return result;
     }   // getSubcatListForSubcat
@@ -66,7 +66,7 @@ export class CAssets
         // build list of possible types to add (possibleList)
         if (action == 'Add')
         {
-            let possibleTypes = this.getAssetTypes(possibleAssets);
+            let possibleTypes = this.getExpenseTypes(possibleExpenses);
             result = possibleTypes[subcat];
         }
 
@@ -110,9 +110,9 @@ export class CAssets
     getSubcategorySum(subcat)
     {
         let sum = 0;
-        for (var type of Object.keys(this.assets[subcat]))
+        for (var type of Object.keys(this.expenses[subcat]))
         {
-            sum = sum + this.assets[subcat][type];
+            sum = sum + this.expenses[subcat][type];
         }
         return sum;
   	}   // getSubcategorySum
@@ -120,11 +120,11 @@ export class CAssets
     getCategorySum()
     {
         let sum = 0;
-        for (var subcat of Object.keys(this.assets))
+        for (var subcat of Object.keys(this.expenses))
         {
-            for (var type of Object.keys(this.assets[subcat]))
+            for (var type of Object.keys(this.expenses[subcat]))
             {
-                sum = sum + this.assets[subcat][type];
+                sum = sum + this.expenses[subcat][type];
             }
         }
         return sum;
@@ -135,15 +135,15 @@ export class CAssets
     		// initialize
     		let result: IVerifyResult = {hadError:false, messages:[]};
 
-        for (var subcat of Object.keys(this.assets))
+        for (var subcat of Object.keys(this.expenses))
         {
-            for (var type of Object.keys(this.assets[subcat]))
+            for (var type of Object.keys(this.expenses[subcat]))
             {
-                CValidityCheck.checkInteger2(this.assets,subcat,type,result);
+                CValidityCheck.checkInteger2(this.expenses,subcat,type,result);
             }
         }
 
     		return result;
   	}   // verifyAllDataValues
 
-}   // class CAssets
+}   // class CExpenses

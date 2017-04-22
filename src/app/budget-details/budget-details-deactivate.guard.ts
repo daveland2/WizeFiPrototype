@@ -14,7 +14,6 @@ export class BudgetDetailsDeactivateGuard implements CanDeactivate<BudgetDetails
     else {
 	    // update application data model and proceed to next screen
 	    budgetDetailsComponent.update();
-	    console.log("memory resident data model has been updated");  //%//
 	}
     return !result.hadError;
   }

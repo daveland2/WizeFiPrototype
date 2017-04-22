@@ -1,14 +1,14 @@
 <h3>Assets</h3>
 
 <table>
-	<template ngFor let-subcat [ngForOf]="assetSubcategories">
+	<template ngFor let-subcat [ngForOf]="currentAssetSubcategories">
         <tr class="subcategory">
         	<td>{{subcat}}</td>
         	<td>
          		<input class="subcategory" type="number" [value]="cAssets.getSubcategorySum(subcat)" size="8" readonly>
         	</td>
         </tr>
-	    <template ngFor let-type [ngForOf]="assetTypes[subcat]">
+	    <template ngFor let-type [ngForOf]="currentAssetTypes[subcat]">
 	        <tr class="type">
 	        	<td>{{type}}</td>
 	         	<td>
@@ -18,45 +18,37 @@
 	    </template>
 	</template>
 </table>
-Total assets&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{cAssets.getCategorySum()}}
+Total Assets&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{cAssets.getCategorySum()}}
 
-<br><br>
+<br><br><br>
 Subcategory
 <br>
-<input type="radio" name="subcat" value="Add" checked="checked" />Add
+<input type="radio" name="subcategory" class="subcategory" value="Add" (change)="onSubcategoryActionChange()" checked="checked" />Add
 &nbsp;&nbsp;
-<input type="radio" name="subcat" value="Delete" />Delete
+<input type="radio" name="subcategory" class="subcategory" value="Delete" (change)="onSubcategoryActionChange()" />Delete
 <br>
-<select>
-	<option value="bankAccount">bankAccount</option>
-	<option value="cd">cd</option>
-	<option value="taxable">taxable</option>
-	<option value="taxadvantaged">taxadvantaged</option>
-	<option value="realEstate">realEstate</option>
-	<option value="personal">personal</option>
-	<option value="custom">custom</option>
+<select [(ngModel)]="selectedSubcatForSubcat" (change)="onSubcatForSubcatChange()">
+	<option *ngFor="let subcat of subcatListForSubcat" [value]="subcat">{{subcat}}</option>
 </select>&nbsp;(selected subcategory)
 <br>
 <input type="text" size=20>&nbsp;(new subcategory name)
 <br>
-<select>
-	<option value="checking">checking</option>
-	<option value="savings">savings</option>
-	<option value="custom">custom</option>
+<select [(ngModel)]="selectedTypeForSubcat" (change)="onTypeForSubcatChange()">
+	<option *ngFor="let type of typeListForSubcat" [value]="type">{{type}}</option>
 </select>&nbsp;(selected type)
 <br>
 <input type="text" size=20>&nbsp;(new type name)
 <br>
-<button>Add subcategory</button>
+<button>Perform Action</button>
 
 <br><br><br>
 Type
 <br>
-<input type="radio" name="type" value="Add" checked="checked" />Add
+<input type="radio" name="type" class="type" value="Add" (change)="onTypeActionChange()" checked="checked" />Add
 &nbsp;&nbsp;
-<input type="radio" name="type" value="Delete" />Delete
+<input type="radio" name="type" class="type" value="Delete" (change)="onTypeActionChange()" />Delete
 <br>
-<select>
+<select [(ngModel)]="selectedSubcatForType">
 	<option value="bankAccount">bankAccount</option>
 	<option value="cd">cd</option>
 	<option value="taxable">taxable</option>
@@ -65,7 +57,7 @@ Type
 	<option value="personal">personal</option>
 </select>&nbsp;(selected subcategory)
 <br>
-<select>
+<select [(ngModel)]="selectedTypeForType">
 	<option value="checking">checking</option>
 	<option value="savings">savings</option>
 	<option value="custom">custom</option>
@@ -73,7 +65,7 @@ Type
 <br>
 <input type="text" size=20>&nbsp;(new type name)
 <br>
-<button>Add type</button>
+<button>Perform Action</button>
 
 <br><br>
-<li *ngFor="let message of messages">{{message}}</li>
+<div *ngFor="let message of messages">{{message}}</div>

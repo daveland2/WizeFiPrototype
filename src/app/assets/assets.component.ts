@@ -5,6 +5,8 @@ import { DataModelService } from '../data-model/data-model.service';
 import { IVerifyResult } from '../utilities/validity-check.class';
 import { CAssets} from './assets.class';
 
+declare var $: any;
+
 @Component({
   selector: 'app-assets',
   templateUrl: './assets.component.html',
@@ -16,42 +18,71 @@ export class AssetsComponent implements OnInit
     cAssets: CAssets;
 
     // transient data
-	assetSubcategories: string[];
-	assetTypes: any;
+	currentAssetSubcategories: string[];
+	currentAssetTypes: any;
+
+	selectedSubcatForSubcat: string;
+	subcatListForSubcat: string[];
+
+	selectedTypeForSubcat: string;
+	typeListForSubcat: string[];
+
+	selectedSubcatForType: string;
+	subcatListForType: string[];
+
+	selectedTypeForType: string;
+	typeListForType: any;
+
 	messages: string[] = [];
+	subcategoryAction: string = 'Add';
+	typeAction: string = 'Add';
 
 	constructor(private ref: ApplicationRef, private dataModelService: DataModelService) { }
 
 	ngOnInit()
 	{
 	    this.cAssets = new CAssets(this.dataModelService.getdata('assets'));
-		this.assetSubcategories = this.getAssetSubcategories();
-		this.assetTypes = this.getAssetTypes();
+
+		this.currentAssetSubcategories = this.cAssets.getAssetSubcategories(this.cAssets.assets);
+		this.currentAssetTypes = this.cAssets.getAssetTypes(this.cAssets.assets);
+
+		this.subcatListForSubcat = this.cAssets.getSubcatListForSubcat('Add');
+    	this.selectedSubcatForSubcat = this.subcatListForSubcat[0];
+
+		this.typeListForSubcat = this.cAssets.getTypeListForSubcat(this.selectedSubcatForSubcat, 'Add');
+		this.selectedTypeForSubcat = this.typeListForSubcat[0];
+
+		this.subcatListForType = this.cAssets.getSubcatListForType('Add');
+		this.typeListForType = this.cAssets.getTypeListForType(this.selectedSubcatForType, 'Add');
 	}   // ngOnInit
 
-	getAssetSubcategories()
+	onSubcategoryActionChange()
 	{
-		let result = [];
-	    for (var subcat of Object.keys(this.cAssets.assets))
-	    {
-			result.push(subcat);
-    	}
-		return result;
-	}   // getAssetSubcategories
+		let action = $('.subcategory:checked').val();
+		this.subcategoryAction = action;
 
-	getAssetTypes()
+    	this.subcatListForSubcat = this.cAssets.getSubcatListForSubcat(action);
+    	this.selectedSubcatForSubcat = this.subcatListForSubcat[0];
+
+		this.typeListForSubcat = this.cAssets.getTypeListForSubcat(this.selectedSubcatForSubcat, this.subcategoryAction);
+    	this.selectedTypeForSubcat = this.typeListForSubcat[0];
+	}   // onSubcategoryActionChange
+
+	onSubcatForSubcatChange()
 	{
-		let result = {};
-		for (var subcat of Object.keys(this.cAssets.assets))
-		{
-	        result[subcat] = [];
-		    for (var type of Object.keys(this.cAssets.assets[subcat]))
-		    {
-				result[subcat].push(type);
-			}
-		}
-		return result;
-	}   // getAssetTypes
+		this.typeListForSubcat = this.cAssets.getTypeListForSubcat(this.selectedSubcatForSubcat, this.subcategoryAction);
+		if (this.typeListForSubcat.length > 0) this.selectedTypeForSubcat = this.typeListForSubcat[0];
+	}   // onSubcatForSubcatChange
+
+	onTypeForSubcatChange()
+	{
+
+	}   // onTypeForSubcatChange
+
+	onTypeActionChange()
+	{
+		this.typeAction = $('.type:checked').val();
+	}   // onTypeActionChange
 
 	verify()
 	{
@@ -60,13 +91,8 @@ export class AssetsComponent implements OnInit
 		if (result.hadError) {
 			// report errors on screen
 			this.messages = result.messages;
+			this.ref.tick();  // force change detection so screen will be updated
 		}
-		else
-		{
-			// update calculated values on screen
-			// this.budgetTotal = this.cAssets.getAssetsSum();
-		}
-		this.ref.tick();  // force change detection so screen will be updated
 	} //  verify
 
 	// update data model

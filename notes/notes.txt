@@ -4,9 +4,22 @@ https://github.com/daveland2/WizeFiPrototype  (github repository for WizeFiProto
 https://xd.adobe.com/view/d14cabfe-32fd-4e7a-96ae-a863ead72b85/  (wire frames for WizeFi app)
 https://docs.google.com/spreadsheets/d/1kiGZexHNYjKBJnK8qD8kPnrKGBsZ-aoA_OQsB_lf6eM/edit?ts=58d18dcb#gid=0  (screen info spreadsheet)
 https://docs.google.com/spreadsheets/d/1GV_wirMlrqhycDoR78ZSPI2pGaiZ46bJ3GF3zV4hSMw/edit#gid=353626187  (WizeFi Worksheet with Categories, Subcategories and Fields)
-https://repairq.dapulse.com/boards/38523976/pulses/38524000  (screen inventory)
 https://drive.google.com/drive/folders/0B29JDIBG6cIuVWllODdqOEJPYnM
 https://persistentendeavors.com/brickwire/MoneyOrganizer/tests/test17/WizeFiPrototype/dist/
+https://repairq.dapulse.com/boards/38523976/pulses/38524000  (screen inventory)
+https://repairq.dapulse.com/boards/38226795/pulses/38242452  (WizeFiDev)
+
+Links to console interfaces
+---------------------------
+https://console.aws.amazon.com/dynamodb/home
+https://console.aws.amazon.com/iam/home
+https://console.aws.amazon.com/lambda/home
+https://console.aws.amazon.com/cognito/home
+https://dashboard.stripe.com/dashboard
+https://developers.facebook.com
+https://console.developers.google.com
+https://developer.amazon.com/login-with-amazon
+https://sellercentral.amazon.com/gp/homepage.html
 ********************************************************************
 https://angular.io/docs/ts/latest/guide/architecture.html
 ARCHITECTURE OVERVIEW
@@ -6027,6 +6040,9 @@ https://medium.com/front-end-hacking/angular-2-a-quick-intro-about-template-synt
 ********************************************************************
 https://angular.io/docs/ts/latest/guide/template-syntax.html
 ********************************************************************
+https://angular.io/docs/ts/latest/api/common/index/NgIf-directive.html
+
+(documentation on use of *ngIf)
 ********************************************************************
 ********************************************************************
 ********************************************************************

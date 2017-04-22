@@ -10,7 +10,7 @@ import { AppComponent }                 from './app.component';
 import { LoginComponent }               from './login/login.component';
 import { ProfileComponent }             from './profile/profile.component';
 import { ProfileDeactivateGuard }       from './profile/profile-deactivate.guard';
-import { BudgetComponent }              from './budget/budget.component';
+import { BudgetSummaryComponent }       from './budget-summary/budget-summary.component';
 import { BudgetDetailsComponent }       from './budget-details/budget-details.component';
 import { BudgetDetailsDeactivateGuard } from './budget-details/budget-details-deactivate.guard';
 import { IncomeComponent }              from './income/income.component';
@@ -24,6 +24,8 @@ import { ScreenLoginGuard }             from './utilities/screen-login.guard';
 import { SubscriptionComponent }        from './subscription/subscription.component';
 import { ManagePlansComponent }         from './manage-plans/manage-plans.component';
 import { ManagePlansDeactivateGuard }   from './manage-plans/manage-plans-deactivate.guard';
+import { ExpensesComponent }            from './expenses/expenses.component';
+import { ExpensesDeactivateGuard }      from './expenses/expenses-deactivate.guard';
 import { AssetsComponent }              from './assets/assets.component';
 import { AssetsDeactivateGuard }        from './assets/assets-deactivate.guard';
 
@@ -32,7 +34,8 @@ import { AssetsDeactivateGuard }        from './assets/assets-deactivate.guard';
     AppComponent,
     ProfileComponent,
     LoginComponent,
-    BudgetComponent,
+    ExpensesComponent,
+    BudgetSummaryComponent,
     BudgetDetailsComponent,
     IncomeComponent,
     IncomeDetailsComponent,
@@ -53,6 +56,7 @@ import { AssetsDeactivateGuard }        from './assets/assets-deactivate.guard';
     ProfileDeactivateGuard,
     BudgetDetailsDeactivateGuard,
     IncomeDetailsDeactivateGuard,
+    ExpensesDeactivateGuard,
     AssetsDeactivateGuard,
     SettingsDeactivateGuard,
     ManagePlansDeactivateGuard,

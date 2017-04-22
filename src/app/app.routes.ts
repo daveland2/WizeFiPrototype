@@ -4,12 +4,14 @@ import { LoginComponent } from './login/login.component';
 import { SiteMapComponent } from './site-map/site-map.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ProfileDeactivateGuard } from './profile/profile-deactivate.guard';
-import { BudgetComponent } from './budget/budget.component';
+import { BudgetSummaryComponent } from './budget-summary/budget-summary.component';
 import { BudgetDetailsComponent } from './budget-details/budget-details.component';
 import { BudgetDetailsDeactivateGuard } from './budget-details/budget-details-deactivate.guard';
 import { IncomeComponent } from './income/income.component';
 import { IncomeDetailsComponent } from './income-details/income-details.component';
 import { IncomeDetailsDeactivateGuard } from './income-details/income-details-deactivate.guard';
+import { ExpensesComponent } from './expenses/expenses.component';
+import { ExpensesDeactivateGuard } from './expenses/expenses-deactivate.guard';
 import { AssetsComponent } from './assets/assets.component';
 import { AssetsDeactivateGuard } from './assets/assets-deactivate.guard';
 import { LogoutComponent } from './logout/logout.component';
@@ -32,8 +34,8 @@ export const routes: Routes = [
     canDeactivate: [ProfileDeactivateGuard]
   },
   {
-    path: 'budget',
-    component: BudgetComponent,
+    path: 'budget-summary',
+    component: BudgetSummaryComponent,
     canActivate: [ScreenLoginGuard]
   },
   {
@@ -54,6 +56,12 @@ export const routes: Routes = [
     canDeactivate: [IncomeDetailsDeactivateGuard]
   },
   {
+    path: 'expenses',
+    component: ExpensesComponent,
+    canActivate: [ScreenLoginGuard],
+    canDeactivate: [ExpensesDeactivateGuard]
+  },
+  {
     path: 'assets',
     component: AssetsComponent,
     canActivate: [ScreenLoginGuard],
@@ -69,7 +77,8 @@ export const routes: Routes = [
     component: ManagePlansComponent,
     canActivate: [ScreenLoginGuard],
     canDeactivate: [ManagePlansDeactivateGuard],
-  },  {
+  },
+  {
     path: 'settings',
     component: SettingsComponent,
     canActivate: [ScreenLoginGuard],

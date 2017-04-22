@@ -8,6 +8,6 @@
 <tr><td>TOTAL</td><td>{{budgetTotal | currency:currencyCode:true:'1.0-0'}}</td></tr>
 </table>
 <br><br>
-<a [routerLink]="['/budget']">/\</a>
-<br>
-<li *ngFor="let message of messages">{{message}}</li>
+<a [routerLink]="['/budget-summary']">/\</a>
+<br><br>
+<div *ngFor="let message of messages">{{message}}</div>

@@ -100,7 +100,7 @@ export class LoginComponent implements OnInit {
 			console.log("Login completed");                                         //%//
 			this.dataModelService.dataModel.global.isLoggedIn = true;
 			if (this.dataModelService.dataModel.global.isNewUser) this.router.navigateByUrl('/profile');
-			else this.router.navigateByUrl('/budget');
+			else this.router.navigateByUrl('/budget-summary');
 		}
 
 		let handleError = (err: any):void =>

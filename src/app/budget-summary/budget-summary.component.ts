@@ -6,10 +6,10 @@ import { ConfigValues } from '../utilities/config-values.class';
 
 @Component({
   selector: 'app-budget',
-  templateUrl: './budget.component.html',
-  styleUrls: ['./budget.component.css']
+  templateUrl: './budget-summary.component.html',
+  styleUrls: ['./budget-summary.component.css']
 })
-export class BudgetComponent implements OnInit {
+export class BudgetSummaryComponent implements OnInit {
 
   // transient data
   cBudgetDetails: CBudgetDetails;
@@ -24,4 +24,4 @@ export class BudgetComponent implements OnInit {
     this.currencyCode = configValues.currencyCode();
   }
 
-}   // class BudgetComponent
+}   // class BudgetSummaryComponent

@@ -1,0 +1,79 @@
+<h3>Expenses</h3>
+
+<table>
+	<template ngFor let-subcat [ngForOf]="currentExpensesSubcategories">
+        <tr class="subcategory">
+        	<td>{{subcat}}</td>
+        	<td>
+         		<input class="subcategory" type="number" [value]="cExpenses.getSubcategorySum(subcat)" size="8" readonly>
+        	</td>
+        </tr>
+	    <template ngFor let-type [ngForOf]="currentExpensesTypes[subcat]">
+	        <tr class="type">
+	        	<td>{{type}}</td>
+	         	<td>
+	         		<input class="type" type="number" [(ngModel)]="cExpenses.expenses[subcat][type]" (blur)="verify()" size="8">
+	         	</td>
+	        </tr>
+	    </template>
+	</template>
+</table>
+Total Expenses&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{cExpenses.getCategorySum()}}
+
+<br><br><br>
+Manage Items
+<table>
+	<tr>
+		<td>Item</td>
+		<td>
+			<select [(ngModel)]="selectedItem" (change)="onItemChange()">
+				<option value="Type">Type</option>
+				<option value="Subcategory">Subcategory</option>
+			</select>
+		</td>
+    </tr>
+    <tr>
+		<td>Action</td>
+		<td>
+			<select [(ngModel)]="selectedAction" (change)="onActionChange()">
+				<option value="Add">Add</option>
+				<option value="Delete">Delete</option>
+			</select>
+		</td>
+    </tr>
+   	<tr>
+		<td>Subcategory</td>
+		<td>
+			<select [(ngModel)]="selectedSubcategory" (change)="onSubcategoryChange()">
+				<!-- <option *ngFor="let subcat of subcatList" [value]="subcat">{{subcat}}</option> -->
+				<option value="abc">abc</option>
+				<option value="custom">custom</option>
+			</select>
+		</td>
+    </tr>
+   	<tr *ngIf="selectedSubcategory == 'custom'">
+		<td>new name</td>
+		<td>
+    		<input type="text" size=15>
+		</td>
+    </tr>
+   	<tr *ngIf="selectedAction == 'Add' || selectedItem == 'Type'">
+		<td>Type</td>
+		<td>
+			<select [(ngModel)]="selectedType" (change)="onTypeChange()">
+				<!-- <option *ngFor="let type of typeList" [value]="type">{{type}}</option> -->
+				<option value="def">def</option>
+				<option value="custom">custom</option>
+			</select>
+		</td>
+    </tr>
+   	<tr *ngIf="selectedType == 'custom'">
+		<td>new name</td>
+		<td>
+    		<input type="text" size=15>
+		</td>
+    </tr>
+</table>
+
+<br>
+<button>Perform Action</button>

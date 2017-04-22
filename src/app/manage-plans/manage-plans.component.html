@@ -3,7 +3,7 @@
 <br>
 Available plans
 <br>
-<li *ngFor="let plan of plans">{{plan}}</li>
+<div *ngFor="let plan of plans">{{plan}}</div>
 
 <br>
 Selected plan &nbsp;
@@ -17,4 +17,4 @@ Selected plan &nbsp;
 <button (click)="deletePlan()" title="Delete the currently selected plan">Delete</button>
 
 <br><br>
-<li *ngFor="let message of messages">{{message}}</li>
+<div *ngFor="let message of messages">{{message}}</div>

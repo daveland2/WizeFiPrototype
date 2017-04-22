@@ -622,6 +622,9 @@ showLog.sh                  -- show git log information
 showFileHistory.sh <fname>  -- use git log to find history for a given file
 fullPathName.sh <fname>     -- show full path name of given file
 
+Note: these scripts are made available by adding the following to the PATH variable:
+/Users/daveland/BrickWire/git/API/RepairQ-Api/utils/scripts
+
 Build production version for distribution
 -----------------------------------------
 $ cd <directory where project is located>
