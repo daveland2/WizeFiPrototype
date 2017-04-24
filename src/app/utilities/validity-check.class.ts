@@ -23,4 +23,11 @@ export class CValidityCheck {
       }
     }   // checkInteger2
 
+    public static checkInteger3(object:any, lev1:string, lev2:string, result:IVerifyResult) {
+      let str = String(object[lev1][lev2]['monthlyAmount']);
+      if (!str.match(/^[0-9]+$/)) {
+        result.hadError = true;
+        result.messages.push('Must enter whole number value for ' + lev1 + '.' + lev2 + '.' + 'monthlyAmount');
+      }
+    }   // checkInteger3
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ApplicationRef } from '@angular/core';
+import { ApplicationRef, ChangeDetectorRef } from '@angular/core';
 
 import { DataModelService } from '../data-model/data-model.service';
 import { IVerifyResult } from '../utilities/validity-check.class';
@@ -17,51 +17,159 @@ export class ExpensesComponent implements OnInit
 
     // transient data
     messages: string[] = [];
+
+	showAllTypes: boolean;
+    showAllFields: boolean;
+    showAllLabels: boolean;
+
+	areTypesVisible: any;
+	areFieldsVisible: any;
+	areLabelsVisible: boolean;
+
 	currentExpensesSubcategories: string[] = [];
 	currentExpensesTypes: any = {};
+	currentExpensesFields: any = {};
 
 	selectedItem: string;
 	selectedAction: string;
+
+	subcatList: string[] = [];
 	selectedSubcategory: string;
+
+	typeList: string[] = [];
 	selectedType: string;
 
-	constructor(private ref: ApplicationRef, private dataModelService: DataModelService) { }
+	constructor(private ref: ApplicationRef, private ref2: ChangeDetectorRef, private dataModelService: DataModelService) { }
 
 	ngOnInit()
 	{
 	    this.cExpenses = new CExpenses(this.dataModelService.getdata('expenses'));
 
-		this.currentExpensesSubcategories = this.cExpenses.getExpenseSubcategories(this.cExpenses.expenses);
-		this.currentExpensesTypes = this.cExpenses.getExpenseTypes(this.cExpenses.expenses);
+		this.currentExpensesSubcategories = this.cExpenses.getSubcategories(this.cExpenses.expenses);
+		this.currentExpensesTypes = this.cExpenses.getTypes(this.cExpenses.expenses);
+		this.currentExpensesFields = this.cExpenses.getFields(this.cExpenses.expenses);
+
+		let initialStatus = false;  // default initial status of visibility
+
+		this.areTypesVisible = this.createAreTypesVisible(initialStatus);
+		this.areFieldsVisible = this.createAreFieldsVisible(initialStatus);
+		this.areLabelsVisible = initialStatus;
+
+		this.showAllTypes = initialStatus;
+		this.showAllFields = initialStatus;
+		this.showAllLabels = initialStatus;
 
 		this.selectedItem = 'Type';
 		this.selectedAction = 'Add';
-		this.selectedSubcategory = '';
-		this.selectedType = '';
+
+		this.updateItemManagement();
 
 	}   // ngOnInit
 
-	onItemChange()
-	{
+    createAreTypesVisible(status:boolean): any
+    {
+    	let result = {};
+        for (let subcat of Object.keys(this.cExpenses.expenses))
+        {
+            result[subcat] = status;
+        }
+    	return result;
+    }   // createAreTypesVisible
 
+	updateTypesVisibility()
+	{
+		console.log("start updateTypesVisibility");  //%//
+		console.log("showAllTypes: " + this.showAllTypes);  //%//
+		for (let subcat of Object.keys(this.areTypesVisible))
+		{
+			this.areTypesVisible[subcat] = this.showAllTypes;
+		}
+		console.log("end updateTypesVisibility");  //%//
+	}   // updateTypesVisibility
+
+	toggleTypeVisibility(subcat:string): void
+	{
+		this.areTypesVisible[subcat] = !this.areTypesVisible[subcat];
+	}   // toggleTypeVisibility
+
+    isTypeVisible(subcat:string): boolean
+    {
+    	return this.areTypesVisible[subcat];
+    }   // isTypeVisible
+
+    createAreFieldsVisible(status:boolean): any
+    {
+        let result = {};
+        for (let subcat of Object.keys(this.cExpenses.expenses))
+        {
+            result[subcat] = {};
+            for (let type of Object.keys(this.cExpenses.expenses[subcat]))
+            {
+                if (type != 'label') result[subcat][type] = status;
+            }
+        }
+    	return result;
+    }   // createAreFieldsVisible
+
+    updateFieldsVisibility(): void
+	{
+		console.log("start updateTypesVisibility");  //%//
+		console.log("showAllFields: " + this.showAllFields);  //%//
+		for (let subcat of Object.keys(this.areFieldsVisible))
+		{
+			for (let type of Object.keys(this.areFieldsVisible[subcat]))
+			{
+				this.areFieldsVisible[subcat][type] = this.showAllFields;
+			}
+		}
+		console.log("end updateTypesVisibility");  //%//
+	}   // updateFieldsVisibility
+
+	toggleFieldVisibility(subcat:string, type:string): void
+	{
+		this.areFieldsVisible[subcat][type] = !this.areFieldsVisible[subcat][type];
+	}   // toggleFieldVisibility
+
+    isFieldVisible(subcat:string, type:string): boolean
+    {
+    	return this.areFieldsVisible[subcat][type];
+    }   // isFieldVisible
+
+	dataType(val)
+	{
+		return (typeof val == 'number') ? 'number' : 'string';
+	}
+
+	updateItemManagement(): void
+	{
+		this.subcatList = this.cExpenses.getUpdateSubcategoryList(this.selectedItem, this.selectedAction);
+		if (this.subcatList && this.subcatList.length > 0) this.selectedSubcategory =  this.subcatList[0];
+
+		this.typeList = this.cExpenses.getUpdateTypeList(this.selectedItem, this.selectedAction, this.selectedSubcategory);
+		if (this.typeList && this.typeList.length > 0) this.selectedType = this.typeList[0];
+	}   // updateItemManagement
+
+	onItemChange(): void
+	{
+		this.updateItemManagement();
 	}   // onItemChange
 
-	onActionChange()
+	onActionChange(): void
 	{
-
+		this.updateItemManagement();
 	}   // onActionChange
 
-	onSubcategoryChange()
+	onSubcategoryChange(): void
 	{
-
+		this.updateItemManagement();
 	}   // onSubcategoryChange
 
-	onTypeChange()
+	onTypeChange(): void
 	{
-
+		this.updateItemManagement();
 	}   // onTypeChange
 
-	verify()
+	verify(): void
 	{
 		this.messages = [];
 		let result: IVerifyResult = this.cExpenses.verifyAllDataValues();
@@ -73,7 +181,7 @@ export class ExpensesComponent implements OnInit
 	} //  verify
 
 	// update data model
-	update()
+	update(): void
 	{
 		this.dataModelService.putdata('expenses', this.cExpenses.expenses);
 	}

@@ -6044,9 +6044,153 @@ https://angular.io/docs/ts/latest/api/common/index/NgIf-directive.html
 
 (documentation on use of *ngIf)
 ********************************************************************
+http://stackoverflow.com/questions/34379616/angular2-checkbox-ng-model-not-updated
+
+I am trying a simple thing with Angular 2.0 -- I want to bind a model to an 'input checkbox', register the 'change' with a method, have the method executed when the checkbox state is changed and act based on the state of the model. Everything works but, when the method linked with the change event is executed, the state of the model is the contrary of what I expect, i.e. is false when the checkbox is selected, is true when the checkbox is unselected. Here is the code snippet;
+
+<input value={{object.name}} type="checkbox" [(ng-model)]="object.selected" (change)="onChange(object.selected)">
+
+Any idea about what I am doing wrong?
+
+-----------
+
+
+
+-----------
+
+
+
+-----------
+
+For me only works when I used (ngModelChange):
+
+<input type="checkbox" [(ngModel)]="object.selected" (ngModelChange)="onChange(object.selected)">
+If I use (change) or (click) the state is always contrary of what I expect, as you said
+
+-----------
+
+Seems like the change event fires on changes in the DOM, and the ngModelChange fires when the object property changes. So when reading the object property on the change event, it has not yet been updated to the value of the DOM.
 ********************************************************************
+http://stackoverflow.com/questions/36586050/click-broken-inside-ngfor-on-elements-of-type-array-if-coming-from-a-function
+
+(click) broken inside *ngFor on elements of type array if coming from a function
+
+in plnkr I've reproduced a strange edge case. It probably depends on pixijs or perhaps on webgl as it happens when using pixijs.
+
+Notice how you can click on all the elements of the lists but as soon as you start using pixijs (just click on the button) the click stop working on the element of type array. The odd thing is that it still works on all the other elements. It is even odder that if instead of using a function to return an array, it is used an inline array, all works as expected...
+
+any ideas ?
+
+app.component.ts
+
+<button *ngIf="!renderer" (click)="breakIt()">break me</button>
+<span *ngIf="renderer">BROKEN</span>
+Clicked: {{clicked | json}}
+
+<h2>It breaks</h2>
+<h3 *ngFor="#n of ns()" (click)="click(n)">{{n | json}}</h3>
+
+<h2>It works</h2>
+<h3 *ngFor="#n of [[2,4],'ciao',4,true]" (click)="click(n)">{{n | json}}</h3>
+app.component.html
+
+import {Component} from 'angular2/core';
+
+@Component({
+    selector: 'my-app',
+    templateUrl: './app/app.component.html'
+})
+export class AppComponent {
+  clicked = "";
+  renderer;
+
+  breakIt() {
+    this.renderer = PIXI.autoDetectRenderer(200, 200,{backgroundColor : 0x1099bb});
+  }
+
+  ns() {
+    return [[2,4],'ciao',4,true];
+  }
+
+  click(n) {
+    this.clicked=n;
+  }
+}
+
+--------------
+
+ns() violates the idempotent rule.
+
+--------------
+
+The problem is caused by
+
+  ns() {
+    return [[2,4],'ciao',4,true];
+  }
+and
+
+<h3 *ngFor="#n of ns()"
+With every event Angular invokes change detection and each time it checks whether the previously returned value from ns() is the same as the current one it turns out to be different every time, because each call to ns() returns a new array. Angular expects the model to stabilize.
+
+Angular doesn't compare properties or the contents of objects and arrays, it only does identity checks and ns() for every call returns a new and thus different array instance.
+
+Instead it should be
+
+  var arr = [[2,4],'ciao',4,true];
+  ns() {
+    return this.arr;
+  }
+
+--------------
+
+Interesting, you are getting infinite change loop. I happens because each time you return new array from ns() AND PIXI.autoDetectRenderer somehow triggers angular change event.
+
+Tried to set changeDetection:ChangeDetectionStrategy.OnPush - it works. So i guess angular detects periodic changes in renderer object and starts processing changes and can not stop since every time template value != ns() method result.
+
 ********************************************************************
+http://stackoverflow.com/questions/38995262/how-to-disable-angular2-change-detection-for-3rd-party-libraries
+
+I have google maps which triggers 100+ times per second change detection. how to disable change detection for this.
+
+It will be even worse when using mouseover event.
+
+-------------
+
+I had the same issue, try injecting the NgZone class on your component constructor
+
+constructor(private zone: NgZone) {
+
+)
+then, use the runOutsideAngular method from NgZone to put in a callback the draw method from google charts, do something like this.
+
+this.zone.runOutsideAngular(() => {
+    var chart = new google.visualization.PieChart(nativeElement);
+    chart.draw(dataTable, options);
+})
+This make the executed code don't fire angular detection changes. Apply this for each chart you make. I hope find this helpful.
+
+-------------
+
+Another option to temporarily disable change detection ChangeDetectorRef
+
+enabled = true;
+constructor(private ref: ChangeDetectorRef)
+
+toggleChangeDetection() {
+  if (this.enabled)
+  {
+    this.enabled = false;
+    this.ref.detach();
+  }
+  else {
+    this.enabled = true;
+    this.ref.reattach();
+}
 ********************************************************************
+https://auth0.com/blog/understanding-angular-2-change-detection/
+
+(good discussion on change detection)
 ********************************************************************
 ********************************************************************
 ********************************************************************

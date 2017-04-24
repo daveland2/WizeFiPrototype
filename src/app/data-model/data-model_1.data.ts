@@ -49,59 +49,53 @@ export const dataModel:IDataModel =
 				},
 				expenses:
 				{
-					income:
-					{
-						income: 0
-					},
 					giving:
 					{
-						contributions: 0
+						label: 'Giving',
+						contributions:
+						{
+							label: 'Contributions',
+							monthlyAmount: 0
+						},
 					},
 					housing:
 					{
-						firstMortgage: 0,
-						homeOwnersInsurance: 0,
-						propertyTaxes: 0,
-						homeMaintenance: 0,
-						housekeeping_Cleaning: 0,
-						water_Trash_Sewer: 0,
-						gas_Electricity: 0
-					},
-					transporation:
-					{
-						payments: 0,
-						insurance: 0,
-						gas: 0,
-						maintenance: 0,
-						registration: 0
-					},
-					food:
-					{
-						groceries: 0,
-						diningOut: 0
-					},
-					health_insurance:
-					{
-						medicalPremium: 0,
-						dentalPremium: 0,
-						visionPremium: 0,
-						prescriptions: 0,
-						lifeInsurance: 0
-					},
-					clothing:
-					{
-						clothing: 0,
-						laundry_Drycleaning: 0
-					},
-					savings_investment:
-					{
-						emergencyFund: 0,
-						generalSavings: 0,
-						checkingAccount: 0
-					},
-					entertainment:
-					{
-						entertainment: 0
+						label: 'Housing',
+						firstMortgage:
+						{
+							label: 'First Mortgage',
+							monthlyAmount: 0
+						},
+						homeOwnersInsurance:
+						{
+							label: 'Home Owners Insurance',
+							monthlyAmount: 0
+						},
+						propertyTaxes:
+						{
+							label: 'Property Taxes',
+							monthlyAmount: 0
+						},
+						homeMaintenance:
+						{
+							label: 'Home Maintenance',
+							monthlyAmount: 0
+						},
+						housekeeping_Cleaning:
+						{
+							label: 'Housekeeping & Cleaning',
+							monthlyAmount: 0
+						},
+						water_Trash_Sewer:
+						{
+							label: 'Water/Trash/Sewer',
+							monthlyAmount: 0
+						},
+						gas_Electricity:
+						{
+							label: 'Gas & Electricity',
+							monthlyAmount: 0
+						}
 					}
 				},
 				assets:
@@ -150,59 +144,53 @@ export const dataModel:IDataModel =
 				},
 				expenses:
 				{
-					income:
-					{
-						income: 0
-					},
 					giving:
 					{
-						contributions: 0
+						label: 'Giving',
+						contributions:
+						{
+							label: 'Contributions',
+							monthlyAmount: 0
+						},
 					},
 					housing:
 					{
-						firstMortgage: 0,
-						homeOwnersInsurance: 0,
-						propertyTaxes: 0,
-						homeMaintenance: 0,
-						housekeeping_Cleaning: 0,
-						water_Trash_Sewer: 0,
-						gas_Electricity: 0
-					},
-					transporation:
-					{
-						payments: 0,
-						insurance: 0,
-						gas: 0,
-						maintenance: 0,
-						registration: 0
-					},
-					food:
-					{
-						groceries: 0,
-						diningOut: 0
-					},
-					health_insurance:
-					{
-						medicalPremium: 0,
-						dentalPremium: 0,
-						visionPremium: 0,
-						prescriptions: 0,
-						lifeInsurance: 0
-					},
-					clothing:
-					{
-						clothing: 0,
-						laundry_Drycleaning: 0
-					},
-					savings_investment:
-					{
-						emergencyFund: 0,
-						generalSavings: 0,
-						checkingAccount: 0
-					},
-					entertainment:
-					{
-						entertainment: 0
+						label: 'Housing',
+						firstMortgage:
+						{
+							label: 'First Mortgage',
+							monthlyAmount: 0
+						},
+						homeOwnersInsurance:
+						{
+							label: 'Home Owners Insurance',
+							monthlyAmount: 0
+						},
+						propertyTaxes:
+						{
+							label: 'Property Taxes',
+							monthlyAmount: 0
+						},
+						homeMaintenance:
+						{
+							label: 'Home Maintenance',
+							monthlyAmount: 0
+						},
+						housekeeping_Cleaning:
+						{
+							label: 'Housekeeping & Cleaning',
+							monthlyAmount: 0
+						},
+						water_Trash_Sewer:
+						{
+							label: 'Water/Trash/Sewer',
+							monthlyAmount: 0
+						},
+						gas_Electricity:
+						{
+							label: 'Gas & Electricity',
+							monthlyAmount: 0
+						}
 					}
 				},
 				assets:

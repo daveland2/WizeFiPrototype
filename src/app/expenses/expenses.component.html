@@ -1,26 +1,51 @@
 <h3>Expenses</h3>
 
+<input type="checkbox" id="typeCbx" name="typeCbx" [(ngModel)]="showAllTypes" (ngModelChange)="updateTypesVisibility()" title="Toggle visibility of all types"/>
+<label for="typeCbx">Types</label>
+&nbsp;&nbsp;&nbsp;
+<input type="checkbox" id="fieldCbx" [(ngModel)]="showAllFields" (ngModelChange)="updateFieldsVisibility()" title="Toggle visibility of all fields"/>
+<label for="fieldCbx">Fields</label>
+&nbsp;&nbsp;&nbsp;
+<input type="checkbox" id="labelCbx" [(ngModel)]="areLabelsVisible" title="Toggle visibility of all labels"/>
+<label for="labelCbx">Labels</label>
+
+<br>
 <table>
+    <tr class="category">
+    	<td>Expenses</td>
+    	<td>
+     		<input class="category" type="number" [value]="cExpenses.getCategorySum()" size="8" readonly>
+    	</td>
+    </tr>
 	<template ngFor let-subcat [ngForOf]="currentExpensesSubcategories">
         <tr class="subcategory">
-        	<td>{{subcat}}</td>
+        	<td>{{cExpenses.expenses[subcat]['label']}}</td>
         	<td>
          		<input class="subcategory" type="number" [value]="cExpenses.getSubcategorySum(subcat)" size="8" readonly>
         	</td>
         </tr>
 	    <template ngFor let-type [ngForOf]="currentExpensesTypes[subcat]">
-	        <tr class="type">
-	        	<td>{{type}}</td>
+	        <tr class="type" *ngIf="isTypeVisible(subcat)">
+	        <!-- <tr class="type"> -->
+	        	<td>{{cExpenses.expenses[subcat][type]['label']}}</td>
 	         	<td>
-	         		<input class="type" type="number" [(ngModel)]="cExpenses.expenses[subcat][type]" (blur)="verify()" size="8">
+	         		<input class="type" type="number" [(ngModel)]="cExpenses.expenses[subcat][type]['monthlyAmount']" (blur)="verify()" size="8">
 	         	</td>
 	        </tr>
+		    <template ngFor let-field [ngForOf]="currentExpensesFields[subcat][type]">
+		        <tr class="field" *ngIf="isTypeVisible(subcat) && isFieldVisible(subcat,type)">
+		        <!-- <tr class="field"> -->
+		        	<td>{{field}}</td>
+		         	<td>
+		         		<input class="field" type="dataType(cExpenses.expenses[subcat][type][field])" [(ngModel)]="cExpenses.expenses[subcat][type][field]" (blur)="verify()" size="30">
+		         	</td>
+		        </tr>
+		    </template>
 	    </template>
 	</template>
 </table>
-Total Expenses&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{cExpenses.getCategorySum()}}
 
-<br><br><br>
+<br><br>
 Manage Items
 <table>
 	<tr>
@@ -45,13 +70,11 @@ Manage Items
 		<td>Subcategory</td>
 		<td>
 			<select [(ngModel)]="selectedSubcategory" (change)="onSubcategoryChange()">
-				<!-- <option *ngFor="let subcat of subcatList" [value]="subcat">{{subcat}}</option> -->
-				<option value="abc">abc</option>
-				<option value="custom">custom</option>
+				<option *ngFor="let subcat of subcatList" [value]="subcat">{{subcat}}</option>
 			</select>
 		</td>
     </tr>
-   	<tr *ngIf="selectedSubcategory == 'custom'">
+   	<tr *ngIf="selectedSubcategory == 'custom' && selectedAction == 'Add'">
 		<td>new name</td>
 		<td>
     		<input type="text" size=15>
@@ -61,9 +84,7 @@ Manage Items
 		<td>Type</td>
 		<td>
 			<select [(ngModel)]="selectedType" (change)="onTypeChange()">
-				<!-- <option *ngFor="let type of typeList" [value]="type">{{type}}</option> -->
-				<option value="def">def</option>
-				<option value="custom">custom</option>
+				<option *ngFor="let type of typeList" [value]="type">{{type}}</option>
 			</select>
 		</td>
     </tr>

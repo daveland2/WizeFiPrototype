@@ -2,25 +2,78 @@ export const possibleExpenses =
 {
 	giving:
 	{
-		tithe: 0,
-		contributions: 0,
-		other: 0
+		label: 'Giving',
+		contributions:
+		{
+			label: 'Contributions',
+			monthlyAmount: 0
+		},
+		tithe:
+		{
+			label: 'Tithe',
+			monthlyAmount: 0
+		}
 	},
 	housing:
 	{
-		firstMortgage: 0,
-		secondMortgage: 0,
-		otherLienPayment: 0,
-		rent: 0,
-		homeOwnersInsurance: 0,
-		propertyTaxes: 0,
-		homeMaintenance: 0,
-		HOADues: 0,
-		housekeeping_Cleaning: 0,
-		water_Trash_Sewer: 0,
-		gas_Electricity: 0,
-		other: 0
-	},
+		label: 'Housing',
+		firstMortgage:
+		{
+			label: 'First Mortgage',
+			monthlyAmount: 0
+		},
+		secondMortgage:
+		{
+			label: 'Second Mortgage',
+			monthlyAmount: 0
+		},
+		otherLienPayment:
+		{
+			label: 'Other Lien Payment',
+			monthlyAmount: 0
+		},
+		rent:
+		{
+			label: 'Rent',
+			monthlyAmount: 0
+		},
+		homeOwnersInsurance:
+		{
+			label: 'Home Owners Insurance',
+			monthlyAmount: 0
+		},
+		propertyTaxes:
+		{
+			label: 'Property Taxes',
+			monthlyAmount: 0
+		},
+		homeMaintenance:
+		{
+			label: 'Home Maintenance',
+			monthlyAmount: 0
+		},
+		HOADues:
+		{
+			label: 'HOA Dues',
+			monthlyAmount: 0
+		},
+		housekeeping_Cleaning:
+		{
+			label: 'Housekeeping & Cleaning',
+			monthlyAmount: 0
+		},
+		water_Trash_Sewer:
+		{
+			label: 'Water/Trash/Sewer',
+			monthlyAmount: 0
+		},
+		gas_Electricity:
+		{
+			label: 'Gas & Electricity',
+			monthlyAmount: 0
+		}
+	}
+	/*
 	transporation:
 	{
 		payments: 0,
@@ -63,4 +116,5 @@ export const possibleExpenses =
 	{
 		entertainment: 0
 	}
+	*/
 };
