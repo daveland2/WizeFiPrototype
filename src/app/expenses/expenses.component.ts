@@ -78,13 +78,10 @@ export class ExpensesComponent implements OnInit
 
 	updateTypesVisibility()
 	{
-		console.log("start updateTypesVisibility");  //%//
-		console.log("showAllTypes: " + this.showAllTypes);  //%//
 		for (let subcat of Object.keys(this.areTypesVisible))
 		{
 			this.areTypesVisible[subcat] = this.showAllTypes;
 		}
-		console.log("end updateTypesVisibility");  //%//
 	}   // updateTypesVisibility
 
 	toggleTypeVisibility(subcat:string): void
@@ -113,8 +110,6 @@ export class ExpensesComponent implements OnInit
 
     updateFieldsVisibility(): void
 	{
-		console.log("start updateTypesVisibility");  //%//
-		console.log("showAllFields: " + this.showAllFields);  //%//
 		for (let subcat of Object.keys(this.areFieldsVisible))
 		{
 			for (let type of Object.keys(this.areFieldsVisible[subcat]))
@@ -122,7 +117,6 @@ export class ExpensesComponent implements OnInit
 				this.areFieldsVisible[subcat][type] = this.showAllFields;
 			}
 		}
-		console.log("end updateTypesVisibility");  //%//
 	}   // updateFieldsVisibility
 
 	toggleFieldVisibility(subcat:string, type:string): void

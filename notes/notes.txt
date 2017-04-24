@@ -6191,6 +6191,19 @@ toggleChangeDetection() {
 https://auth0.com/blog/understanding-angular-2-change-detection/
 
 (good discussion on change detection)
+
+API with Auth0
+
+Example of login page with
+
+Login With Facebook
+Login With Google
+Login with Twitter
+
+OR
+
+Username
+Password
 ********************************************************************
 ********************************************************************
 ********************************************************************

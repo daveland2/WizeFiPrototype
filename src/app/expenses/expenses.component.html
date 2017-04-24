@@ -16,6 +16,8 @@
     	<td>
      		<input class="category" type="number" [value]="cExpenses.getCategorySum()" size="8" readonly>
     	</td>
+    	<td>
+    	</td>
     </tr>
 	<template ngFor let-subcat [ngForOf]="currentExpensesSubcategories">
         <tr class="subcategory">
@@ -23,6 +25,9 @@
         	<td>
          		<input class="subcategory" type="number" [value]="cExpenses.getSubcategorySum(subcat)" size="8" readonly>
         	</td>
+	    	<td>
+				<button (click)="toggleTypeVisibility(subcat)" title="Toggle visibility of types for this subcategory">\/</button>
+    		</td>
         </tr>
 	    <template ngFor let-type [ngForOf]="currentExpensesTypes[subcat]">
 	        <tr class="type" *ngIf="isTypeVisible(subcat)">
@@ -31,7 +36,10 @@
 	         	<td>
 	         		<input class="type" type="number" [(ngModel)]="cExpenses.expenses[subcat][type]['monthlyAmount']" (blur)="verify()" size="8">
 	         	</td>
-	        </tr>
+				<td>
+					<button (click)="toggleFieldVisibility(subcat,type)" title="Toggle visibility of fields for this type">\/</button>
+				</td>
+			</tr>
 		    <template ngFor let-field [ngForOf]="currentExpensesFields[subcat][type]">
 		        <tr class="field" *ngIf="isTypeVisible(subcat) && isFieldVisible(subcat,type)">
 		        <!-- <tr class="field"> -->
@@ -39,6 +47,9 @@
 		         	<td>
 		         		<input class="field" type="dataType(cExpenses.expenses[subcat][type][field])" [(ngModel)]="cExpenses.expenses[subcat][type][field]" (blur)="verify()" size="30">
 		         	</td>
+		         	<td>
+		         	</td>
+
 		        </tr>
 		    </template>
 	    </template>
