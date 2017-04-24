@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ApplicationRef, ChangeDetectorRef } from '@angular/core';
+import { ApplicationRef } from '@angular/core';
 
 import { DataModelService } from '../data-model/data-model.service';
 import { IVerifyResult } from '../utilities/validity-check.class';
@@ -20,11 +20,9 @@ export class ExpensesComponent implements OnInit
 
 	showAllTypes: boolean;
     showAllFields: boolean;
-    showAllLabels: boolean;
 
 	areTypesVisible: any;
 	areFieldsVisible: any;
-	areLabelsVisible: boolean;
 
 	currentExpensesSubcategories: string[] = [];
 	currentExpensesTypes: any = {};
@@ -39,7 +37,7 @@ export class ExpensesComponent implements OnInit
 	typeList: string[] = [];
 	selectedType: string;
 
-	constructor(private ref: ApplicationRef, private ref2: ChangeDetectorRef, private dataModelService: DataModelService) { }
+	constructor(private ref: ApplicationRef, private dataModelService: DataModelService) { }
 
 	ngOnInit()
 	{
@@ -53,11 +51,9 @@ export class ExpensesComponent implements OnInit
 
 		this.areTypesVisible = this.createAreTypesVisible(initialStatus);
 		this.areFieldsVisible = this.createAreFieldsVisible(initialStatus);
-		this.areLabelsVisible = initialStatus;
 
 		this.showAllTypes = initialStatus;
 		this.showAllFields = initialStatus;
-		this.showAllLabels = initialStatus;
 
 		this.selectedItem = 'Type';
 		this.selectedAction = 'Add';
@@ -102,7 +98,7 @@ export class ExpensesComponent implements OnInit
             result[subcat] = {};
             for (let type of Object.keys(this.cExpenses.expenses[subcat]))
             {
-                if (type != 'label') result[subcat][type] = status;
+                result[subcat][type] = status;
             }
         }
     	return result;

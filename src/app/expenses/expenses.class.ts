@@ -53,7 +53,7 @@ export class CExpenses
                     result[subcat][type] = [];
                     for (let field of Object.keys(expenses[subcat][type]))
                     {
-                        result[subcat][type].push(field);
+                        if (field != 'label' && field != 'monthlyAmount') result[subcat][type].push(field);
                     }
                 }
             }

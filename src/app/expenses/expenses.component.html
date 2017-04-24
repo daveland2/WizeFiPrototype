@@ -5,9 +5,6 @@
 &nbsp;&nbsp;&nbsp;
 <input type="checkbox" id="fieldCbx" [(ngModel)]="showAllFields" (ngModelChange)="updateFieldsVisibility()" title="Toggle visibility of all fields"/>
 <label for="fieldCbx">Fields</label>
-&nbsp;&nbsp;&nbsp;
-<input type="checkbox" id="labelCbx" [(ngModel)]="areLabelsVisible" title="Toggle visibility of all labels"/>
-<label for="labelCbx">Labels</label>
 
 <br>
 <table>
@@ -21,7 +18,9 @@
     </tr>
 	<template ngFor let-subcat [ngForOf]="currentExpensesSubcategories">
         <tr class="subcategory">
-        	<td>{{cExpenses.expenses[subcat]['label']}}</td>
+        	<td>
+         		<input class="subcategory" type="string" [(ngModel)]="cExpenses.expenses[subcat]['label']" size="30">
+         	</td>
         	<td>
          		<input class="subcategory" type="number" [value]="cExpenses.getSubcategorySum(subcat)" size="8" readonly>
         	</td>
@@ -31,8 +30,9 @@
         </tr>
 	    <template ngFor let-type [ngForOf]="currentExpensesTypes[subcat]">
 	        <tr class="type" *ngIf="isTypeVisible(subcat)">
-	        <!-- <tr class="type"> -->
-	        	<td>{{cExpenses.expenses[subcat][type]['label']}}</td>
+	        	<td>
+         			<input class="type" type="string" [(ngModel)]="cExpenses.expenses[subcat][type]['label']" size="30">
+	        	</td>
 	         	<td>
 	         		<input class="type" type="number" [(ngModel)]="cExpenses.expenses[subcat][type]['monthlyAmount']" (blur)="verify()" size="8">
 	         	</td>
@@ -42,7 +42,6 @@
 			</tr>
 		    <template ngFor let-field [ngForOf]="currentExpensesFields[subcat][type]">
 		        <tr class="field" *ngIf="isTypeVisible(subcat) && isFieldVisible(subcat,type)">
-		        <!-- <tr class="field"> -->
 		        	<td>{{field}}</td>
 		         	<td>
 		         		<input class="field" type="dataType(cExpenses.expenses[subcat][type][field])" [(ngModel)]="cExpenses.expenses[subcat][type][field]" (blur)="verify()" size="30">

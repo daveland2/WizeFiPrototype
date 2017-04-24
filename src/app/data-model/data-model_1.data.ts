@@ -55,7 +55,9 @@ export const dataModel:IDataModel =
 						contributions:
 						{
 							label: 'Contributions',
-							monthlyAmount: 0
+							monthlyAmount: 0,
+							spuriousNumber: 25,
+							spuriousString: 'testing'
 						},
 					},
 					housing:
@@ -150,7 +152,9 @@ export const dataModel:IDataModel =
 						contributions:
 						{
 							label: 'Contributions',
-							monthlyAmount: 0
+							monthlyAmount: 0,
+							spuriousNumber: 25,
+							spuriousString: 'testing'
 						},
 					},
 					housing:
