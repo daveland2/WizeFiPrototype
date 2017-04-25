@@ -50,10 +50,13 @@ export class CExpenses
             {
                 if (type != 'label')
                 {
-                    result[subcat][type] = [];
                     for (let field of Object.keys(expenses[subcat][type]))
                     {
-                        if (field != 'label' && field != 'monthlyAmount') result[subcat][type].push(field);
+                        result[subcat][type] = [];
+                        for (let field of Object.keys(expenses[subcat][type]))
+                        {
+                            if (field != 'label' && field != 'monthlyAmount') result[subcat][type].push(field);
+                        }
                     }
                 }
             }
@@ -84,9 +87,9 @@ export class CExpenses
             result = fieldsInfo[subcat][type];
         }
         return result;
-    }   // getTypesList
+    }   // getFieldsList
 
-    getUpdateSubcategoryList(item,action)
+    getUpdateSubcategoryList(item:string, action:string): string[]
     {
         let currentSubcatList: string[] = this.getSubcategories(this.expenses);
         let possibleSubcatList: string[] = this.getSubcategories(possibleExpenses);
@@ -126,10 +129,23 @@ export class CExpenses
             }
         }
 
+        if (item == 'Field')
+        {
+            if (action == 'Add')
+            {
+                result = currentSubcatList;
+            }
+
+            if (action == 'Delete')
+            {
+                result = currentSubcatList;
+            }
+        }
+
         return result;
     }   // getUpdateSubcategoryList
 
-    getUpdateTypeList(item,action,subcat)
+    getUpdateTypeList(item:string, action:string, subcat:string): string[]
     {
         let currentTypeList: string[] = this.getTypesList(this.expenses, subcat);
         let possibleTypeList: string[] = this.getTypesList(possibleExpenses, subcat);
@@ -137,9 +153,12 @@ export class CExpenses
 
         // build list of possible types that are not in current types
         let addableTypeList: string[] = [];
-        for (let type of possibleTypeList)
+        if (subcat != 'custom')
         {
-            if (currentTypeList.indexOf(type) == -1) addableTypeList.push(type);
+            for (let type of possibleTypeList)
+            {
+                if (currentTypeList.indexOf(type) == -1) addableTypeList.push(type);
+            }
         }
         addableTypeList.push('custom');
 
@@ -147,8 +166,9 @@ export class CExpenses
         {
             if (action == 'Add')
             {
-                result = addableTypeList;
+              result = addableTypeList;
             }
+
             if (action == 'Delete')
             {
                 result = [];
@@ -168,8 +188,79 @@ export class CExpenses
             }
         }
 
+        if (item == 'Field')
+        {
+            if (action == 'Add')
+            {
+              result = currentTypeList;
+            }
+
+            if (action == 'Delete')
+            {
+                result = currentTypeList;
+            }
+        }
+
         return result;
     }   // getUpdateTypeList
+
+    getUpdateFieldList(item:string, action:string, subcat:string, type:string): string[]
+    {
+        let currentFieldList: string[] = this.getFieldsList(this.expenses, subcat, type);
+        let possibleFieldList: string[] = this.getFieldsList(possibleExpenses, subcat, type);
+        let result: string[] = [];
+
+        // build list of possible fields that are not in current fields
+        let addableFieldList: string[] = [];
+        if (subcat != 'custom' && type != 'custom')
+        {
+            for (let field of possibleFieldList)
+            {
+                if (currentFieldList.indexOf(field) == -1) addableFieldList.push(field);
+            }
+        }
+        addableFieldList.push('custom');
+
+        if (item == 'Subcategory')
+        {
+            if (action == 'Add')
+            {
+                result = addableFieldList;
+            }
+            if (action == 'Delete')
+            {
+                result = [];
+            }
+        }
+
+        if (item == 'Type')
+        {
+            if (action == 'Add')
+            {
+              result = addableFieldList;
+            }
+
+            if (action == 'Delete')
+            {
+                result = [];
+            }
+        }
+
+        if (item == 'Field')
+        {
+            if (action == 'Add')
+            {
+              result = addableFieldList;
+            }
+
+            if (action == 'Delete')
+            {
+                result = currentFieldList;
+            }
+        }
+
+        return result;
+    }   // getUpdateFieldList
 
     getSubcategorySum(subcat)
     {

@@ -33,9 +33,15 @@ export class ExpensesComponent implements OnInit
 
 	subcatList: string[] = [];
 	selectedSubcategory: string;
+	customSubcategory: string = '';
 
 	typeList: string[] = [];
 	selectedType: string;
+	customType: string = '';
+
+	fieldList: string[] = [];
+	selectedField: string;
+	customField: string = '';
 
 	constructor(private ref: ApplicationRef, private dataModelService: DataModelService) { }
 
@@ -55,10 +61,21 @@ export class ExpensesComponent implements OnInit
 		this.showAllTypes = initialStatus;
 		this.showAllFields = initialStatus;
 
-		this.selectedItem = 'Type';
+		this.selectedItem = 'Subcategory';
 		this.selectedAction = 'Add';
 
-		this.updateItemManagement();
+		// update subcategories list
+		this.subcatList = this.cExpenses.getUpdateSubcategoryList(this.selectedItem, this.selectedAction);
+		if (Array.isArray(this.subcatList) && this.subcatList.length > 0) this.selectedSubcategory = this.subcatList[0];
+
+		// update type list
+		this.typeList = this.cExpenses.getUpdateTypeList(this.selectedItem, this.selectedAction, this.selectedSubcategory);
+		if (Array.isArray(this.typeList) && this.typeList.length > 0) this.selectedType = this.typeList[0];
+
+		// update field list
+		this.fieldList = this.cExpenses.getUpdateFieldList(this.selectedItem, this.selectedAction, this.selectedSubcategory, this.selectedType);
+		if (Array.isArray(this.fieldList) && this.fieldList.length > 0) this.selectedField = this.fieldList[0];
+
 
 	}   // ngOnInit
 
@@ -130,34 +147,69 @@ export class ExpensesComponent implements OnInit
 		return (typeof val == 'number') ? 'number' : 'string';
 	}
 
-	updateItemManagement(): void
-	{
-		this.subcatList = this.cExpenses.getUpdateSubcategoryList(this.selectedItem, this.selectedAction);
-		if (this.subcatList && this.subcatList.length > 0) this.selectedSubcategory =  this.subcatList[0];
-
-		this.typeList = this.cExpenses.getUpdateTypeList(this.selectedItem, this.selectedAction, this.selectedSubcategory);
-		if (this.typeList && this.typeList.length > 0) this.selectedType = this.typeList[0];
-	}   // updateItemManagement
-
 	onItemChange(): void
 	{
-		this.updateItemManagement();
+		// update subcategories list
+		this.subcatList = this.cExpenses.getUpdateSubcategoryList(this.selectedItem, this.selectedAction);
+		if (Array.isArray(this.subcatList) && this.subcatList.length > 0) this.selectedSubcategory = this.subcatList[0];
+		this.customSubcategory = '';
+
+		// update type list
+		this.typeList = this.cExpenses.getUpdateTypeList(this.selectedItem, this.selectedAction, this.selectedSubcategory);
+		if (Array.isArray(this.typeList) && this.typeList.length > 0) this.selectedType = this.typeList[0];
+		this.customType = '';
+
+		// update field list
+		this.fieldList = this.cExpenses.getUpdateFieldList(this.selectedItem, this.selectedAction, this.selectedSubcategory, this.selectedType);
+		if (Array.isArray(this.fieldList) && this.fieldList.length > 0) this.selectedField = this.fieldList[0];
+		this.customField = '';
 	}   // onItemChange
 
 	onActionChange(): void
 	{
-		this.updateItemManagement();
+		// update subcategories list
+		this.subcatList = this.cExpenses.getUpdateSubcategoryList(this.selectedItem, this.selectedAction);
+		if (Array.isArray(this.subcatList) && this.subcatList.length > 0) this.selectedSubcategory = this.subcatList[0];
+		this.customSubcategory = '';
+
+		// update type list
+		this.typeList = this.cExpenses.getUpdateTypeList(this.selectedItem, this.selectedAction, this.selectedSubcategory);
+		if (Array.isArray(this.typeList) && this.typeList.length > 0) this.selectedType = this.typeList[0];
+		this.customType = '';
+
+		// update field list
+		this.fieldList = this.cExpenses.getUpdateFieldList(this.selectedItem, this.selectedAction, this.selectedSubcategory, this.selectedType);
+		if (Array.isArray(this.fieldList) && this.fieldList.length > 0) this.selectedField = this.fieldList[0];
+		this.customField = '';
 	}   // onActionChange
 
 	onSubcategoryChange(): void
 	{
-		this.updateItemManagement();
+		// update type list
+		this.typeList = this.cExpenses.getUpdateTypeList(this.selectedItem, this.selectedAction, this.selectedSubcategory);
+		if (Array.isArray(this.typeList) && this.typeList.length > 0) this.selectedType = this.typeList[0];
+
+		// update field list
+		this.fieldList = this.cExpenses.getUpdateFieldList(this.selectedItem, this.selectedAction, this.selectedSubcategory, this.selectedType);
+		if (Array.isArray(this.fieldList) && this.fieldList.length > 0) this.selectedField = this.fieldList[0];
 	}   // onSubcategoryChange
 
 	onTypeChange(): void
 	{
-		this.updateItemManagement();
+		// update field list
+		this.fieldList = this.cExpenses.getUpdateFieldList(this.selectedItem, this.selectedAction, this.selectedSubcategory, this.selectedType);
+		if (Array.isArray(this.fieldList) && this.fieldList.length > 0) this.selectedField = this.fieldList[0];
 	}   // onTypeChange
+
+	onFieldChange(): void
+	{
+		// no action required
+	}   // onFieldChange
+
+	performAction()
+	{
+		console.log("performAction");
+	}   // performAction
 
 	verify(): void
 	{

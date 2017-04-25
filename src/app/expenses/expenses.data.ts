@@ -72,7 +72,7 @@ export const possibleExpenses =
 			label: 'Gas & Electricity',
 			monthlyAmount: 0
 		}
-	}
+	},
 	/*
 	transporation:
 	{
@@ -88,12 +88,24 @@ export const possibleExpenses =
 		RV_Registration: 0,
 		Other: 0
 	},
+	*/
 	food:
 	{
-		groceries: 0,
-		diningOut: 0,
-		other: 0
+		label: 'Food',
+		groceries:
+		{
+			label: 'Groceries',
+			monthlyAmount: 0,
+			field1: 'field1val',
+			field2: 2
+		},
+		diningOut:
+		{
+			label: 'Dining Out',
+			monthlyAmount: 0
+		},
 	},
+	/*
 	health_insurance:
 	{
 		medicalPremium: 0,

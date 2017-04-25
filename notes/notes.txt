@@ -6205,6 +6205,24 @@ OR
 Username
 Password
 ********************************************************************
+http://stackoverflow.com/questions/38377103/disable-select-in-angular2
+
+disable select in angular2
+
+------------------
+
+You could just bind to the [disabled] attribute like so:
+
+<button type="button" class="btn btn-default" [disabled]="butDisabled">Disabled</button>
+
+<select type="number" [(ngModel)]="levelNum" (ngModelChange)="toNumber()" [disabled]="butDisabled">
+  <option *ngFor="let level of levels" [ngValue]="level.num">{{level.name}}</option>
+</select>
+
+And in your component make the variable a boolean:
+
+export class AppComponent {
+    butDisabled: boolean = true;
 ********************************************************************
 ********************************************************************
 ********************************************************************
