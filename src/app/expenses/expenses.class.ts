@@ -1,5 +1,4 @@
 import { CValidityCheck, IVerifyResult } from '../utilities/validity-check.class';
-import { possibleExpenses } from './expenses.data'
 
 export class CExpenses
 {
@@ -7,29 +6,29 @@ export class CExpenses
     {
     }
 
-    getSubcategories(expenses:any): string[]
+    getSubcategories(category:any): string[]
     /*
     This routine returns an array containing a list of subcategory properties.
     */
     {
         let result = [];
-        for (var subcat of Object.keys(expenses))
+        for (var subcat of Object.keys(category))
         {
             result.push(subcat);
         }
         return result;
     }  // getSubcategories
 
-    getTypes(expenses:any): any
+    getTypes(category:any): any
     /*
     This routine returns an object that has a list of type properties for all possible subcat values.
     */
     {
         let result = {};
-        for (let subcat of Object.keys(expenses))
+        for (let subcat of Object.keys(category))
         {
             result[subcat] = [];
-            for (let type of Object.keys(expenses[subcat]))
+            for (let type of Object.keys(category[subcat]))
             {
                 if (type != 'label') result[subcat].push(type);
             }
@@ -37,25 +36,25 @@ export class CExpenses
         return result;
     }   // getTypes
 
-    getFields(expenses:any): any
+    getFields(category:any, wantHiddenFields:boolean): any
     /*
     This routine returns an object that has a list of field properties for all possible subcat and type values.
     */
     {
         let result = {};
-        for (let subcat of Object.keys(expenses))
+        for (let subcat of Object.keys(category))
         {
             result[subcat] = {};
-            for (let type of Object.keys(expenses[subcat]))
+            for (let type of Object.keys(category[subcat]))
             {
                 if (type != 'label')
                 {
-                    for (let field of Object.keys(expenses[subcat][type]))
+                    for (let field of Object.keys(category[subcat][type]))
                     {
                         result[subcat][type] = [];
-                        for (let field of Object.keys(expenses[subcat][type]))
+                        for (let field of Object.keys(category[subcat][type]))
                         {
-                            if (field != 'label' && field != 'monthlyAmount') result[subcat][type].push(field);
+                            if (wantHiddenFields || (field != 'label' && field != 'monthlyAmount')) result[subcat][type].push(field);
                         }
                     }
                 }
@@ -64,24 +63,24 @@ export class CExpenses
         return result;
     }   // getFields
 
-    getTypesList(expenses:any, subcat:string): string[]
+    getTypesList(category:any, subcat:string): string[]
     /*
     This routine returns a list of types under a given subcategory.
     */
     {
         let result = [];
-        let typesInfo = this.getTypes(expenses);
+        let typesInfo = this.getTypes(category);
         if (typesInfo.hasOwnProperty(subcat)) result = typesInfo[subcat];
         return result;
     }   // getTypesList
 
-    getFieldsList(expenses:any, subcat:string, type:string): string[]
+    getFieldsList(category:any, subcat:string, type:string, wantHiddenFields:boolean): string[]
     /*
     This routine returns a list of fields under a given subcategory and type.
     */
     {
         let result = [];
-        let fieldsInfo = this.getFields(expenses);
+        let fieldsInfo = this.getFields(category,wantHiddenFields);
         if (fieldsInfo.hasOwnProperty(subcat) && fieldsInfo[subcat].hasOwnProperty(type))
         {
             result = fieldsInfo[subcat][type];
@@ -89,10 +88,13 @@ export class CExpenses
         return result;
     }   // getFieldsList
 
-    getUpdateSubcategoryList(item:string, action:string): string[]
+    getUpdateSubcategoryList(currentCategory:any, possibleCategory:any, item:string, action:string): string[]
+    /*
+    This routine creates a list that provides the appropriate content for the subcategories drop down list.
+    */
     {
-        let currentSubcatList: string[] = this.getSubcategories(this.expenses);
-        let possibleSubcatList: string[] = this.getSubcategories(possibleExpenses);
+        let currentSubcatList: string[] = this.getSubcategories(currentCategory);
+        let possibleSubcatList: string[] = this.getSubcategories(possibleCategory);
         let result: string[] = [];
 
         // build list of possible subcategories that are not in current subcategories
@@ -145,10 +147,13 @@ export class CExpenses
         return result;
     }   // getUpdateSubcategoryList
 
-    getUpdateTypeList(item:string, action:string, subcat:string): string[]
+    getUpdateTypeList(currentCategory:any, possibleCategory:any, item:string, action:string, subcat:string): string[]
+    /*
+    This routine creates a list that provides the appropriate content for the types drop down list.
+    */
     {
-        let currentTypeList: string[] = this.getTypesList(this.expenses, subcat);
-        let possibleTypeList: string[] = this.getTypesList(possibleExpenses, subcat);
+        let currentTypeList: string[] = this.getTypesList(currentCategory, subcat);
+        let possibleTypeList: string[] = this.getTypesList(possibleCategory, subcat);
         let result: string[] = [];
 
         // build list of possible types that are not in current types
@@ -204,10 +209,13 @@ export class CExpenses
         return result;
     }   // getUpdateTypeList
 
-    getUpdateFieldList(item:string, action:string, subcat:string, type:string): string[]
+    getUpdateFieldList(currentCategory:any, possibleCategory:any, item:string, action:string, subcat:string, type:string, wantHiddenFields:boolean): string[]
+    /*
+    This routine creates a list that provides the appropriate content for the fields drop down list.
+    */
     {
-        let currentFieldList: string[] = this.getFieldsList(this.expenses, subcat, type);
-        let possibleFieldList: string[] = this.getFieldsList(possibleExpenses, subcat, type);
+        let currentFieldList: string[] = this.getFieldsList(currentCategory, subcat, type, wantHiddenFields);
+        let possibleFieldList: string[] = this.getFieldsList(possibleCategory, subcat, type, wantHiddenFields);
         let result: string[] = [];
 
         // build list of possible fields that are not in current fields
@@ -219,6 +227,7 @@ export class CExpenses
                 if (currentFieldList.indexOf(field) == -1) addableFieldList.push(field);
             }
         }
+        addableFieldList.push('none');
         addableFieldList.push('custom');
 
         if (item == 'Subcategory')
@@ -262,14 +271,17 @@ export class CExpenses
         return result;
     }   // getUpdateFieldList
 
-    getSubcategorySum(subcat)
+    getSubcategorySum(category:any, subcat:string): number
+    /*
+    This routine computes the sum of "monthlyAmount" values within a given subcategory.
+    */
     {
         let sum = 0;
-        for (let type of Object.keys(this.expenses[subcat]))
+        for (let type of Object.keys(category[subcat]))
         {
-            if (typeof this.expenses[subcat][type] == 'object' && this.expenses[subcat][type].hasOwnProperty('monthlyAmount'))
+            if (typeof category[subcat][type] == 'object' && category[subcat][type].hasOwnProperty('monthlyAmount'))
             {
-                let val = this.expenses[subcat][type]['monthlyAmount'];
+                let val = category[subcat][type]['monthlyAmount'];
                 if (typeof val == 'number')
                 {
                     sum = sum + val;
@@ -283,16 +295,19 @@ export class CExpenses
         return sum;
     }   // getSubcategorySum
 
-    getCategorySum()
+    getCategorySum(category:any): number
+    /*
+    This routine computes the sum of "monthlyAmount" values within a given category.
+    */
     {
         let sum = 0;
-        for (let subcat of Object.keys(this.expenses))
+        for (let subcat of Object.keys(category))
         {
-            for (let type of Object.keys(this.expenses[subcat]))
+            for (let type of Object.keys(category[subcat]))
             {
-                if (typeof this.expenses[subcat][type] == 'object' && this.expenses[subcat][type].hasOwnProperty('monthlyAmount'))
+                if (typeof category[subcat][type] == 'object' && category[subcat][type].hasOwnProperty('monthlyAmount'))
                 {
-                    let val = this.expenses[subcat][type]['monthlyAmount'];
+                    let val = category[subcat][type]['monthlyAmount'];
                     if (typeof val == 'number')
                     {
                         sum = sum + val;
@@ -307,16 +322,22 @@ export class CExpenses
         return sum;
     }   // getCategorySum
 
-  	verifyAllDataValues(): IVerifyResult
+  	verifyAllDataValues(category:any): IVerifyResult
+    /*
+    This routine will check the validity of all "monthlyAmount" values within the given category.
+    */
     {
   		// initialize
   		let result: IVerifyResult = {hadError:false, messages:[]};
 
-        for (let subcat of Object.keys(this.expenses))
+        for (let subcat of Object.keys(category))
         {
-            for (let type of Object.keys(this.expenses[subcat]))
+            for (let type of Object.keys(category[subcat]))
             {
-                CValidityCheck.checkInteger3(this.expenses,subcat,type,result);
+                if (typeof category[subcat][type] == 'object' && category[subcat][type].hasOwnProperty('monthlyAmount'))
+                {
+                    CValidityCheck.checkInteger3(category,subcat,type,'monthlyAmount',result);
+                }
             }
         }
 

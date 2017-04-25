@@ -6224,8 +6224,13 @@ And in your component make the variable a boolean:
 export class AppComponent {
     butDisabled: boolean = true;
 ********************************************************************
+http://blog.jonasbandi.net/2016/06/ng2-router.html
+
+The Angular 2 Router Debacle
 ********************************************************************
+https://hackernoon.com/why-learning-angular-2-was-excruciating-d50dc28acc8a
 ********************************************************************
+http://perfectionkills.com/understanding-delete/
 ********************************************************************
 ********************************************************************
 ********************************************************************

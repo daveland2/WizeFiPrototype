@@ -73,22 +73,59 @@ export const possibleExpenses =
 			monthlyAmount: 0
 		}
 	},
-	/*
 	transporation:
 	{
-		payments: 0,
-		insurance: 0,
-		gas: 0,
-		maintenance: 0,
-		registration: 0,
-		RV_Payments: 0,
-		RV_Insurance: 0,
-		RV_Gas: 0,
-		RV_Maint: 0,
-		RV_Registration: 0,
-		Other: 0
+		payments:
+		{
+			label: 'Payments',
+			monthlyAmount: 0
+		},
+		insurance:
+		{
+			label: 'Insurance',
+			monthlyAmount: 0
+		},
+		gas:
+		{
+			label: 'Gas',
+			monthlyAmount: 0
+		},
+		maintenance:
+		{
+			label: 'Maintenance',
+			monthlyAmount: 0
+		},
+		registration:
+		{
+			label: 'Registration',
+			monthlyAmount: 0
+		},
+		RV_Payments:
+		{
+			label: 'RV Payments',
+			monthlyAmount: 0
+		},
+		RV_Insurance:
+		{
+			label: 'RV Insurance',
+			monthlyAmount: 0
+		},
+		RV_Gas:
+		{
+			label: 'RV Gas',
+			monthlyAmount: 0
+		},
+		RV_Maint:
+		{
+			label: 'RV Maint',
+			monthlyAmount: 0
+		},
+		RV_Registration:
+		{
+			label: 'RV Registration',
+			monthlyAmount: 0
+		}
 	},
-	*/
 	food:
 	{
 		label: 'Food',

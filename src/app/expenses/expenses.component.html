@@ -5,13 +5,16 @@
 &nbsp;&nbsp;&nbsp;
 <input type="checkbox" id="fieldCbx" [(ngModel)]="showAllFields" (ngModelChange)="updateFieldsVisibility()" title="Toggle visibility of all fields"/>
 <label for="fieldCbx">Fields</label>
+&nbsp;&nbsp;&nbsp;
+<input type="checkbox" id="hiddenFieldsCbx" [(ngModel)]="wantHiddenFields" (ngModelChange)="updateHiddenFieldsVisibility()" title="Show hidden fields"/>
+<label for="hiddenFieldsCbx">Show "hidden" fields</label>
 
 <br>
 <table>
     <tr class="category">
     	<td>Expenses</td>
     	<td>
-     		<input class="category" type="number" [value]="cExpenses.getCategorySum()" size="8" readonly>
+     		<input class="category" type="number" [value]="cExpenses.getCategorySum(cExpenses.expenses)" size="8" readonly>
     	</td>
     	<td>
     	</td>
@@ -22,7 +25,7 @@
          		<input class="subcategory" type="string" [(ngModel)]="cExpenses.expenses[subcat]['label']" size="30">
          	</td>
         	<td>
-         		<input class="subcategory" type="number" [value]="cExpenses.getSubcategorySum(subcat)" size="8" readonly>
+         		<input class="subcategory" type="number" [value]="cExpenses.getSubcategorySum(cExpenses.expenses, subcat)" size="8" readonly>
         	</td>
 	    	<td>
 				<button (click)="toggleTypeVisibility(subcat)" title="Toggle visibility of types for this subcategory">\/</button>
@@ -108,3 +111,6 @@ Manage Items
 
 <br>
 <button (click)="performAction()">Perform Action</button>
+
+<br><br>
+<div *ngFor="let message of messages">{{message}}</div>
