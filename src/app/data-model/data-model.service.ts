@@ -173,6 +173,24 @@ export class DataModelService
 
 	viewData()
 	{
+		function prettyPrint(data)
+		/*
+		This routine will return a string that renders a JavaScript data object in a
+		"pretty print" format.
+		*/
+		{
+		    var ppJSON,ppJS;
+
+		    // transform data into formatted JSON notation
+		    ppJSON = JSON.stringify(data, null, 4);
+
+		    // transform ppJSON into formatted JavaScript notation
+		    // (remove " around item to left of :)
+		    ppJS = ppJSON.replace(/"([^"]+)"\s*:/gm, '$1:');
+
+		    return ppJS;
+		}   // prettyPrint
+
 		let saveLambda: any;
 
 		// remove lambda item to eliminate "circular reference" error upon doing JSON.stringify
@@ -181,6 +199,7 @@ export class DataModelService
 
 		// report information
 		console.log("view: " + JSON.stringify(this.dataModel));
+		console.log(prettyPrint(this.dataModel));
 
 		// restore lambda item
 		this.dataModel.global.lambda = saveLambda;

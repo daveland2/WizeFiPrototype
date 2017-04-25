@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApplicationRef } from '@angular/core';
 
 import { DataModelService } from '../data-model/data-model.service';
+import { GD } from '../utilities/gd.class';
 import { CValidityCheck, IVerifyResult } from '../utilities/validity-check.class';
 import { CExpenses } from './expenses.class';
 import { possibleExpenses } from './expenses.data'
@@ -19,6 +20,7 @@ export class ExpensesComponent implements OnInit
     // transient data
     messages: string[] = [];
 
+    // this data controls visibility of components in HTML
 	showAllTypes: boolean;
     showAllFields: boolean;
     wantHiddenFields: boolean;
@@ -26,10 +28,12 @@ export class ExpensesComponent implements OnInit
 	areTypesVisible: any;
 	areFieldsVisible: any;
 
-	currentExpensesSubcategories: string[] = [];
-	currentExpensesTypes: any = {};
-	currentExpensesFields: any = {};
+	// this data populates the screen interface
+	currentSubcategories: string[] = [];
+	currentTypes: any = {};
+	currentFields: any = {};
 
+	// this data is used in the Manage Items feature
 	selectedItem: string;
 	selectedAction: string;
 
@@ -51,14 +55,14 @@ export class ExpensesComponent implements OnInit
 	{
 	    this.cExpenses = new CExpenses(this.dataModelService.getdata('expenses'));
 
-		this.currentExpensesSubcategories = this.cExpenses.getSubcategories(this.cExpenses.expenses);
-		this.currentExpensesTypes = this.cExpenses.getTypes(this.cExpenses.expenses);
-		this.currentExpensesFields = this.cExpenses.getFields(this.cExpenses.expenses, this.wantHiddenFields);
+		this.currentSubcategories = GD.getSubcategories(this.cExpenses.expenses);
+		this.currentTypes = GD.getTypes(this.cExpenses.expenses);
+		this.currentFields = GD.getFields(this.cExpenses.expenses, this.wantHiddenFields);
 
 		let initialStatus = false;  // default initial status of visibility
 
-		this.areTypesVisible = this.createAreTypesVisible(initialStatus);
-		this.areFieldsVisible = this.createAreFieldsVisible(initialStatus);
+		this.areTypesVisible = GD.createAreTypesVisible(this.cExpenses.expenses, initialStatus);
+		this.areFieldsVisible = GD.createAreFieldsVisible(this.cExpenses.expenses, initialStatus);
 
 		this.showAllTypes = initialStatus;
 		this.showAllFields = initialStatus;
@@ -68,27 +72,31 @@ export class ExpensesComponent implements OnInit
 		this.selectedAction = 'Add';
 
 		// update subcategories list
-		this.subcatList = this.cExpenses.getUpdateSubcategoryList(this.cExpenses.expenses, possibleExpenses, this.selectedItem, this.selectedAction);
+		this.subcatList = GD.getUpdateSubcategoryList(this.cExpenses.expenses, possibleExpenses, this.selectedItem, this.selectedAction);
 		if (Array.isArray(this.subcatList) && this.subcatList.length > 0) this.selectedSubcategory = this.subcatList[0];
 
 		// update type list
-		this.typeList = this.cExpenses.getUpdateTypeList(this.cExpenses.expenses, possibleExpenses, this.selectedItem, this.selectedAction, this.selectedSubcategory);
+		this.typeList = GD.getUpdateTypeList(this.cExpenses.expenses, possibleExpenses, this.selectedItem, this.selectedAction, this.selectedSubcategory);
 		if (Array.isArray(this.typeList) && this.typeList.length > 0) this.selectedType = this.typeList[0];
 
 		// update field list
-		this.fieldList = this.cExpenses.getUpdateFieldList(this.cExpenses.expenses, possibleExpenses, this.selectedItem, this.selectedAction, this.selectedSubcategory, this.selectedType, this.wantHiddenFields);
+		this.fieldList = GD.getUpdateFieldList(this.cExpenses.expenses, possibleExpenses, this.selectedItem, this.selectedAction, this.selectedSubcategory, this.selectedType, this.wantHiddenFields);
 		if (Array.isArray(this.fieldList) && this.fieldList.length > 0) this.selectedField = this.fieldList[0];
 	}   // ngOnInit
 
-    createAreTypesVisible(status:boolean): any
+	/*******************************************
+	*  Code to support data display
+	*******************************************/
+
+    getCategorySum(category)
     {
-    	let result = {};
-        for (let subcat of Object.keys(this.cExpenses.expenses))
-        {
-            result[subcat] = status;
-        }
-    	return result;
-    }   // createAreTypesVisible
+		return GD.getCategorySum(category);
+    }   // getCategorySum
+
+    getSubcategorySum(category,subcat)
+    {
+		return GD.getSubcategorySum(category,subcat);
+    }   // getSubcategorySum
 
 	updateTypesVisibility()
 	{
@@ -107,20 +115,6 @@ export class ExpensesComponent implements OnInit
     {
     	return this.areTypesVisible[subcat];
     }   // isTypeVisible
-
-    createAreFieldsVisible(status:boolean): any
-    {
-        let result = {};
-        for (let subcat of Object.keys(this.cExpenses.expenses))
-        {
-            result[subcat] = {};
-            for (let type of Object.keys(this.cExpenses.expenses[subcat]))
-            {
-                result[subcat][type] = status;
-            }
-        }
-    	return result;
-    }   // createAreFieldsVisible
 
     updateFieldsVisibility(): void
 	{
@@ -143,31 +137,56 @@ export class ExpensesComponent implements OnInit
     	return this.areFieldsVisible[subcat][type];
     }   // isFieldVisible
 
-    updateHiddenFieldsVisibility()
+    updateHiddenFieldsVisibility(): void
     {
-    	this.currentExpensesFields = this.cExpenses.getFields(this.cExpenses.expenses, this.wantHiddenFields);
+    	this.currentFields = GD.getFields(this.cExpenses.expenses, this.wantHiddenFields);
     }   // updateHiddenFieldsVisibility
 
-	dataType(val)
+	dataType(val:any): any
 	{
-		let result = (typeof val == 'number' || (typeof val == 'string' && !isNaN(+val))) ? 'number' : 'string';  //%//
+		//TODO -- figure out why this function is not invoked (from HTML context)
 		return (typeof val == 'number' || (typeof val == 'string' && !isNaN(+val))) ? 'number' : 'string';
 	}   // dataType
+
+	verify(): void
+	{
+		this.messages = [];
+		let result: IVerifyResult = GD.verifyAllDataValues(this.cExpenses.expenses);
+		if (result.hadError) {
+			// report errors on screen
+			this.messages = result.messages;
+			this.ref.tick();  // force change detection so screen will be updated
+		}
+	} //  verify
+
+	/*******************************************
+	*  Ancillary support code
+	*******************************************/
+
+	// update data model
+	update(): void
+	{
+		this.dataModelService.putdata('expenses', this.cExpenses.expenses);
+	}
+
+	/*******************************************
+	*  Code to support Manage Item feature
+	*******************************************/
 
 	onItemChange(): void
 	{
 		// update subcategories list
-		this.subcatList = this.cExpenses.getUpdateSubcategoryList(this.cExpenses.expenses, possibleExpenses, this.selectedItem, this.selectedAction);
+		this.subcatList = GD.getUpdateSubcategoryList(this.cExpenses.expenses, possibleExpenses, this.selectedItem, this.selectedAction);
 		if (Array.isArray(this.subcatList) && this.subcatList.length > 0) this.selectedSubcategory = this.subcatList[0];
 		this.customSubcategory = '';
 
 		// update type list
-		this.typeList = this.cExpenses.getUpdateTypeList(this.cExpenses.expenses, possibleExpenses, this.selectedItem, this.selectedAction, this.selectedSubcategory);
+		this.typeList = GD.getUpdateTypeList(this.cExpenses.expenses, possibleExpenses, this.selectedItem, this.selectedAction, this.selectedSubcategory);
 		if (Array.isArray(this.typeList) && this.typeList.length > 0) this.selectedType = this.typeList[0];
 		this.customType = '';
 
 		// update field list
-		this.fieldList = this.cExpenses.getUpdateFieldList(this.cExpenses.expenses, possibleExpenses, this.selectedItem, this.selectedAction, this.selectedSubcategory, this.selectedType, this.wantHiddenFields);
+		this.fieldList = GD.getUpdateFieldList(this.cExpenses.expenses, possibleExpenses, this.selectedItem, this.selectedAction, this.selectedSubcategory, this.selectedType, this.wantHiddenFields);
 		if (Array.isArray(this.fieldList) && this.fieldList.length > 0) this.selectedField = this.fieldList[0];
 		this.customField = '';
 	}   // onItemChange
@@ -175,17 +194,17 @@ export class ExpensesComponent implements OnInit
 	onActionChange(): void
 	{
 		// update subcategories list
-		this.subcatList = this.cExpenses.getUpdateSubcategoryList(this.cExpenses.expenses, possibleExpenses, this.selectedItem, this.selectedAction);
+		this.subcatList = GD.getUpdateSubcategoryList(this.cExpenses.expenses, possibleExpenses, this.selectedItem, this.selectedAction);
 		if (Array.isArray(this.subcatList) && this.subcatList.length > 0) this.selectedSubcategory = this.subcatList[0];
 		this.customSubcategory = '';
 
 		// update type list
-		this.typeList = this.cExpenses.getUpdateTypeList(this.cExpenses.expenses, possibleExpenses, this.selectedItem, this.selectedAction, this.selectedSubcategory);
+		this.typeList = GD.getUpdateTypeList(this.cExpenses.expenses, possibleExpenses, this.selectedItem, this.selectedAction, this.selectedSubcategory);
 		if (Array.isArray(this.typeList) && this.typeList.length > 0) this.selectedType = this.typeList[0];
 		this.customType = '';
 
 		// update field list
-		this.fieldList = this.cExpenses.getUpdateFieldList(this.cExpenses.expenses, possibleExpenses, this.selectedItem, this.selectedAction, this.selectedSubcategory, this.selectedType, this.wantHiddenFields);
+		this.fieldList = GD.getUpdateFieldList(this.cExpenses.expenses, possibleExpenses, this.selectedItem, this.selectedAction, this.selectedSubcategory, this.selectedType, this.wantHiddenFields);
 		if (Array.isArray(this.fieldList) && this.fieldList.length > 0) this.selectedField = this.fieldList[0];
 		this.customField = '';
 	}   // onActionChange
@@ -193,18 +212,18 @@ export class ExpensesComponent implements OnInit
 	onSubcategoryChange(): void
 	{
 		// update type list
-		this.typeList = this.cExpenses.getUpdateTypeList(this.cExpenses.expenses, possibleExpenses, this.selectedItem, this.selectedAction, this.selectedSubcategory);
+		this.typeList = GD.getUpdateTypeList(this.cExpenses.expenses, possibleExpenses, this.selectedItem, this.selectedAction, this.selectedSubcategory);
 		if (Array.isArray(this.typeList) && this.typeList.length > 0) this.selectedType = this.typeList[0];
 
 		// update field list
-		this.fieldList = this.cExpenses.getUpdateFieldList(this.cExpenses.expenses, possibleExpenses, this.selectedItem, this.selectedAction, this.selectedSubcategory, this.selectedType, this.wantHiddenFields);
+		this.fieldList = GD.getUpdateFieldList(this.cExpenses.expenses, possibleExpenses, this.selectedItem, this.selectedAction, this.selectedSubcategory, this.selectedType, this.wantHiddenFields);
 		if (Array.isArray(this.fieldList) && this.fieldList.length > 0) this.selectedField = this.fieldList[0];
 	}   // onSubcategoryChange
 
 	onTypeChange(): void
 	{
 		// update field list
-		this.fieldList = this.cExpenses.getUpdateFieldList(this.cExpenses.expenses, possibleExpenses, this.selectedItem, this.selectedAction, this.selectedSubcategory, this.selectedType, this.wantHiddenFields);
+		this.fieldList = GD.getUpdateFieldList(this.cExpenses.expenses, possibleExpenses, this.selectedItem, this.selectedAction, this.selectedSubcategory, this.selectedType, this.wantHiddenFields);
 		if (Array.isArray(this.fieldList) && this.fieldList.length > 0) this.selectedField = this.fieldList[0];
 	}   // onTypeChange
 
@@ -285,7 +304,7 @@ export class ExpensesComponent implements OnInit
 
             if (action == 'Delete')
             {
-            	if (!confirm('Do you intend to delete the type: '+subcat+'.'+type))
+            	if (!confirm('Do you intend to delete the type: ' + subcat + '.' + type))
             	{
             		wantRefresh = false;
             	}
@@ -332,28 +351,12 @@ export class ExpensesComponent implements OnInit
 	    // update screen
 	    if (wantRefresh && !hadError)
 	    {
-	    	this.areTypesVisible = this.createAreTypesVisible(this.showAllTypes);
-			this.areFieldsVisible = this.createAreFieldsVisible(this.showAllFields);
-			this.currentExpensesSubcategories = this.cExpenses.getSubcategories(this.cExpenses.expenses);
-			this.currentExpensesTypes = this.cExpenses.getTypes(this.cExpenses.expenses);
-			this.currentExpensesFields = this.cExpenses.getFields(this.cExpenses.expenses, this.wantHiddenFields);
+	    	this.areTypesVisible = GD.createAreTypesVisible(this.cExpenses.expenses, this.showAllTypes);
+			this.areFieldsVisible = GD.createAreFieldsVisible(this.cExpenses.expenses, this.showAllFields);
+			this.currentSubcategories = GD.getSubcategories(this.cExpenses.expenses);
+			this.currentTypes = GD.getTypes(this.cExpenses.expenses);
+			this.currentFields = GD.getFields(this.cExpenses.expenses, this.wantHiddenFields);
 		}
 	}   // performAction
 
-	verify(): void
-	{
-		this.messages = [];
-		let result: IVerifyResult = this.cExpenses.verifyAllDataValues(this.cExpenses.expenses);
-		if (result.hadError) {
-			// report errors on screen
-			this.messages = result.messages;
-			this.ref.tick();  // force change detection so screen will be updated
-		}
-	} //  verify
-
-	// update data model
-	update(): void
-	{
-		this.dataModelService.putdata('expenses', this.cExpenses.expenses);
-	}
 }   // class ExpensesComponent

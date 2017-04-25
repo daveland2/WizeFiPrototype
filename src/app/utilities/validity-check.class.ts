@@ -47,7 +47,7 @@ export class CValidityCheck
         if (!val.match(attrbiuteNamePattern))
         {
             hadError = true;
-            messages.push("Attribute name '" + attributeName + "' must start with a letter, and contain only letters, digits, or underscore");
+            messages.push("Attribute name for " + attributeName + " must start with a letter, and contain only letters, digits, or underscore");
         }
         return hadError;
     }   // checkAttributeNameValidity
