@@ -28,7 +28,7 @@ export class ExpensesComponent implements OnInit
 	areTypesVisible: any;
 	areFieldsVisible: any;
 
-	// this data populates the screen interface
+	// this data supports presentation of data on the screen
 	currentSubcategories: string[] = [];
 	currentTypes: any = {};
 	currentFields: any = {};
@@ -53,6 +53,9 @@ export class ExpensesComponent implements OnInit
 
 	ngOnInit()
 	{
+		////////////////////////////////////////////////
+		// initialize for screen data management
+		////////////////////////////////////////////////
 	    this.cExpenses = new CExpenses(this.dataModelService.getdata('expenses'));
 
 		this.currentSubcategories = GD.getSubcategories(this.cExpenses.expenses);
@@ -67,6 +70,10 @@ export class ExpensesComponent implements OnInit
 		this.showAllTypes = initialStatus;
 		this.showAllFields = initialStatus;
 		this.wantHiddenFields = false;
+
+		////////////////////////////////////////////////
+		// initialize for the Manage Items feature
+		////////////////////////////////////////////////
 
 		this.selectedItem = 'Subcategory';
 		this.selectedAction = 'Add';
@@ -237,7 +244,6 @@ export class ExpensesComponent implements OnInit
 	This routine performs the specified action requested in the "Manage Items" section
 	*/
 	{
-		console.log("performAction");
 		let wantRefresh: boolean = true;
 		let hadError: boolean = false;
 		let item: string = this.selectedItem;
