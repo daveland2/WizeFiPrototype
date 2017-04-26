@@ -18,7 +18,7 @@ This class provides variables and routines for managing generic data processing.
     currentTypes: any = {};
     currentFields: any = {};
 
-    constructor (private category:any, private possibleCategory:any)
+    constructor (public category:any, public possibleCategory:any, private messages:string[])
     {
         this.currentSubcategories = this.getSubcategories(this.category);
         this.currentTypes = this.getTypes(this.category);

@@ -67,7 +67,7 @@ Manage Items
 	<tr>
 		<td>Item</td>
 		<td>
-			<select [(ngModel)]="selectedItem" (change)="onItemChange()">
+			<select [(ngModel)]="im.selectedItem" (change)="im.onItemChange()">
 				<option value="Subcategory">Subcategory</option>
 				<option value="Type">Type</option>
 				<option value="Field">Field</option>
@@ -77,7 +77,7 @@ Manage Items
     <tr>
 		<td>Action</td>
 		<td>
-			<select [(ngModel)]="selectedAction" (change)="onActionChange()">
+			<select [(ngModel)]="im.selectedAction" (change)="im.onActionChange()">
 				<option value="Add">Add</option>
 				<option value="Delete">Delete</option>
 			</select>
@@ -86,34 +86,34 @@ Manage Items
    	<tr>
 		<td>Subcategory</td>
 		<td>
-			<select [(ngModel)]="selectedSubcategory" (change)="onSubcategoryChange()">
-				<option *ngFor="let subcat of subcatList" [value]="subcat">{{subcat}}</option>
+			<select [(ngModel)]="im.selectedSubcategory" (change)="im.onSubcategoryChange()">
+				<option *ngFor="let subcat of im.subcatList" [value]="subcat">{{subcat}}</option>
 			</select>
-    		<input *ngIf="selectedSubcategory == 'custom'" type="text" [(ngModel)]="customSubcategory" size="15" title="Name of custom Subcategory attribute">
+    		<input *ngIf="im.selectedSubcategory == 'custom'" type="text" [(ngModel)]="im.customSubcategory" size="15" title="Name of custom Subcategory attribute">
 		</td>
     </tr>
-   	<tr *ngIf="selectedAction == 'Add' || selectedItem == 'Type' || selectedItem == 'Field'">
+   	<tr *ngIf="im.selectedAction == 'Add' || im.selectedItem == 'Type' || im.selectedItem == 'Field'">
 		<td>Type</td>
 		<td>
-			<select [(ngModel)]="selectedType" (change)="onTypeChange()">
-				<option *ngFor="let type of typeList" [value]="type">{{type}}</option>
+			<select [(ngModel)]="im.selectedType" (change)="im.onTypeChange()">
+				<option *ngFor="let type of im.typeList" [value]="type">{{type}}</option>
 			</select>
-    		<input *ngIf="selectedType == 'custom'" type="text" [(ngModel)]="customType" size="15" title="Name of custom Type attribute">
+    		<input *ngIf="im.selectedType == 'custom'" type="text" [(ngModel)]="im.customType" size="15" title="Name of custom Type attribute">
 		</td>
     </tr>
-   	<tr *ngIf="selectedAction == 'Add' || selectedItem == 'Field'">
+   	<tr *ngIf="im.selectedAction == 'Add' || im.selectedItem == 'Field'">
 		<td>Field</td>
 		<td>
-			<select [(ngModel)]="selectedField" (change)="onFieldChange()">
-				<option *ngFor="let field of fieldList" [value]="field">{{field}}</option>
+			<select [(ngModel)]="im.selectedField" (change)="im.onFieldChange()">
+				<option *ngFor="let field of im.fieldList" [value]="field">{{field}}</option>
 			</select>
-    		<input *ngIf="selectedField == 'custom'" type="text" [(ngModel)]="customField" size="15" title="Name of custom Field attribute">
+    		<input *ngIf="im.selectedField == 'custom'" type="text" [(ngModel)]="im.customField" size="15" title="Name of custom Field attribute">
 		</td>
     </tr>
 </table>
 
 <br>
-<button (click)="performAction()">Perform Action</button>
+<button (click)="im.performAction()">Perform Action</button>
 
 <br><br>
 <div *ngFor="let message of messages">{{message}}</div>
