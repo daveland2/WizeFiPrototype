@@ -9,7 +9,8 @@ import { possibleExpenses } from './expenses.data';
 
 @Component({
   selector: 'app-expenses',
-  templateUrl: './expenses.component.html',
+  // templateUrl: './expenses.component.html',
+  templateUrl: '../utilities/generic-category.html',
   styleUrls: ['./expenses.component.css']
 })
 export class ExpensesComponent implements OnInit
@@ -21,6 +22,8 @@ export class ExpensesComponent implements OnInit
     messages: string[] = [];
     gd: GenericDataManagement;  // class to handle generic data presentation components in HTML
     im: ItemManagement; // // class to handle "Manage Items" feature
+    category: any;
+    categoryName: string;
 
 	constructor(private dataModelService: DataModelService) { }
 
@@ -29,6 +32,8 @@ export class ExpensesComponent implements OnInit
 	    this.cExpenses = new CExpenses(this.dataModelService.getdata('expenses'));
 	    this.gd = new GenericDataManagement(this.cExpenses.expenses, possibleExpenses, this.messages);
 	    this.im = new ItemManagement(this.gd, this.messages);
+	    this.category = this.cExpenses.expenses;
+	    this.categoryName = 'Expenses';
 	}   // ngOnInit
 
     verify(): void

@@ -75,6 +75,7 @@ export const possibleExpenses =
 	},
 	transporation:
 	{
+		label: 'Transportation',
 		payments:
 		{
 			label: 'Payments',
@@ -142,28 +143,71 @@ export const possibleExpenses =
 			monthlyAmount: 0
 		},
 	},
-	/*
 	health_insurance:
 	{
-		medicalPremium: 0,
-		dentalPremium: 0,
-		visionPremiums: 0,
-		medicalCopay_Deductables: 0,
-		prescriptions: 0,
-		orthodontist: 0,
-		lifeInsurance: 0,
-		disabilityInsurance: 0,
-		other: 0
+		label: 'Health Insurance',
+		medicalPremium:
+		{
+			label: '',
+			monthlyAmount: 0
+		},
+		dentalPremium:
+		{
+			label: '',
+			monthlyAmount: 0
+		},
+		visionPremiums:
+		{
+			label: '',
+			monthlyAmount: 0
+		},
+		medicalCopay_Deductables:
+		{
+			label: 'Copay & Deductables',
+			monthlyAmount: 0
+		},
+		prescriptions:
+		{
+			label: 'Prescriptions',
+			monthlyAmount: 0
+		},
+		orthodontist:
+		{
+			label: 'Orthodontist',
+			monthlyAmount: 0
+		},
+		lifeInsurance:
+		{
+			label: 'Life Insurance',
+			monthlyAmount: 0
+		},
+		disabilityInsurance:
+		{
+			label: 'Disability Insurance',
+			monthlyAmount: 0
+		},
 	},
 	clothing:
 	{
-		clothing: 0,
-		laundry_Drycleaning: 0,
-		other: 0
+		label: 'Clothing',
+		clothing:
+		{
+			label: 'Clothing',
+			monthlyAmount: 0
+		},
+		laundry_Drycleaning:
+		{
+			label: 'Laundry/Dry Cleaning',
+			monthlyAmount: 0
+		},
 	},
 	entertainment:
 	{
-		entertainment: 0
+		label: 'Entertainment',
+		entertainment:
+		{
+			label: 'Entertainment',
+			monthlyAmount: 0
+		}
 	}
-	*/
 };

@@ -1,4 +1,4 @@
-<h3>Expenses</h3>
+<h3>{{categoryName}}</h3>
 
 <input type="checkbox" id="typeCbx" name="typeCbx" [(ngModel)]="gd.showAllTypes" (ngModelChange)="gd.updateTypesVisibility()" title="Toggle visibility of all types"/>
 <label for="typeCbx">Types</label>
@@ -12,7 +12,7 @@
 <br>
 <table>
     <tr class="category">
-    	<td>Expenses</td>
+    	<td>{{categoryName}}</td>
     	<td>
      		<input class="category" type="number" [value]="gd.getCategorySum()" size="8" readonly>
     	</td>
@@ -22,7 +22,7 @@
 	<template ngFor let-subcat [ngForOf]="gd.currentSubcategories">
         <tr class="subcategory">
         	<td>
-         		<input class="subcategory" type="string" [(ngModel)]="cExpenses.expenses[subcat]['label']" size="30">
+         		<input class="subcategory" type="string" [(ngModel)]="category[subcat]['label']" size="30">
          	</td>
         	<td>
          		<input class="subcategory" type="number" [value]="gd.getSubcategorySum(subcat)" size="8" readonly>
@@ -34,10 +34,10 @@
 	    <template ngFor let-type [ngForOf]="gd.currentTypes[subcat]">
 	        <tr class="type" *ngIf="gd.isTypeVisible(subcat)">
 	        	<td>
-         			<input class="type" type="string" [(ngModel)]="cExpenses.expenses[subcat][type]['label']" size="30">
+         			<input class="type" type="string" [(ngModel)]="category[subcat][type]['label']" size="30">
 	        	</td>
 	         	<td>
-	         		<input class="type" type="number" [(ngModel)]="cExpenses.expenses[subcat][type]['monthlyAmount']" (blur)="verify()" size="8">
+	         		<input class="type" type="number" [(ngModel)]="category[subcat][type]['monthlyAmount']" (blur)="verify()" size="8">
 	         	</td>
 				<td>
 					<button (click)="gd.toggleFieldVisibility(subcat,type)" title="Toggle visibility of fields for this type">\/</button>
@@ -48,13 +48,12 @@
 		        	<td>{{field}}</td>
 		         	<td>
 		         		<!-- the following does not work because empty value is treated as number, and cannot be changed
-		         		<input class="field" [type]="gd.dataType(cExpenses.expenses[subcat][type][field])" [(ngModel)]="cExpenses.expenses[subcat][type][field]" (blur)="verify()" size="30">
+		         		<input class="field" [type]="gd.dataType(category[subcat][type][field])" [(ngModel)]="category[subcat][type][field]" (blur)="verify()" size="30">
 		         	    -->
-		         		<input class="field" type="text" [(ngModel)]="cExpenses.expenses[subcat][type][field]" (blur)="verify()" size="30">
+		         		<input class="field" type="text" [(ngModel)]="category[subcat][type][field]" (blur)="verify()" size="30">
 		         	</td>
 		         	<td>
 		         	</td>
-
 		        </tr>
 		    </template>
 	    </template>
