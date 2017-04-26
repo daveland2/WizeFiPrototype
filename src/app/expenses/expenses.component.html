@@ -1,12 +1,12 @@
 <h3>Expenses</h3>
 
-<input type="checkbox" id="typeCbx" name="typeCbx" [(ngModel)]="showAllTypes" (ngModelChange)="updateTypesVisibility()" title="Toggle visibility of all types"/>
+<input type="checkbox" id="typeCbx" name="typeCbx" [(ngModel)]="gd.showAllTypes" (ngModelChange)="gd.updateTypesVisibility()" title="Toggle visibility of all types"/>
 <label for="typeCbx">Types</label>
 &nbsp;&nbsp;&nbsp;
-<input type="checkbox" id="fieldCbx" [(ngModel)]="showAllFields" (ngModelChange)="updateFieldsVisibility()" title="Toggle visibility of all fields"/>
+<input type="checkbox" id="fieldCbx" [(ngModel)]="gd.showAllFields" (ngModelChange)="gd.updateFieldsVisibility()" title="Toggle visibility of all fields"/>
 <label for="fieldCbx">Fields</label>
 &nbsp;&nbsp;&nbsp;
-<input type="checkbox" id="hiddenFieldsCbx" [(ngModel)]="wantHiddenFields" (ngModelChange)="updateHiddenFieldsVisibility()" title="Show hidden fields"/>
+<input type="checkbox" id="hiddenFieldsCbx" [(ngModel)]="gd.wantHiddenFields" (ngModelChange)="gd.updateHiddenFieldsVisibility()" title="Show hidden fields"/>
 <label for="hiddenFieldsCbx">Show "hidden" fields</label>
 
 <br>
@@ -14,7 +14,7 @@
     <tr class="category">
     	<td>Expenses</td>
     	<td>
-     		<input class="category" type="number" [value]="getCategorySum(cExpenses.expenses)" size="8" readonly>
+     		<input class="category" type="number" [value]="gd.getCategorySum()" size="8" readonly>
     	</td>
     	<td>
     	</td>
@@ -25,14 +25,14 @@
          		<input class="subcategory" type="string" [(ngModel)]="cExpenses.expenses[subcat]['label']" size="30">
          	</td>
         	<td>
-         		<input class="subcategory" type="number" [value]="getSubcategorySum(cExpenses.expenses, subcat)" size="8" readonly>
+         		<input class="subcategory" type="number" [value]="gd.getSubcategorySum(subcat)" size="8" readonly>
         	</td>
 	    	<td>
-				<button (click)="toggleTypeVisibility(subcat)" title="Toggle visibility of types for this subcategory">\/</button>
+				<button (click)="gd.toggleTypeVisibility(subcat)" title="Toggle visibility of types for this subcategory">\/</button>
     		</td>
         </tr>
-	    <template ngFor let-type [ngForOf]="currentTypes[subcat]">
-	        <tr class="type" *ngIf="isTypeVisible(subcat)">
+	    <template ngFor let-type [ngForOf]="gd.currentTypes[subcat]">
+	        <tr class="type" *ngIf="gd.isTypeVisible(subcat)">
 	        	<td>
          			<input class="type" type="string" [(ngModel)]="cExpenses.expenses[subcat][type]['label']" size="30">
 	        	</td>
@@ -40,14 +40,14 @@
 	         		<input class="type" type="number" [(ngModel)]="cExpenses.expenses[subcat][type]['monthlyAmount']" (blur)="verify()" size="8">
 	         	</td>
 				<td>
-					<button (click)="toggleFieldVisibility(subcat,type)" title="Toggle visibility of fields for this type">\/</button>
+					<button (click)="gd.toggleFieldVisibility(subcat,type)" title="Toggle visibility of fields for this type">\/</button>
 				</td>
 			</tr>
-		    <template ngFor let-field [ngForOf]="currentFields[subcat][type]">
-		        <tr class="field" *ngIf="isTypeVisible(subcat) && isFieldVisible(subcat,type)">
+		    <template ngFor let-field [ngForOf]="gd.currentFields[subcat][type]">
+		        <tr class="field" *ngIf="gd.isTypeVisible(subcat) && gd.isFieldVisible(subcat,type)">
 		        	<td>{{field}}</td>
 		         	<td>
-		         		<input class="field" type="dataType(cExpenses.expenses[subcat][type][field])" [(ngModel)]="cExpenses.expenses[subcat][type][field]" (blur)="verify()" size="30">
+		         		<input class="field" [type]="gd.dataType(cExpenses.expenses[subcat][type][field])" [(ngModel)]="cExpenses.expenses[subcat][type][field]" (blur)="verify()" size="30">
 		         	</td>
 		         	<td>
 		         	</td>
