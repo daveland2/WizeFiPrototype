@@ -32,8 +32,7 @@ This class provides variables and routines for managing generic data processing.
 
         this.areTypesVisible = this.createAreTypesVisible(initialStatus);
         this.areFieldsVisible = this.createAreFieldsVisible(initialStatus);
-
-    }
+    }   // constructor
 
     getSubcategories(category:any): string[]
     /*
@@ -116,7 +115,6 @@ This class provides variables and routines for managing generic data processing.
         }
         return result;
     }   // getFieldsList
-
 
     updateFieldsVisibility(): void
     {

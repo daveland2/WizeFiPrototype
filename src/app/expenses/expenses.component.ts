@@ -180,7 +180,7 @@ export class ExpensesComponent implements OnInit
         }
         addableSubcatList.push('custom');
 
-        if (item == 'subcategory')
+        if (item == 'Subcategory')
         {
             if (action == 'Add')
             {
@@ -242,7 +242,7 @@ export class ExpensesComponent implements OnInit
         }
         addableTypeList.push('custom');
 
-        if (item == 'subcategory')
+        if (item == 'Subcategory')
         {
             if (action == 'Add')
             {
@@ -305,7 +305,7 @@ export class ExpensesComponent implements OnInit
         addableFieldList.push('none');
         addableFieldList.push('custom');
 
-        if (item == 'subcategory')
+        if (item == 'Subcategory')
         {
             if (action == 'Add')
             {
@@ -345,7 +345,6 @@ export class ExpensesComponent implements OnInit
 
         return result;
     }   // getUpdateFieldList
-
 
 	performAction(): void
 	/*

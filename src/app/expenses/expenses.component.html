@@ -19,7 +19,7 @@
     	<td>
     	</td>
     </tr>
-	<template ngFor let-subcat [ngForOf]="currentSubcategories">
+	<template ngFor let-subcat [ngForOf]="gd.currentSubcategories">
         <tr class="subcategory">
         	<td>
          		<input class="subcategory" type="string" [(ngModel)]="cExpenses.expenses[subcat]['label']" size="30">
@@ -47,7 +47,10 @@
 		        <tr class="field" *ngIf="gd.isTypeVisible(subcat) && gd.isFieldVisible(subcat,type)">
 		        	<td>{{field}}</td>
 		         	<td>
+		         		<!-- the following does not work because empty value is treated as number, and cannot be changed
 		         		<input class="field" [type]="gd.dataType(cExpenses.expenses[subcat][type][field])" [(ngModel)]="cExpenses.expenses[subcat][type][field]" (blur)="verify()" size="30">
+		         	    -->
+		         		<input class="field" type="text" [(ngModel)]="cExpenses.expenses[subcat][type][field]" (blur)="verify()" size="30">
 		         	</td>
 		         	<td>
 		         	</td>
