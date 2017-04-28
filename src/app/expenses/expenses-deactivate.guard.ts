@@ -1,6 +1,6 @@
 import { CanDeactivate } from '@angular/router';
-import { ExpensesComponent } from './expenses.component';
 
+import { ExpensesComponent } from './expenses.component';
 import { IVerifyResult } from '../utilities/validity-check.class';
 
 export class ExpensesDeactivateGuard implements CanDeactivate<ExpensesComponent>

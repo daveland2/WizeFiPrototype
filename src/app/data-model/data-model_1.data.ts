@@ -104,32 +104,41 @@ export const dataModel:IDataModel =
 				{
 					bankAccount:
 					{
-						checking: 0,
-						savings: 0
-					},
-					cd:
-					{
-						cd: 0
+						label: 'Bank Account',
+						checking:
+						{
+							label: 'Checking',
+							monthlyAmount: 0
+						},
+						savings:
+						{
+							label: 'Savings',
+							monthlyAmount: 0
+						}
 					},
 					taxable:
 					{
-						brokerage: 0,
-						pension: 0
-					},
-					taxadvantaged:
-					{
-						IRA: 0,
-						x401k: 0
+						label: 'Taxable',
+						brokerage:
+						{
+							label: 'Brokerage',
+							monthlyAmount: 0
+						},
+						pension:
+						{
+							label: 'Pension',
+							monthlyAmount: 0
+						}
 					},
 					realEstate:
 					{
-						realEstate: 0,
-						lakeHouse: 0
+						label: 'Real Estate',
+						realEstate:
+						{
+							label: 'Real Estate',
+							monthlyAmount: 0
+						}
 					},
-					personal:
-					{
-						personal: 0
-					}
 				}
 			},
 			current:
@@ -201,31 +210,40 @@ export const dataModel:IDataModel =
 				{
 					bankAccount:
 					{
-						checking: 0,
-						savings: 0
-					},
-					cd:
-					{
-						cd: 0
+						label: 'Bank Account',
+						checking:
+						{
+							label: 'Checking',
+							monthlyAmount: 0
+						},
+						savings:
+						{
+							label: 'Savings',
+							monthlyAmount: 0
+						}
 					},
 					taxable:
 					{
-						brokerage: 0,
-						pension: 0
-					},
-					taxadvantaged:
-					{
-						IRA: 0,
-						x401k: 0
+						label: 'Taxable',
+						brokerage:
+						{
+							label: 'Brokerage',
+							monthlyAmount: 0
+						},
+						pension:
+						{
+							label: 'Pension',
+							monthlyAmount: 0
+						}
 					},
 					realEstate:
 					{
-						realEstate: 0,
-						lakeHouse: 0
-					},
-					personal:
-					{
-						personal: 0
+						label: 'Real Estate',
+						realEstate:
+						{
+							label: 'Real Estate',
+							monthlyAmount: 0
+						}
 					}
 				}
 			}

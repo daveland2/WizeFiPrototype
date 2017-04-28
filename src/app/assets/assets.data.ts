@@ -2,42 +2,116 @@ export const possibleAssets =
 {
 	bankAccount:
 	{
-		checking: 0,
-		savings: 0
+		label: 'Bank Account',
+		checking:
+		{
+			label: 'Checking',
+			monthlyAmount: 0
+		},
+		savings:
+		{
+			label: 'Savings',
+			monthlyAmount: 0
+		}
 	},
 	cd:
 	{
-		cd: 0
+		label: 'CD',
+		cd:
+		{
+			label: 'CD',
+			monthlyAmount: 0
+		}
 	},
 	taxable:
 	{
-		brokerage: 0,
-		pension: 0
+		label: 'Taxable',
+		brokerage:
+		{
+			label: 'Brokerage',
+			monthlyAmount: 0
+		},
+		pension:
+		{
+			label: 'Pension',
+			monthlyAmount: 0
+		}
 	},
 	taxadvantaged:
 	{
-		IRA: 0,
-		RothIRA: 0,
-		SEPIRA: 0,
-		SimpleIRA: 0,
-		x401k: 0,
-		Roth401k: 0,
-		x403b: 0,
-		x457: 0,
-		annuity: 0,
-		HSA: 0,
-		collegeEducationFund: 0
+		label: 'Taxadvantaged',
+		IRA:
+		{
+			label: 'CD',
+			monthlyAmount: 0
+		},
+		RothIRA:
+		{
+			label: 'RothIRA',
+			monthlyAmount: 0
+		},
+		SEPIRA:
+		{
+			label: 'SEPIRA',
+			monthlyAmount: 0
+		},
+		SimpleIRA:
+		{
+			label: 'SimpleIRA',
+			monthlyAmount: 0
+		},
+		x401k:
+		{
+			label: '401k',
+			monthlyAmount: 0
+		},
+		Roth401k:
+		{
+			label: 'Roth401k',
+			monthlyAmount: 0
+		},
+		x403b:
+		{
+			label: '403b',
+			monthlyAmount: 0
+		},
+		x457:
+		{
+			label: '457',
+			monthlyAmount: 0
+		},
+		annuity:
+		{
+			label: 'Annuity',
+			monthlyAmount: 0
+		},
+		HSA:
+		{
+			label: 'HSA',
+			monthlyAmount: 0
+		},
+		collegeEducationFund:
+		{
+			label: 'College Education Fund',
+			monthlyAmount: 0
+		}
 	},
 	realEstate:
 	{
-		realEstate: 0
+		label: 'Real Estate',
+		realEstate:
+		{
+			label: 'Real Estate',
+			monthlyAmount: 0
+		}
 	},
 	personal:
 	{
-		personal: 0
-	},
-	other:
-	{
-		other: 0
+		label: 'Personal',
+		personal:
+		{
+			label: 'Personal',
+			monthlyAmount: 0
+		}
 	}
 };

@@ -1,0 +1,278 @@
+export const accountFieldPatterns =
+{
+	income:
+	assets:
+	insurance:
+	liabilities:
+
+category
+    subcategory
+        account
+            fields
+------------------
+income
+	salary
+		salary
+	tips
+		tips
+	interest
+		interest
+	dividends
+		dividends
+	alimony
+		alimony
+
+assets
+	Bank Account
+		Checking
+		Savings
+	CD
+		CD
+	Taxable
+		Brokerage
+		Pension
+	Tax-Advantaged
+		IRA
+		Roth IRA
+		SEP IRA
+		Simple IRA
+		401(k)
+		Roth 401(k)
+		403(b)
+		457
+		Annuity
+		H.S.A.
+		College Education Fund
+	Real Estate
+	Personal
+
+insurance
+	Life
+	    Term
+		Whole
+		Universal
+		Variable
+		Group
+	Health
+		Medical
+		Dental
+		Vision
+	Disability
+	    Disability
+	Long Term Care
+	    Long Term Care
+	Home
+	    Homeowners
+	Auto
+	    Auto
+		Recreational Vehicle
+	Other
+		Umbrella
+		E&O
+
+liabilities
+	Mortgage
+		Fixed
+		Adjustable
+	Credit Card
+		Fixed
+		Adjustable
+	Auto
+		Fixed
+		Adjustable
+	Personal
+		Fixed
+		Adjustable
+	Other
+		Fixed
+		Adjustable
+
+
+	assets:
+	{
+	bankAccount: ''
+	{
+		label: 'Bank Account',
+		checking:
+		{
+			label: 'Checking',
+			monthlyAmount: 0
+		},
+		savings:
+		{
+			label: 'Savings',
+			monthlyAmount: 0
+		}
+	},
+	cd:
+	{
+		label: 'CD',
+		cd:
+		{
+			label: 'CD',
+			monthlyAmount: 0
+		}
+	},
+	taxable:
+	{
+		label: 'Taxable',
+		brokerage:
+		{
+			label: 'Brokerage',
+			monthlyAmount: 0
+		},
+		pension:
+		{
+			label: 'Pension',
+			monthlyAmount: 0
+		}
+	},
+	taxadvantaged:
+	{
+		label: 'Taxadvantaged',
+		IRA:
+		{
+			label: 'CD',
+			monthlyAmount: 0
+		},
+		RothIRA:
+		{
+			label: 'RothIRA',
+			monthlyAmount: 0
+		},
+		SEPIRA:
+		{
+			label: 'SEPIRA',
+			monthlyAmount: 0
+		},
+		SimpleIRA:
+		{
+			label: 'SimpleIRA',
+			monthlyAmount: 0
+		},
+		x401k:
+		{
+			label: '401k',
+			monthlyAmount: 0
+		},
+		Roth401k:
+		{
+			label: 'Roth401k',
+			monthlyAmount: 0
+		},
+		x403b:
+		{
+			label: '403b',
+			monthlyAmount: 0
+		},
+		x457:
+		{
+			label: '457',
+			monthlyAmount: 0
+		},
+		annuity:
+		{
+			label: 'Annuity',
+			monthlyAmount: 0
+		},
+		HSA:
+		{
+			label: 'HSA',
+			monthlyAmount: 0
+		},
+		collegeEducationFund:
+		{
+			label: 'College Education Fund',
+			monthlyAmount: 0
+		}
+	},
+	realEstate:
+	{
+		label: 'Real Estate',
+		realEstate:
+		{
+			label: 'Real Estate',
+			monthlyAmount: 0
+		}
+	},
+	personal:
+	{
+		label: 'Personal',
+		personal:
+		{
+			label: 'Personal',
+			monthlyAmount: 0
+		}
+	}
+};
+
+
+export const fieldSettings =
+[
+	{
+		fieldPattern: 'NNNNRNNNNN',
+		name: F01
+		monthlyAmount:
+		{
+			inclusion: 'required',
+			initialValue: 0
+		}
+	},
+]
+
+export const fieldNameInfo =
+[
+	// NOTE: new additions MUST be made at the end of the list
+	{fieldName: 'accountOwner',         accountDataType: 'string'},
+	{fieldName: 'description',          accountDataType: 'string'},
+	{fieldName: 'companyName',          accountDataType: 'string'},
+	{fieldName: 'accountValue',         accountDataType: 'number'},
+	{fieldName: 'monthlyAmount',        accountDataType: 'number'},
+	{fieldName: 'minimumMonthlyAmount', accountDataType: 'number'},
+	{fieldName: 'employerContribution', accountDataType: 'number'},
+	{fieldName: 'growthRate',           accountDataType: 'number'},
+	{fieldName: 'coverageAmount',       accountDataType: 'number'},
+	{fieldName: 'maturityDate',         accountDataType: 'string'}
+]
+
+/*
+function generateFieldsForPattern(pattern)
+{
+	let result = {};
+	for (let i = 0; i < pattern.length; i++)
+	{
+
+	}
+}   // generateFieldsForPattern
+
+pattern = 'ORORNRNRNN';
+result = generateFieldsForPattern(pattern);
+console.log(prettyPrint(JSON.stringify(result)));
+
+inclusion
+---------
+R = required
+O = optional
+N = N/A
+
+AD  0 accountOwner
+BE  1 description
+CF  2 companyName
+DG  3 accountValue
+EH  4 monthlyAmount
+FI  5 minimumMonthlyAmount
+GJ  6 employerContribution
+HK  7 growthRate
+IL  8 coverageAmount
+JM  9 maturityDate
+
+ABCDEFGHIJ
+DEFGHIJKLM
+----------
+NNNNRNNNNN  FS01
+ORORRONRNN  FS02
+ORORNRNRNN  FS03
+ORORRONRNR  FS04
+ORORRONONN  FS05
+ORORRORONN  FS06
+*/
