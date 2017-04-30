@@ -1,41 +1,169 @@
-export const accountFieldPatterns =
-{
-	income:
-	assets:
-	insurance:
-	liabilities:
+Categories
+----------
+income
+expenses
+assets
+insurance  (asset protection)
+liabilities
 
+Notes:
+1. every category has one or more subcategories
+2. every subcategory has one or more accounts
+3. every account has one or more fields
+
+Data Model in generic notation
+==============================
 category
     subcategory
         account
             fields
 ------------------
 income
-	salary
+	income
 		salary
-	tips
+			monthlyAmount
 		tips
-	interest
+			monthlyAmount
 		interest
-	dividends
+			monthlyAmount
 		dividends
-	alimony
+			monthlyAmount
+		rent
+			monthlyAmount
 		alimony
-
+			monthlyAmount
+expenses
+	giving
+		contributions
+			monthlyAmount
+		tithe
+			monthlyAmount
+	housing
+		firstMortgage
+			monthlyAmount
+		secondMortgage
+			monthlyAmount
+		otherLienPayment
+			monthlyAmount
+		rent
+			monthlyAmount
+		homeOwnersInsurance
+			monthlyAmount
+		propertyTaxes
+			monthlyAmount
+		homeMaintenance
+			monthlyAmount
+		HOADues
+			monthlyAmount
+		housekeeping_Cleaning
+			monthlyAmount
+		water_Trash_Sewer
+			monthlyAmount
+		gas_Electricity
+			monthlyAmount
+	transporation
+		payments
+			monthlyAmount
+		insurance
+			monthlyAmount
+		gas
+			monthlyAmount
+		maintenance
+			monthlyAmount
+		registration
+			monthlyAmount
+		RV_Payments
+			monthlyAmount
+		RV_Insurance
+			monthlyAmount
+		RV_Gas
+			monthlyAmount
+		RV_Maint
+			monthlyAmount
+		RV_Registration
+			monthlyAmount
+	food
+		groceries
+			monthlyAmount
+		diningOut
+			monthlyAmount
+	health_insurance
+		medicalPremium
+			monthlyAmount
+		dentalPremium
+			monthlyAmount
+		visionPremiums
+			monthlyAmount
+		medicalCopay_Deductables
+			monthlyAmount
+		prescriptions
+			monthlyAmount
+		orthodontist
+			monthlyAmount
+		lifeInsurance
+			monthlyAmount
+		disabilityInsurance
+			monthlyAmount
+	clothing
+		clothing
+			monthlyAmount
+		laundry_Drycleaning
+			monthlyAmount
+	entertainment
+		entertainment
+			monthlyAmount
+	miscellaneous
 assets
 	Bank Account
 		Checking
+			accountOwner
+			description
+			companyName
+			accountValue
+			minimumMonthlyPayment
+			rate
 		Savings
+			monthlyAmount
+			accountOwner
+			description
+			companyName
+			accountValue
+			minimumMonthlyPayment
+			rate
 	CD
 		CD
+			monthlyAmount
+			accountOwner
+			description
+			companyName
+			accountValue
+			minimumMonthlyPayment
+			rate
+			maturityDate
 	Taxable
 		Brokerage
 		Pension
 	Tax-Advantaged
 		IRA
 		Roth IRA
+			monthlyAmount
+			accountOwner
+			description
+			companyName
+			accountValue
+			minimumMonthlyPayment
+			employerContribution
+			rate
 		SEP IRA
 		Simple IRA
+			monthlyAmount
+			accountOwner
+			description
+			companyName
+			accountValue
+			minimumMonthlyPayment
+			employerContribution
+			rate
 		401(k)
 		Roth 401(k)
 		403(b)
@@ -87,131 +215,614 @@ liabilities
 		Fixed
 		Adjustable
 
+Object based JavaScript data structure
+--------------------------------------
+1. the data model is a nested object structure
+2. attributes at the first nesting level define category objects
+3. attributes at the second nesting level define subcategory objects
+4. attributes at the third nesting level define account objects
+5. attributes at the fourth nesting level define field objects
+6. each field object contains the attributes "val" (gives value) and "inclusion" (indicates required, optional, or N/A)
+7. at each appropriate level, a "label" attribute provides a user friendly name for a JavaScript attribute
 
+Question: do we want to add a "label" attribute to field objects?  In particular, change from
+
+monthlyAmount: {val:0, inclusion:'required'}
+
+Data access notation:
+monthlyAmount = dataModel['assets']['bankAccount']['savings']['monthlyAmount'].val;
+
+to instead use
+
+monthlyAmount: {label:'Monthly Amount', val:0, inclusion:'required'}
+
+Data access notation:
+monthlyAmountName = dataModel['assets']['bankAccount']['savings']['monthlyAmount'].label;
+monthlyAmount     = dataModel['assets']['bankAccount']['savings']['monthlyAmount'].val;
+
+dataModelObjects =
+{
+	income:
+	{
+		label: 'Income',
+		income:
+		{
+			label: 'Income',
+			salary:
+			{
+				label: 'Salary',
+				monthlyAmount: {val:0, inclusion:'required'},
+			},
+			interest:
+			{
+				label: 'Interest',
+				monthlyAmount: {val:0, inclusion:'required'}
+			},
+			rent:
+			{
+				label: 'Rent',
+				monthlyAmount: {val:0, inclusion:'required'}
+			}
+		}
+	},
+	expenses:
+	{
+		giving:
+		{
+			label: 'Giving',
+			contributions:
+			{
+				label: 'Contributions',
+				monthlyAmount: {val:0, inclusion:'required'}
+			},
+			tithe:
+			{
+				label: 'Tithe',
+				monthlyAmount: {val:0, inclusion:'required'}
+			}
+		},
+		housing:
+		{
+			label: 'Housing',
+			firstMortgage:
+			{
+				label: 'First Mortgage',
+				monthlyAmount: {val:0, inclusion:'required'}
+			},
+			secondMortgage:
+			{
+				label: 'Second Mortgage',
+				monthlyAmount: {val:0, inclusion:'required'}
+			},
+			otherLienPayment:
+			{
+				label: 'Other Lien Payment',
+				monthlyAmount: {val:0, inclusion:'required'}
+			},
+			rent:
+			{
+				label: 'Rent',
+				monthlyAmount: {val:0, inclusion:'required'}
+			},
+			homeOwnersInsurance:
+			{
+				label: 'Home Owners Insurance',
+				monthlyAmount: {val:0, inclusion:'required'}
+			},
+			propertyTaxes:
+			{
+				label: 'Property Taxes',
+				monthlyAmount: {val:0, inclusion:'required'}
+			},
+			homeMaintenance:
+			{
+				label: 'Home Maintenance',
+				monthlyAmount: {val:0, inclusion:'required'}
+			},
+			HOADues:
+			{
+				label: 'HOA Dues',
+				monthlyAmount: {val:0, inclusion:'required'}
+			},
+			housekeeping_Cleaning:
+			{
+				label: 'Housekeeping & Cleaning',
+				monthlyAmount: {val:0, inclusion:'required'}
+			},
+			water_Trash_Sewer:
+			{
+				label: 'Water/Trash/Sewer',
+				monthlyAmount: {val:0, inclusion:'required'}
+			},
+			gas_Electricity:
+			{
+				label: 'Gas & Electricity',
+				monthlyAmount: {val:0, inclusion:'required'}
+			}
+		},
+		transporation:
+		{
+			label: 'Transportation',
+			payments:
+			{
+				label: 'Payments',
+				monthlyAmount: {val:0, inclusion:'required'}
+			},
+			insurance:
+			{
+				label: 'Insurance',
+				monthlyAmount: {val:0, inclusion:'required'}
+			},
+			gas:
+			{
+				label: 'Gas',
+				monthlyAmount: {val:0, inclusion:'required'}
+			},
+			maintenance:
+			{
+				label: 'Maintenance',
+				monthlyAmount: {val:0, inclusion:'required'}
+			},
+			registration:
+			{
+				label: 'Registration',
+				monthlyAmount: {val:0, inclusion:'required'}
+			},
+			RV_Payments:
+			{
+				label: 'RV Payments',
+				monthlyAmount: {val:0, inclusion:'required'}
+			},
+			RV_Insurance:
+			{
+				label: 'RV Insurance',
+				monthlyAmount: {val:0, inclusion:'required'}
+			},
+			RV_Gas:
+			{
+				label: 'RV Gas',
+				monthlyAmount: {val:0, inclusion:'required'}
+			},
+			RV_Maint:
+			{
+				label: 'RV Maint',
+				monthlyAmount: {val:0, inclusion:'required'}
+			},
+			RV_Registration:
+			{
+				label: 'RV Registration',
+				monthlyAmount: {val:0, inclusion:'required'}
+			}
+		},
+		food:
+		{
+			label: 'Food',
+			groceries:
+			{
+				label: 'Groceries',
+				monthlyAmount: {val:0, inclusion:'required'},
+				field1: 'field1val',
+				field2: 2
+			},
+			diningOut:
+			{
+				label: 'Dining Out',
+				monthlyAmount: {val:0, inclusion:'required'}
+			},
+		},
+		health_insurance:
+		{
+			label: 'Health Insurance',
+			medicalPremium:
+			{
+				label: '',
+				monthlyAmount: {val:0, inclusion:'required'}
+			},
+			dentalPremium:
+			{
+				label: '',
+				monthlyAmount: {val:0, inclusion:'required'}
+			},
+			visionPremiums:
+			{
+				label: '',
+				monthlyAmount: {val:0, inclusion:'required'}
+			},
+			medicalCopay_Deductables:
+			{
+				label: 'Copay & Deductables',
+				monthlyAmount: {val:0, inclusion:'required'}
+			},
+			prescriptions:
+			{
+				label: 'Prescriptions',
+				monthlyAmount: {val:0, inclusion:'required'}
+			},
+			orthodontist:
+			{
+				label: 'Orthodontist',
+				monthlyAmount: {val:0, inclusion:'required'}
+			},
+			lifeInsurance:
+			{
+				label: 'Life Insurance',
+				monthlyAmount: {val:0, inclusion:'required'}
+			},
+			disabilityInsurance:
+			{
+				label: 'Disability Insurance',
+				monthlyAmount: {val:0, inclusion:'required'}
+			},
+		},
+		clothing:
+		{
+			label: 'Clothing',
+			clothing:
+			{
+				label: 'Clothing',
+				monthlyAmount: {val:0, inclusion:'required'}
+			},
+			laundry_Drycleaning:
+			{
+				label: 'Laundry/Dry Cleaning',
+				monthlyAmount: {val:0, inclusion:'required'}
+			},
+		},
+		entertainment:
+		{
+			label: 'Entertainment',
+			entertainment:
+			{
+				label: 'Entertainment',
+				monthlyAmount: {val:0, inclusion:'required'}
+			}
+		}
+	},
 	assets:
 	{
-	bankAccount: ''
-	{
-		label: 'Bank Account',
-		checking:
+		label: 'Assets',
+		bankAccount:
 		{
-			label: 'Checking',
-			monthlyAmount: 0
+			label: 'Bank Account',
+			checking:
+			{
+				label: 'Checking',
+				accountOwner: {val:'', inclusion:'optional'},
+				description: {val:'', inclusion:'required'},
+				companyName: {val:'', inclusion:'optional'},
+				accountValue: {val:'', inclusion:'required'},
+				minimumMonthlyPayment: {val:0, inclusion:'optional'},
+				rate: {val:0, inclusion:'optional'}
+			},
+			savings:
+			{
+				label: 'Savings',
+				monthlyAmount: {val:100, inclusion:'required'},
+				accountOwner: {val:'', inclusion:'optional'},
+				description: {val:'', inclusion:'required'},
+				companyName: {val:'', inclusion:'optional'},
+				accountValue: {val:'', inclusion:'required'},
+				minimumMonthlyPayment: {val:0, inclusion:'optional'},
+				rate: {val:0, inclusion:'required'}
+			}
 		},
-		savings:
+		taxAdvantaged:
 		{
-			label: 'Savings',
-			monthlyAmount: 0
-		}
-	},
-	cd:
-	{
-		label: 'CD',
-		cd:
+			label: 'Tax-Advantaged',
+			rothIRA:
+			{
+				label: 'Roth IRA',
+				monthlyAmount: {val:0, inclusion:'required'},
+				accountOwner: {val:'', inclusion:'optional'},
+				description: {val:'', inclusion:'required'},
+				companyName: {val:'', inclusion:'optional'},
+				accountValue: {val:'', inclusion:'required'},
+				minimumMonthlyPayment: {val:0, inclusion:'optional'},
+				employerContribution: {val:0, valType:'%', inclusion:'required'},
+				rate: {val:0, inclusion:'required'}
+			},
+			simpleIRA:
+			{
+				label: 'Simple IRA',
+				monthlyAmount: {val:0, inclusion:'required'},
+				accountOwner: {val:'', inclusion:'optional'},
+				description: {val:'', inclusion:'required'},
+				companyName: {val:'', inclusion:'optional'},
+				accountValue: {val:'', inclusion:'required'},
+				minimumMonthlyPayment: {val:0, inclusion:'optional'},
+				employerContribution: {val:0, valType:'%', inclusion:'required'},
+				rate: {val:0, inclusion:'required'}
+			}
+		},
+		CD:
 		{
 			label: 'CD',
-			monthlyAmount: 0
-		}
-	},
-	taxable:
-	{
-		label: 'Taxable',
-		brokerage:
-		{
-			label: 'Brokerage',
-			monthlyAmount: 0
-		},
-		pension:
-		{
-			label: 'Pension',
-			monthlyAmount: 0
-		}
-	},
-	taxadvantaged:
-	{
-		label: 'Taxadvantaged',
-		IRA:
-		{
-			label: 'CD',
-			monthlyAmount: 0
-		},
-		RothIRA:
-		{
-			label: 'RothIRA',
-			monthlyAmount: 0
-		},
-		SEPIRA:
-		{
-			label: 'SEPIRA',
-			monthlyAmount: 0
-		},
-		SimpleIRA:
-		{
-			label: 'SimpleIRA',
-			monthlyAmount: 0
-		},
-		x401k:
-		{
-			label: '401k',
-			monthlyAmount: 0
-		},
-		Roth401k:
-		{
-			label: 'Roth401k',
-			monthlyAmount: 0
-		},
-		x403b:
-		{
-			label: '403b',
-			monthlyAmount: 0
-		},
-		x457:
-		{
-			label: '457',
-			monthlyAmount: 0
-		},
-		annuity:
-		{
-			label: 'Annuity',
-			monthlyAmount: 0
-		},
-		HSA:
-		{
-			label: 'HSA',
-			monthlyAmount: 0
-		},
-		collegeEducationFund:
-		{
-			label: 'College Education Fund',
-			monthlyAmount: 0
-		}
-	},
-	realEstate:
-	{
-		label: 'Real Estate',
-		realEstate:
-		{
-			label: 'Real Estate',
-			monthlyAmount: 0
-		}
-	},
-	personal:
-	{
-		label: 'Personal',
-		personal:
-		{
-			label: 'Personal',
-			monthlyAmount: 0
+			CD:
+			{
+				label: 'CD',
+				monthlyAmount: {val:0, inclusion:'required'},
+				accountOwner: {val:'', inclusion:'optional'},
+				description: {val:'', inclusion:'required'},
+				companyName: {val:'', inclusion:'optional'},
+				accountValue: {val:'', inclusion:'required'},
+				minimumMonthlyPayment: {val:0, inclusion:'optional'},
+				rate: {val:0, inclusion:'required'},
+				maturityDate: {val:'', inclusion:'required'},
+			}
 		}
 	}
-};
+};  // dataModelObjects
 
+Alternative notation where JavaScript attribure names are automatically generated:
+
+Pros:
+1. user never sees JavaScript attribute names
+
+Cons:
+1. A programmer does not know the attribute name for a given "user friendly name" (the label) of the item (build functions to map label to corresponding attribute?)
+
+2. If user renamed a "standard" label, programming code could break.
+
+3. Effectively, this mimics the array implementation, and raises all the issues of not knowing the array subscript of an item.
+
+dataModelObjects =
+{
+	c03:
+	{
+		label: 'Assets',
+		s01:
+		{
+			label: 'Bank Account',
+			a01:
+			{
+				label: 'Checking',
+				f01: {label: 'Account Owner', val:'', inclusion:'optional'},
+				f02: {label: 'Description:, val:'', inclusion:'required'},
+				f03: {label: 'Company Name, val:'', inclusion:'optional'},
+				f04: {label: 'Account Value, val:'', inclusion:'required'},
+				f05: {label: 'Minimum Monthly Payment, val:0, inclusion:'optional'},
+				f06: {label: 'Growth Rate, val:0, inclusion:'optional'}
+			},
+		}
+	}
+}
+
+Array based JavaScript data structure
+-------------------------------------
+1. the data model is an array of category objects
+2. each category object contains a categoryName and an array of subcategory objects
+3. each subcategory object contains a subcategoryName and an array of account objects
+4. each account object contains an accountName and an array of field objects
+5. each field object consists of an attribute name and an object that contains the attributes "val" (gives value) and "inclusion" (indicates required, optional, or N/A)
+
+Question: do we want to add a "label" attribute to field objects?  For example, change from
+
+fields:
+[
+	{monthlyAmount: {val:200, inclusion:'required'}},
+	{accountOwner: {val:'', inclusion:'optional'}},
+	{description: {val:'', inclusion:'required'}},
+]
+
+Data access notation:
+monthlyAmount = dataModelArrays[1]['subcategories'][0]['accounts'][1]['fields'][0]['monthlyAmount'].val;
+
+to instead use
+
+fields:
+[
+	{
+		fieldName: 'Monthly Amount',
+		field: {monthlyAmount: {val:200, inclusion:'required'}}
+	},
+	{
+		fieldName: 'Account Owner',
+		field: {accountOwner: {val:'', inclusion:'optional'}}
+	},
+	{
+		fieldName: 'Description',
+		field: {description: {val:'', inclusion:'required'}}
+	}
+]
+
+Data access notation:
+monthlyAmountName = dataModel[0]['subcategories'][0]['accounts'][0]['fields'][0].fieldName;
+monthlyAmount     = dataModel[0]['subcategories'][0]['accounts'][0]['fields'][0].field['monthlyAmount'].val;
+
+dataModelArrays =
+[
+	{
+		categoryName: 'Income',
+		subcategories:
+		[
+			{
+				subcategoryName: 'Income',
+				accounts:
+				[
+			    	{
+			    		accountName: 'Salary',
+			    		fields:
+			    		[
+			    			{monthlyAmount: {val:0, inclusion:'required'}}
+			    		]
+			    	},
+			    		accountName: 'Interest',
+			    		fields:
+			    		[
+			    			{monthlyAmount: {val:0, inclusion:'required'}}
+			    		]
+			    	}
+			    ]
+			}
+		]
+	},
+	{
+		categoryName: 'assets',
+		subcategories:
+		[
+			{
+				subcategoryName: 'Bank Account',
+				accounts:
+				[
+			    	{
+			    		accountName: 'Checking',
+			    		fields:
+			    		[
+							{accountOwner: {val:'', inclusion:'optional'}},
+							{description: {val:'', inclusion:'required'}},
+							{companyName: {val:'', inclusion:'optional'}},
+							{accountValue: {val:'', inclusion:'required'}},
+							{minimumMonthlyPayment: {val:0, inclusion:'optional'}},
+							{rate: {val:0, inclusion:'optional'}}
+			    		]
+			    	},
+			    	{
+			    		accountName: 'Savings',
+			    		fields:
+			    		[
+							{monthlyAmount: {val:200, inclusion:'required'}},
+							{accountOwner: {val:'', inclusion:'optional'}},
+							{description: {val:'', inclusion:'required'}},
+							{companyName: {val:'', inclusion:'optional'}},
+							{accountValue: {val:'', inclusion:'required'}},
+							{minimumMonthlyPayment: {val:0, inclusion:'optional'}},
+							{rate: {val:0, inclusion:'required'}}
+			    		]
+			    	}
+			    ]
+		    },
+			{
+				subcategoryName: 'Tax Advantaged',
+				accounts:
+				[
+			    	{
+			    		accountName: 'Roth IRA',
+			    		fields:
+			    		[
+							{monthlyAmount: {val:0, inclusion:'required'}},
+							{accountOwner: {val:'', inclusion:'optional'}},
+							{description: {val:'', inclusion:'required'}},
+							{companyName: {val:'', inclusion:'optional'}},
+							{accountValue: {val:'', inclusion:'required'}},
+							{minimumMonthlyPayment: {val:0, inclusion:'optional'}},
+							{rate: {val:0, inclusion:'required'}},
+			    		]
+			    	}
+			    ]
+			}
+		]
+	}
+];  // dataModelArrays
+
+
+Notation for accessing data values
+----------------------------------
+
+object based access to information in assets category
+-----------------------------------------------------
+categoryName    = dataModelObjects['assets'].label;
+subcategoryName = dataModelObjects['assets']['bankAccount'].label;
+accountName     = dataModelObjects['assets']['bankAccount']['savings'].label;
+monthlyAmount   = dataModelObjects['assets']['bankAccount']['savings']['monthlyAmount'].val;
+
+General object pattern for access by attribute names:
+dataModel[category][subcategory][account][field].val
+
+Note: category, subcategory, account, and field are strings whose value is a JavaScript attribute name.
+
+General object pattern for access by "label" (name of item):
+dataModel[catatr(catnam)][subatr(subnam)][actatr(actnam)][fldatr(fldnam)].val
+
+item                                 description
+-----------------------------------  --------------------------------------------------
+catatr(catnam)                       function that maps catnam to category attribute
+subatr(catnam,subnam)                function that maps subnam to subcategory attribute
+actatr(catnam,subnam,actnam)         function that maps actnam to account attribute
+fldatr(catnam,subnam,actnam,fldnam)  function that maps fldnam to field attribute
+
+(note: the last 3 functions need arguments to refine the scope of name mapping)
+
+
+array based access to information in assets category
+----------------------------------------------------
+categoryName    = dataModelArrays[1]['categoryName'];
+subcategoryName = dataModelArrays[1]['subcategories'][0]['subcategoryName'];
+accountName     = dataModelArrays[1]['subcategories'][0]['accounts'][1]['accountName'];
+monthlyAmount   = dataModelArrays[1]['subcategories'][0]['accounts'][1]['fields'][0]['monthlyAmount'].val;
+
+General array pattern for access by index:
+dataModelArrays[catndx]['subcategories'][subndx]['accounts'][actndx]['fields'][fldndx]['monthlyAmount'].val;
+
+item    description
+------  -----------
+catndx  subscript of desired category in categories array
+subndx  subscript of desired subcategory in subcategories array
+actndx  subscript of desired account in accounts array
+fldndx  subscript of desired field in fields array
+
+General array pattern for access by "label" (name of item):
+dataModelArrays[cndx(catnam)]['subcategories'][sndx(subnam)]['accounts'][andx(actnam)]['fields'][fndx(catnam)]['monthlyAmount'].val;
+
+item                               description
+------------                       -----------
+cndx(catnam)                       function that maps catnam to catndx
+sndx(catnam,subnam)                function that maps subnam to subndx
+andx(catnam,subnam,actnam)         function that maps actnam to actndx
+fndx(catnam,subnam,actnam,catnam)  function that maps fldnam to fldndx
+
+(note: the last 3 functions need arguments to refine the scope of name mapping)
+
+**********************************************************************************
+
+Rough notes
+===========
+
+Notes:
+
+1. The accounts of some categories (perhaps all accounts) need to have a "type identifier".  For example, each of the following accounts should have type "checking":
+
+dataModelObjects['assets']['bankAccount']['checking'].label = 'Bob Checking'
+dataModelObjects['assets']['bankAccount']['checking2'].label = 'Mary Checking'
+
+as shown below:
+
+dataModelObjects['assets']['bankAccount']['checking'].type = 'checking'
+dataModelObjects['assets']['bankAccount']['checking2'].type = 'checking'
+
+and each of the following should have type "savings":
+
+dataModelObjects['assets']['bankAccount']['savings'].label = 'Bob Savings'
+dataModelObjects['assets']['bankAccount']['savings2'].label = 'Mary Savings'
+dataModelObjects['assets']['bankAccount']['savings3'].label = 'Emergency Savings'
+
+as shown below:
+
+dataModelObjects['assets']['bankAccount']['savings'].type = 'savings'
+dataModelObjects['assets']['bankAccount']['savings2'].type = 'savings'
+dataModelObjects['assets']['bankAccount']['savings3'].type = 'savings'
+
+
+2. The following data structure would help manage the account "type" information:
+
+accountTypes =
+{
+	income:
+	{
+
+	}
+}
+
+3. Relational database view of the data:
+
+category  subcategory  account  accountType  field  inclusion  val
+--------  -----------  -------  -----------  -----  ---------  ---
+
+4. Analysis of the fundamental types of field patterns for an account:
 
 export const fieldSettings =
 [
 	{
 		fieldPattern: 'NNNNRNNNNN',
-		name: F01
 		monthlyAmount:
 		{
 			inclusion: 'required',
@@ -222,20 +833,19 @@ export const fieldSettings =
 
 export const fieldNameInfo =
 [
-	// NOTE: new additions MUST be made at the end of the list
-	{fieldName: 'accountOwner',         accountDataType: 'string'},
-	{fieldName: 'description',          accountDataType: 'string'},
-	{fieldName: 'companyName',          accountDataType: 'string'},
-	{fieldName: 'accountValue',         accountDataType: 'number'},
-	{fieldName: 'monthlyAmount',        accountDataType: 'number'},
-	{fieldName: 'minimumMonthlyAmount', accountDataType: 'number'},
-	{fieldName: 'employerContribution', accountDataType: 'number'},
-	{fieldName: 'growthRate',           accountDataType: 'number'},
-	{fieldName: 'coverageAmount',       accountDataType: 'number'},
-	{fieldName: 'maturityDate',         accountDataType: 'string'}
+	// NOTE: new additions MUST be made at the end of the list (if using pattern string information)
+	{fieldName: 'accountOwner',         fieldDataType: 'string'},
+	{fieldName: 'description',          fieldDataType: 'string'},
+	{fieldName: 'companyName',          fieldDataType: 'string'},
+	{fieldName: 'accountValue',         fieldDataType: 'number'},
+	{fieldName: 'monthlyAmount',        fieldDataType: 'number'},
+	{fieldName: 'minimumMonthlyAmount', fieldDataType: 'number'},
+	{fieldName: 'employerContribution', fieldDataType: 'number'},
+	{fieldName: 'growthRate',           fieldDataType: 'number'},
+	{fieldName: 'coverageAmount',       fieldDataType: 'number'},
+	{fieldName: 'maturityDate',         fieldDataType: 'string'}
 ]
 
-/*
 function generateFieldsForPattern(pattern)
 {
 	let result = {};
@@ -248,31 +858,42 @@ function generateFieldsForPattern(pattern)
 pattern = 'ORORNRNRNN';
 result = generateFieldsForPattern(pattern);
 console.log(prettyPrint(JSON.stringify(result)));
+output:
+...
 
 inclusion
 ---------
 R = required
 O = optional
-N = N/A
+N = N/A (not applicable)
 
-AD  0 accountOwner
-BE  1 description
-CF  2 companyName
-DG  3 accountValue
-EH  4 monthlyAmount
-FI  5 minimumMonthlyAmount
-GJ  6 employerContribution
-HK  7 growthRate
-IL  8 coverageAmount
-JM  9 maturityDate
+D  accountOwner
+E  description
+F  companyName
+G  accountValue
+H  monthlyAmount
+I  minimumMonthlyAmount
+J  employerContribution
+K  growthRate
+L  coverageAmount
+M  maturityDate
 
-ABCDEFGHIJ
-DEFGHIJKLM
-----------
-NNNNRNNNNN  FS01
-ORORRONRNN  FS02
-ORORNRNRNN  FS03
-ORORRONRNR  FS04
-ORORRONONN  FS05
-ORORRORONN  FS06
-*/
+Note: letter codes D through M are from column identification in the fields tab of spreadsheet from Jeff
+
+   DEFGHIJKLM
+   ----------
+ 1 NNNNRNNNNN
+ 2 ORORRONRNN
+ 3 OROROONONN
+ 4 ORORRONONR
+ 5 ORORRONONN
+ 6 ORORRORONN
+ 7 ORORROOONN
+ 8 ORORNNNNNN
+ 9 RRRRRNNRRN
+10 RRRNRNNNRN
+11 OOORRNOONN
+12 RRRRRRNRNN
+13 RRRRROORNO
+
+Note: there are only 13 distinctive combinations of field names that are used.
