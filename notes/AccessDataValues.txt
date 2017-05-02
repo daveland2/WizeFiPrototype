@@ -1,0 +1,24 @@
+Notation for accessing data values
+==================================
+
+object based access to information in assets category
+-----------------------------------------------------
+categoryName    = dataModelObjects['assets'].label;
+subcategoryName = dataModelObjects['assets']['bankAccount'].label;
+accountName     = dataModelObjects['assets']['bankAccount']['savings'].label;
+monthlyAmount   = dataModelObjects['assets']['bankAccount']['savings']['monthlyAmount'].val;
+
+array based access to information in assets category
+----------------------------------------------------
+categoryName    = dataModelArrays[1]['categoryName'];
+subcategoryName = dataModelArrays[1]['subcategories'][0]['subcategoryName'];
+accountName     = dataModelArrays[1]['subcategories'][0]['accounts'][1]['accountName'];
+monthlyAmount   = dataModelArrays[1]['subcategories'][0]['accounts'][1]['fields'][0]['monthlyAmount'].val;
+
+hybrid object and array based access to information in assets category
+----------------------------------------------------------------------
+categoryName    = dataModelHybrid['assets'].label;
+subcategoryName = dataModelHybrid['assets']['bankAccount'].label;
+accountName     = dataModelHybrid['assets']['bankAccount'].accounts[2].accountName;
+fieldName       = dataModelHybrid['assets']['bankAccount'].accounts[2]['monthlyAmount'].label;
+monthlyAmount   = dataModelHybrid['assets']['bankAccount'].accounts[2]['monthlyAmount'].val;

@@ -247,7 +247,7 @@ dataModelObjects =
 				accountOwner: {val:'', inclusion:'optional'},
 				description: {val:'', inclusion:'required'},
 				companyName: {val:'', inclusion:'optional'},
-				accountValue: {val:'', inclusion:'required'},
+				accountValue: {val:0, inclusion:'required'},
 				minimumMonthlyPayment: {val:0, inclusion:'optional'},
 				rate: {val:0, inclusion:'optional'}
 			},
@@ -258,7 +258,7 @@ dataModelObjects =
 				accountOwner: {val:'', inclusion:'optional'},
 				description: {val:'', inclusion:'required'},
 				companyName: {val:'', inclusion:'optional'},
-				accountValue: {val:'', inclusion:'required'},
+				accountValue: {val:0, inclusion:'required'},
 				minimumMonthlyPayment: {val:0, inclusion:'optional'},
 				rate: {val:0, inclusion:'required'}
 			}
@@ -273,7 +273,7 @@ dataModelObjects =
 				accountOwner: {val:'', inclusion:'optional'},
 				description: {val:'', inclusion:'required'},
 				companyName: {val:'', inclusion:'optional'},
-				accountValue: {val:'', inclusion:'required'},
+				accountValue: {val:0, inclusion:'required'},
 				minimumMonthlyPayment: {val:0, inclusion:'optional'},
 				employerContribution: {val:0, valType:'%', inclusion:'required'},
 				rate: {val:0, inclusion:'required'}
@@ -285,7 +285,7 @@ dataModelObjects =
 				accountOwner: {val:'', inclusion:'optional'},
 				description: {val:'', inclusion:'required'},
 				companyName: {val:'', inclusion:'optional'},
-				accountValue: {val:'', inclusion:'required'},
+				accountValue: {val:0, inclusion:'required'},
 				minimumMonthlyPayment: {val:0, inclusion:'optional'},
 				employerContribution: {val:0, valType:'%', inclusion:'required'},
 				rate: {val:0, inclusion:'required'}
@@ -301,7 +301,7 @@ dataModelObjects =
 				accountOwner: {val:'', inclusion:'optional'},
 				description: {val:'', inclusion:'required'},
 				companyName: {val:'', inclusion:'optional'},
-				accountValue: {val:'', inclusion:'required'},
+				accountValue: {val:0, inclusion:'required'},
 				minimumMonthlyPayment: {val:0, inclusion:'optional'},
 				rate: {val:0, inclusion:'required'},
 				maturityDate: {val:'', inclusion:'required'},
@@ -377,7 +377,7 @@ dataModelArrays =
 							{accountOwner: {val:'', inclusion:'optional'}},
 							{description: {val:'', inclusion:'required'}},
 							{companyName: {val:'', inclusion:'optional'}},
-							{accountValue: {val:'', inclusion:'required'}},
+							{accountValue: {val:0, inclusion:'required'}},
 							{minimumMonthlyPayment: {val:0, inclusion:'optional'}},
 							{rate: {val:0, inclusion:'optional'}}
 			    		]
@@ -390,7 +390,7 @@ dataModelArrays =
 							{accountOwner: {val:'', inclusion:'optional'}},
 							{description: {val:'', inclusion:'required'}},
 							{companyName: {val:'', inclusion:'optional'}},
-							{accountValue: {val:'', inclusion:'required'}},
+							{accountValue: {val:0, inclusion:'required'}},
 							{minimumMonthlyPayment: {val:0, inclusion:'optional'}},
 							{rate: {val:0, inclusion:'required'}}
 			    		]
@@ -409,7 +409,7 @@ dataModelArrays =
 							{accountOwner: {val:'', inclusion:'optional'}},
 							{description: {val:'', inclusion:'required'}},
 							{companyName: {val:'', inclusion:'optional'}},
-							{accountValue: {val:'', inclusion:'required'}},
+							{accountValue: {val:0, inclusion:'required'}},
 							{minimumMonthlyPayment: {val:0, inclusion:'optional'}},
 							{rate: {val:0, inclusion:'required'}},
 			    		]
@@ -450,6 +450,112 @@ dataModelArrays2 =
 		]
 	}
 ];  // dataModelArrays2
+
+// the following combines the object and array approaches
+// categories, subcategories, and fields are objects, whereas accounts are an array
+dataModelHybrid =
+{
+	income:
+	{
+		label: 'Income',
+		income:
+		{
+			label: 'Income',
+			accounts:
+			[
+				{
+					accountName: 'Salary',
+					monthlyAmount: {label: 'Monthly Amount', val:0, inclusion:'required'}
+				},
+				{
+					accountName: 'Interest',
+					monthlyAmount: {label: 'Monthly Amount', val:0, inclusion:'required'}
+				},
+				{
+					accountName: 'Rent',
+					monthlyAmount: {label: 'Monthly Amount', val:0, inclusion:'required'}
+				}
+			]
+		}
+	},
+	assets:
+	{
+		label: 'Assets',
+		bankAccount:
+		{
+			label: 'Bank Account',
+			accounts:
+			[
+				{
+					accountName: 'Bob Checking',
+					accountOwner: {label: 'Account Owner', val:'', inclusion:'optional'},
+					description: {label: 'Description', val:'', inclusion:'required'},
+					companyName: {label: 'Company Name', val:'', inclusion:'optional'},
+					accountValue: {label: 'Account Value', val:0, inclusion:'required'},
+					minimumMonthlyPayment: {label: 'Minimum Monthly Payment', val:0, inclusion:'optional'},
+					rate: {label: 'Rate', val:0, inclusion:'optional'}
+				},
+				{
+					accountName: 'Mary Checking',
+					accountOwner: {label: 'Account Owner', val:'', inclusion:'optional'},
+					description: {label: 'Description', val:'', inclusion:'required'},
+					companyName: {label: 'Company Name', val:'', inclusion:'optional'},
+					accountValue: {label: 'Account Value', val:0, inclusion:'required'},
+					minimumMonthlyPayment: {label: 'Minimum Monthly Payment', val:0, inclusion:'optional'},
+					rate: {label: 'Rate', val:0, inclusion:'optional'}
+				},
+				{
+					accountName: 'Bob Savings',
+					monthlyAmount: {label: 'Monthly Amount', val:0, inclusion:'required'},
+					accountOwner: {label: 'Account Owner', val:'', inclusion:'optional'},
+					description: {label: 'Description', val:'', inclusion:'required'},
+					companyName: {label: 'Company Name', val:'', inclusion:'optional'},
+					accountValue: {label: 'Account Value', val:0, inclusion:'required'},
+					minimumMonthlyPayment: {label: 'Minimum Monthly Payment', val:0, inclusion:'optional'},
+					rate: {label: 'Rate', val:0, inclusion:'optional'}
+				},
+				{
+					accountName: 'Mary Savings',
+					monthlyAmount: {label: 'Monthly Amount', val:0, inclusion:'required'},
+					accountOwner: {label: 'Account Owner', val:'', inclusion:'optional'},
+					description: {label: 'Description', val:'', inclusion:'required'},
+					companyName: {label: 'Company Name', val:'', inclusion:'optional'},
+					accountValue: {label: 'Account Value', val:0, inclusion:'required'},
+					minimumMonthlyPayment: {label: 'Minimum Monthly Payment', val:0, inclusion:'optional'},
+					rate: {label: 'Rate', val:0, inclusion:'optional'}
+				}
+
+			]
+		},
+		taxAdvantaged:
+		{
+			label: 'Tax-Advantaged',
+			accounts:
+			[
+				{
+					accountName: 'Roth IRA',
+					monthlyAmount: {label: 'Monthly Amount', val:0, inclusion:'required'},
+					accountOwner: {label: 'Account Owner', val:'', inclusion:'optional'},
+					description: {label: 'Description', val:'', inclusion:'required'},
+					companyName: {label: 'Company Name', val:'', inclusion:'optional'},
+					accountValue: {label: 'Account Value', val:0, inclusion:'required'},
+					minimumMonthlyPayment: {label: 'Minimum Monthly Payment', val:0, inclusion:'optional'},
+					rate: {label: 'Rate', val:0, inclusion:'optional'}
+				},
+				{
+					accountName: 'Simple IRA',
+					monthlyAmount: {label: 'Monthly Amount', val:0, inclusion:'required'},
+					accountOwner: {label: 'Account Owner', val:'', inclusion:'optional'},
+					description: {label: 'Description', val:'', inclusion:'required'},
+					companyName: {label: 'Company Name', val:'', inclusion:'optional'},
+					accountValue: {label: 'Account Value', val:0, inclusion:'required'},
+					minimumMonthlyPayment: {label: 'Minimum Monthly Payment', val:0, inclusion:'optional'},
+					rate: {label: 'Rate', val:0, inclusion:'optional'}
+				}
+			]
+		}
+	}
+};  // dataModelHybrid
 
 console.log('\nobject based access to information in assets category');
 
@@ -494,3 +600,16 @@ monthlyAmount     = dataModelArrays2[0]['subcategories'][0]['accounts'][0]['fiel
 console.log('monthlyAmountName: ' + monthlyAmountName);
 console.log('monthlyAmount:     ' + monthlyAmount);
 
+console.log('\nhybrid based access to information in assets category (with user friendly field names)');
+
+categoryName    = dataModelHybrid['assets'].label;
+subcategoryName = dataModelHybrid['assets']['bankAccount'].label;
+accountName     = dataModelHybrid['assets']['bankAccount'].accounts[2].accountName;
+fieldName       = dataModelHybrid['assets']['bankAccount'].accounts[2]['monthlyAmount'].label;
+monthlyAmount   = dataModelHybrid['assets']['bankAccount'].accounts[2]['monthlyAmount'].val;
+
+console.log('categoryName:    ' + categoryName);
+console.log('subcategoryName: ' + subcategoryName);
+console.log('accountName:     ' + accountName);
+console.log('fieldName:       ' + fieldName);
+console.log('monthlyAmount:   ' + monthlyAmount);

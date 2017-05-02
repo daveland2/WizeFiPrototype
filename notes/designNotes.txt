@@ -1,7 +1,7 @@
 Categories
 ----------
 income
-expenses
+expenses  (budget)
 assets
 insurance  (asset protection)
 liabilities
@@ -490,7 +490,7 @@ dataModelObjects =
 				accountOwner: {val:'', inclusion:'optional'},
 				description: {val:'', inclusion:'required'},
 				companyName: {val:'', inclusion:'optional'},
-				accountValue: {val:'', inclusion:'required'},
+				accountValue: {val:0, inclusion:'required'},
 				minimumMonthlyPayment: {val:0, inclusion:'optional'},
 				rate: {val:0, inclusion:'optional'}
 			},
@@ -501,7 +501,7 @@ dataModelObjects =
 				accountOwner: {val:'', inclusion:'optional'},
 				description: {val:'', inclusion:'required'},
 				companyName: {val:'', inclusion:'optional'},
-				accountValue: {val:'', inclusion:'required'},
+				accountValue: {val:0, inclusion:'required'},
 				minimumMonthlyPayment: {val:0, inclusion:'optional'},
 				rate: {val:0, inclusion:'required'}
 			}
@@ -516,7 +516,7 @@ dataModelObjects =
 				accountOwner: {val:'', inclusion:'optional'},
 				description: {val:'', inclusion:'required'},
 				companyName: {val:'', inclusion:'optional'},
-				accountValue: {val:'', inclusion:'required'},
+				accountValue: {val:0, inclusion:'required'},
 				minimumMonthlyPayment: {val:0, inclusion:'optional'},
 				employerContribution: {val:0, valType:'%', inclusion:'required'},
 				rate: {val:0, inclusion:'required'}
@@ -528,7 +528,7 @@ dataModelObjects =
 				accountOwner: {val:'', inclusion:'optional'},
 				description: {val:'', inclusion:'required'},
 				companyName: {val:'', inclusion:'optional'},
-				accountValue: {val:'', inclusion:'required'},
+				accountValue: {val:0, inclusion:'required'},
 				minimumMonthlyPayment: {val:0, inclusion:'optional'},
 				employerContribution: {val:0, valType:'%', inclusion:'required'},
 				rate: {val:0, inclusion:'required'}
@@ -544,7 +544,7 @@ dataModelObjects =
 				accountOwner: {val:'', inclusion:'optional'},
 				description: {val:'', inclusion:'required'},
 				companyName: {val:'', inclusion:'optional'},
-				accountValue: {val:'', inclusion:'required'},
+				accountValue: {val:0, inclusion:'required'},
 				minimumMonthlyPayment: {val:0, inclusion:'optional'},
 				rate: {val:0, inclusion:'required'},
 				maturityDate: {val:'', inclusion:'required'},
@@ -671,7 +671,7 @@ dataModelArrays =
 							{accountOwner: {val:'', inclusion:'optional'}},
 							{description: {val:'', inclusion:'required'}},
 							{companyName: {val:'', inclusion:'optional'}},
-							{accountValue: {val:'', inclusion:'required'}},
+							{accountValue: {val:0, inclusion:'required'}},
 							{minimumMonthlyPayment: {val:0, inclusion:'optional'}},
 							{rate: {val:0, inclusion:'optional'}}
 			    		]
@@ -684,7 +684,7 @@ dataModelArrays =
 							{accountOwner: {val:'', inclusion:'optional'}},
 							{description: {val:'', inclusion:'required'}},
 							{companyName: {val:'', inclusion:'optional'}},
-							{accountValue: {val:'', inclusion:'required'}},
+							{accountValue: {val:0, inclusion:'required'}},
 							{minimumMonthlyPayment: {val:0, inclusion:'optional'}},
 							{rate: {val:0, inclusion:'required'}}
 			    		]
@@ -703,7 +703,7 @@ dataModelArrays =
 							{accountOwner: {val:'', inclusion:'optional'}},
 							{description: {val:'', inclusion:'required'}},
 							{companyName: {val:'', inclusion:'optional'}},
-							{accountValue: {val:'', inclusion:'required'}},
+							{accountValue: {val:0, inclusion:'required'}},
 							{minimumMonthlyPayment: {val:0, inclusion:'optional'}},
 							{rate: {val:0, inclusion:'required'}},
 			    		]
@@ -714,6 +714,197 @@ dataModelArrays =
 	}
 ];  // dataModelArrays
 
+Hybrid object and array based JavaScript data structure
+-------------------------------------------------------
+1. the data model is a nested object structure
+2. attributes at the first nesting level define category objects
+3. attributes at the second nesting level define subcategory objects
+4. attributes at the third nesting level define an array of account objects
+5. attributes at the fourth nesting level define field objects
+6. each field object contains the attributes "label" (user friendly name), val" (gives value), and "inclusion" (indicates required, optional, or N/A)
+7. at each appropriate level, object items contain a "label" attribute that provides a user friendly name for a JavaScript attribute
+8. at the "accounts" level, the "accountName" attribute contains the user friendly name
+
+
+// the following combines the object and array approaches
+// categories, subcategories, and fields are objects, whereas accounts is an array
+dataModelHybrid =
+{
+	income:
+	{
+		label: 'Income',
+		income:
+		{
+			label: 'Income',
+			accounts:
+			[
+				{
+					accountName: 'Salary',
+					monthlyAmount: {label: 'Monthly Amount', val:0, inclusion:'required'}
+				},
+				{
+					accountName: 'Interest',
+					monthlyAmount: {label: 'Monthly Amount', val:0, inclusion:'required'}
+				},
+				{
+					accountName: 'Rent',
+					monthlyAmount: {label: 'Monthly Amount', val:0, inclusion:'required'}
+				}
+			]
+		}
+	},
+	assets:
+	{
+		label: 'Assets',
+		bankAccount:
+		{
+			label: 'Bank Account',
+			accounts:
+			[
+				{
+					accountName: 'Bob Checking',
+					accountOwner: {label: 'Account Owner', val:'', inclusion:'optional'},
+					description: {label: 'Description', val:'', inclusion:'required'},
+					companyName: {label: 'Company Name', val:'', inclusion:'optional'},
+					accountValue: {label: 'Account Value', val:'', inclusion:'required'},
+					minimumMonthlyPayment: {label: 'Minimum Monthly Payment', val:0, inclusion:'optional'},
+					rate: {label: 'Rate', val:0, inclusion:'optional'}
+				},
+				{
+					accountName: 'Mary Checking',
+					accountOwner: {label: 'Account Owner', val:'', inclusion:'optional'},
+					description: {label: 'Description', val:'', inclusion:'required'},
+					companyName: {label: 'Company Name', val:'', inclusion:'optional'},
+					accountValue: {label: 'Account Value', val:0, inclusion:'required'},
+					minimumMonthlyPayment: {label: 'Minimum Monthly Payment', val:0, inclusion:'optional'},
+					rate: {label: 'Rate', val:0, inclusion:'optional'}
+				},
+				{
+					accountName: 'Bob Savings',
+					monthlyAmount: {label: 'Monthly Amount', val:0, inclusion:'required'},
+					accountOwner: {label: 'Account Owner', val:'', inclusion:'optional'},
+					description: {label: 'Description', val:'', inclusion:'required'},
+					companyName: {label: 'Company Name', val:'', inclusion:'optional'},
+					accountValue: {label: 'Account Value', val:0, inclusion:'required'},
+					minimumMonthlyPayment: {label: 'Minimum Monthly Payment', val:0, inclusion:'optional'},
+					rate: {label: 'Rate', val:0, inclusion:'optional'}
+				},
+				{
+					accountName: 'Mary Savings',
+					monthlyAmount: {label: 'Monthly Amount', val:0, inclusion:'required'},
+					accountOwner: {label: 'Account Owner', val:'', inclusion:'optional'},
+					description: {label: 'Description', val:'', inclusion:'required'},
+					companyName: {label: 'Company Name', val:'', inclusion:'optional'},
+					accountValue: {label: 'Account Value', val:0, inclusion:'required'},
+					minimumMonthlyPayment: {label: 'Minimum Monthly Payment', val:0, inclusion:'optional'},
+					rate: {label: 'Rate', val:0, inclusion:'optional'}
+				}
+
+			]
+		},
+		taxAdvantaged:
+		{
+			label: 'Tax-Advantaged',
+			accounts:
+			[
+				{
+					accountName: 'Roth IRA',
+					monthlyAmount: {label: 'Monthly Amount', val:0, inclusion:'required'},
+					accountOwner: {label: 'Account Owner', val:'', inclusion:'optional'},
+					description: {label: 'Description', val:'', inclusion:'required'},
+					companyName: {label: 'Company Name', val:'', inclusion:'optional'},
+					accountValue: {label: 'Account Value', val:0, inclusion:'required'},
+					minimumMonthlyPayment: {label: 'Minimum Monthly Payment', val:0, inclusion:'optional'},
+					rate: {label: 'Rate', val:0, inclusion:'optional'}
+				},
+				{
+					accountName: 'Simple IRA',
+					monthlyAmount: {label: 'Monthly Amount', val:0, inclusion:'required'},
+					accountOwner: {label: 'Account Owner', val:'', inclusion:'optional'},
+					description: {label: 'Description', val:'', inclusion:'required'},
+					companyName: {label: 'Company Name', val:'', inclusion:'optional'},
+					accountValue: {label: 'Account Value', val:0, inclusion:'required'},
+					minimumMonthlyPayment: {label: 'Minimum Monthly Payment', val:0, inclusion:'optional'},
+					rate: {label: 'Rate', val:0, inclusion:'optional'}
+				}
+			]
+		}
+	}
+};  // dataModelHybrid
+
+Notes:
+1. Consider using "type name" rather than the generic "accounts" property for the name of the array of attributes.  This would make it possible to access an account by its "type".  For example:
+
+instead of:
+
+	assets:
+	{
+		label: 'Assets',
+		bankAccount:
+		{
+			label: 'Bank Account',
+			accounts:
+			[
+				{
+					accountName: 'Bob Checking',
+					accountValue: {label: 'Account Value', val:0, inclusion:'required'},
+					accountOwner: {label: 'Account Owner', val:'', inclusion:'optional'},
+				},
+				{
+					accountName: 'Mary Checking',
+					accountValue: {label: 'Account Value', val:0, inclusion:'required'},
+					accountOwner: {label: 'Account Owner', val:'', inclusion:'optional'},
+				},
+				{
+					accountName: 'Bob Savings',
+					monthlyAmount: {label: 'Monthly Amount', val:0, inclusion:'required'},
+					accountValue: {label: 'Account Value', val:'', inclusion:'required'},
+					accountOwner: {label: 'Account Owner', val:'', inclusion:'optional'},
+				},
+				{
+					accountName: 'Mary Savings',
+					monthlyAmount: {label: 'Monthly Amount', val:0, inclusion:'required'},
+					accountValue: {label: 'Account Value', val:'', inclusion:'required'},
+					accountOwner: {label: 'Account Owner', val:'', inclusion:'optional'},
+				}
+			]
+		},
+
+
+instead use:
+
+	assets:
+	{
+		label: 'Assets',
+		bankAccount:
+		{
+			label: 'Bank Account',
+			checking:
+			[
+				{
+					accountName: 'Bob Checking',
+					accountOwner: {label: 'Account Owner', val:'', inclusion:'optional'},
+				},
+				{
+					accountName: 'Mary Checking',
+					accountOwner: {label: 'Account Owner', val:'', inclusion:'optional'},
+				}
+			],
+			savings:
+			[
+				{
+					accountName: 'Bob Savings',
+					monthlyAmount: {label: 'Monthly Amount', val:0, inclusion:'required'},
+					accountOwner: {label: 'Account Owner', val:'', inclusion:'optional'},
+				},
+				{
+					accountName: 'Mary Savings',
+					monthlyAmount: {label: 'Monthly Amount', val:0, inclusion:'required'},
+					accountOwner: {label: 'Account Owner', val:'', inclusion:'optional'},
+				}
+			]
+
+		},
 
 Notation for accessing data values
 ----------------------------------
@@ -771,6 +962,21 @@ andx(catnam,subnam,actnam)         function that maps actnam to actndx
 fndx(catnam,subnam,actnam,catnam)  function that maps fldnam to fldndx
 
 (note: the last 3 functions need arguments to refine the scope of name mapping)
+
+hybrid object and array based access to information in assets category
+----------------------------------------------------------------------
+categoryName    = dataModelHybrid['assets'].label;
+subcategoryName = dataModelHybrid['assets']['bankAccount'].label;
+accountName     = dataModelHybrid['assets']['bankAccount'].accounts[2].accountName;
+fieldName       = dataModelHybrid['assets']['bankAccount'].accounts[2]['monthlyAmount'].label;
+monthlyAmount   = dataModelHybrid['assets']['bankAccount'].accounts[2]['monthlyAmount'].val;
+
+General pattern for access by hybrid approach:
+dataModel[category][subcategory].accounts[actndx][field].val
+
+Notes:
+1. category, subcategory, and field are strings whose value is a JavaScript attribute name.
+2. actndx is the subscript of the desired account in the accounts array
 
 **********************************************************************************
 
@@ -879,6 +1085,7 @@ L  coverageAmount
 M  maturityDate
 
 Note: letter codes D through M are from column identification in the fields tab of spreadsheet from Jeff
+https://docs.google.com/spreadsheets/d/1GV_wirMlrqhycDoR78ZSPI2pGaiZ46bJ3GF3zV4hSMw/edit#gid=353626187
 
    DEFGHIJKLM
    ----------
