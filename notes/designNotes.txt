@@ -208,7 +208,10 @@ liabilities
 	Auto
 		Fixed
 		Adjustable
-	Personal
+	Personal loan
+		Fixed
+		Adjustable
+	Business loan
 		Fixed
 		Adjustable
 	Other
@@ -415,17 +418,17 @@ dataModelObjects =
 			label: 'Health Insurance',
 			medicalPremium:
 			{
-				label: '',
+				label: 'Medical Premium',
 				monthlyAmount: {val:0, inclusion:'required'}
 			},
 			dentalPremium:
 			{
-				label: '',
+				label: 'Dental Premium',
 				monthlyAmount: {val:0, inclusion:'required'}
 			},
 			visionPremiums:
 			{
-				label: '',
+				label: 'Vision Premiums',
 				monthlyAmount: {val:0, inclusion:'required'}
 			},
 			medicalCopay_Deductables:
@@ -1014,7 +1017,7 @@ accountTypes =
 {
 	income:
 	{
-
+		... (TBA)
 	}
 }
 

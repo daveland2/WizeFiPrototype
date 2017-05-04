@@ -290,9 +290,9 @@ This class provides variables and routines for item management (adding and delet
         let hadError: boolean = false;
         let item: string = this.selectedItem;
         let action: string = this.selectedAction;
-           let subcat: string = this.selectedSubcategory;
-           let type: string = this.selectedType;
-           let field: string = this.selectedField;
+        let subcat: string = this.selectedSubcategory;
+        let type: string = this.selectedType;
+        let field: string = this.selectedField;
 
         if (item == 'Subcategory')
         {

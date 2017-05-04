@@ -22,3 +22,16 @@ subcategoryName = dataModelHybrid['assets']['bankAccount'].label;
 accountName     = dataModelHybrid['assets']['bankAccount'].accounts[2].accountName;
 fieldName       = dataModelHybrid['assets']['bankAccount'].accounts[2]['monthlyAmount'].label;
 monthlyAmount   = dataModelHybrid['assets']['bankAccount'].accounts[2]['monthlyAmount'].val;
+
+hybrid approach with account "data types"
+-----------------------------------------
+accountName     = dataModelHybrid['assets']['bankAccount'].checking[1].accountName;
+fieldName       = dataModelHybrid['assets']['bankAccount'].checking[1]['accountValue'].label;
+accountValue    = dataModelHybrid['assets']['bankAccount'].checking[1]['accountValue'].val;
+
+accountName     = dataModelHybrid['assets']['bankAccount'].savings[0].accountName;
+fieldName       = dataModelHybrid['assets']['bankAccount'].savings[0]['accountValue'].label;
+accountValue    = dataModelHybrid['assets']['bankAccount'].savings[0]['accountValue'].val;
+monthlyAmount   = dataModelHybrid['assets']['bankAccount'].savings[0]['monthlyAmount'].val;
+
+Note that checking does not have a monthlyAmount field, whereas savings does.  This distinguishes the "checking" account type from the "savings" account type.
