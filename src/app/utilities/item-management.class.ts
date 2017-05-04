@@ -281,9 +281,70 @@ This class provides variables and routines for item management (adding and delet
         return result;
     }   // getUpdateFieldList
 
+    public static doAction
+    (
+        gd: GenericDataManagement,
+        item: string,
+        action: string,
+        subcat: string,
+        type: string,
+        field: string
+    ): void
+    {
+
+        if (item == 'Subcategory')
+        {
+            if (action == 'Add')
+            {
+                gd.category[subcat] = {};
+                gd.category[subcat]['label'] = subcat;
+                gd.category[subcat][type] = {};
+                gd.category[subcat][type]['label'] = type;
+                gd.category[subcat][type]['monthlyAmount'] = 0;
+                if (field != 'none') gd.category[subcat][type][field] = '';
+            }
+
+            if (action == 'Delete')
+            {
+                delete gd.category[subcat];
+            }
+        }   // Subcategory
+
+        if (item == 'Type')
+        {
+            if (action == 'Add')
+            {
+                gd.category[subcat][type] = {};
+                gd.category[subcat][type]['label'] = type;
+                gd.category[subcat][type]['monthlyAmount'] = 0;
+                if (field != 'none') gd.category[subcat][type][field] = '';
+            }
+
+            if (action == 'Delete')
+            {
+                delete gd.category[subcat][type];
+            }
+        }   // Type
+
+        if (item == 'Field')
+        {
+            if (action == 'Add')
+            {
+                gd.category[subcat][type][field] = '';
+            }
+
+            if (action == 'Delete')
+            {
+                delete gd.category[subcat][type][field];
+            }
+        }   // Field
+    }   // doAction
+
     performAction(): void
     /*
-    This routine performs the specified action requested in the "Manage Items" section
+    This routine performs the specified action requested in the "Manage Items" section.
+    The code is factored to separate those parts that are interacting with the screen,
+    and those that are carrying out dataModel changes (done in the doAction routine).
     */
     {
         let wantRefresh: boolean = true;
@@ -305,16 +366,6 @@ This class provides variables and routines for item management (adding and delet
                 if (CValidityCheck.checkAttributeNameValidity('subcat', subcat, this.messages)) hadError = true;
                 if (CValidityCheck.checkAttributeNameValidity('type', type, this.messages)) hadError = true;
                 if (CValidityCheck.checkAttributeNameValidity('field', field, this.messages)) hadError = true;
-
-                if (!hadError)
-                {
-                    this.gd.category[subcat] = {};
-                    this.gd.category[subcat]['label'] = subcat;
-                    this.gd.category[subcat][type] = {};
-                    this.gd.category[subcat][type]['label'] = type;
-                    this.gd.category[subcat][type]['monthlyAmount'] = 0;
-                    if (field != 'none') this.gd.category[subcat][type][field] = '';
-                }
             }
 
             if (action == 'Delete')
@@ -323,11 +374,6 @@ This class provides variables and routines for item management (adding and delet
                 {
                     wantRefresh = false;
                 }
-                else
-                {
-                    delete this.gd.category[subcat];
-                }
-
             }
         }   // Subcategory
 
@@ -340,14 +386,6 @@ This class provides variables and routines for item management (adding and delet
 
                 if (CValidityCheck.checkAttributeNameValidity('type', type, this.messages)) hadError = true;
                 if (CValidityCheck.checkAttributeNameValidity('field', field, this.messages)) hadError = true;
-
-                if (!hadError)
-                {
-                    this.gd.category[subcat][type] = {};
-                    this.gd.category[subcat][type]['label'] = type;
-                    this.gd.category[subcat][type]['monthlyAmount'] = 0;
-                    if (field != 'none') this.gd.category[subcat][type][field] = '';
-                }
             }
 
             if (action == 'Delete')
@@ -355,10 +393,6 @@ This class provides variables and routines for item management (adding and delet
                 if (!confirm('Do you intend to delete the type: ' + subcat + '.' + type))
                 {
                     wantRefresh = false;
-                }
-                else
-                {
-                    delete this.gd.category[subcat][type];
                 }
             }
         }   // Type
@@ -375,11 +409,6 @@ This class provides variables and routines for item management (adding and delet
                 {
                     if (field == 'custom') field = this.customField;
                     if (CValidityCheck.checkAttributeNameValidity('field', field, this.messages)) hadError = true;
-
-                    if (!hadError)
-                    {
-                        this.gd.category[subcat][type][field] = '';
-                    }
                 }
             }
 
@@ -389,16 +418,16 @@ This class provides variables and routines for item management (adding and delet
                 {
                     wantRefresh = false;
                 }
-                else
-                {
-                    delete this.gd.category[subcat][type][field];
-                }
             }
         }   // Field
 
         // update screen
         if (wantRefresh && !hadError)
         {
+            // make changes to the screen data model behind the scenes
+            ItemManagement.doAction(this.gd, item, action, subcat, type, field);
+
+            // update screen to reflect changes in the data model
             this.gd.areTypesVisible = this.gd.createAreTypesVisible(this.gd.showAllTypes);
             this.gd.areFieldsVisible = this.gd.createAreFieldsVisible(this.gd.showAllFields);
             this.gd.currentSubcategories = this.gd.getSubcategories(this.gd.category);

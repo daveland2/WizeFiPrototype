@@ -909,6 +909,54 @@ instead use:
 
 		},
 
+Array based JavaScript data structure
+(has "flat" vs "hierarchical" approach)
+(derived from Jeff example)
+---------------------------------------
+dataModelFlatArray =
+{
+	income:
+	[
+		{
+			subcategory: 'Salary',
+			monthlyAmount: {val:0, inclusion:'required'},
+		},
+		{
+			subcategory: 'Interest',
+			monthlyAmount: {val:0, inclusion:'required'}
+		},
+		rent:
+		{
+			subcategory: 'Rent',
+			monthlyAmount: {val:0, inclusion:'required'}
+		}
+	],
+    expense:
+    [
+        {
+            label: '4727 S Cincinati', // universal
+            monthlyAmt: 1500, // universal
+            accountName: 'Bank of America',
+            subcategory: 'Mortgage',
+            type: 'fixed'
+        },
+        {
+            label: '2427 S Gary',
+            monthlyAmt: 800,
+            accountName: 'Bank of America',
+            subcategory: 'Mortgage',
+            type: 'fixed'
+        },
+        {
+            label: 'Visa #4444',
+            monthlyAmt: 200,
+            accountName: 'Chase Visa',
+            subcategory: 'Credit Card',
+            type: 'fixed'
+        }
+    ],
+}
+
 Notation for accessing data values
 ----------------------------------
 

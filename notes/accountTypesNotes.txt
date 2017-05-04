@@ -1,0 +1,93 @@
+
+The following defines all possible field names:
+
+possibleFieldNames =
+[
+	{accountOwner:         {label: 'Account Owner',          val:''}},
+	{description:          {label: 'Description',            val:''}},
+	{companyName:          {label: 'Company Name',           val:''}},
+	{accountValue:         {label: 'Account Value',          val:0}},
+	{monthlyAmount:        {label: 'Monthly Amount',         val:0}},
+	{minimumMonthlyAmount: {label: 'Minimum Monthly Amount', val:0}},
+	{employerContribution: {label: 'Employer Contribution',  val:0}},
+	{growthRate:           {label: 'Growth Rate',            val:0}},
+	{coverageAmount:       {label: 'Coverage Amount',        val:0}},
+	{maturityDate:         {label: 'Maturity Date',          val:''}}
+]
+
+The following defines all possible account types (the JavaScript attribute name is the name of the type).  Each type is a distinct list of field names that are required for a particular account under a given subaccount.  The presence or absence of a field, and the value of the inclusion attribute are the things that distinguish one type from another.  (An absent field is the same as a field with inclusion N/A.)
+
+accountTypes:
+{
+	income:
+	[
+		{monthlyAmount: {label: 'Monthly Amount', val:0, inclusion:'required'}}
+	],
+	expenses:
+	[
+		{monthlyAmount: {label: 'Monthly Amount', val:0, inclusion:'required'}}
+	],
+	checking:
+	[
+		{accountOwner: {label: 'Account Owner', val:'', inclusion:'optional'}},
+		{description: {label: 'Description', val:'', inclusion:'required'}},
+		{companyName: {label: 'Company Name', val:'', inclusion:'optional'}},
+		{accountValue: {label: 'Account Value', val:0, inclusion:'required'}},
+		{minimumMonthlyPayment: {label: 'Minimum Monthly Payment', val:0, inclusion:'optional'}},
+		{rate: {label: 'Rate', val:0, inclusion:'optional'}}
+	],
+	savings:
+	[
+		{monthlyAmount: {label: 'monthlyAmount', val:0, inclusion:'required'}},
+		{accountOwner: {label: 'Account Owner', val:'', inclusion:'optional'}},
+		{description: {label: 'Description', val:'', inclusion:'required'}},
+		{companyName: {label: 'Company Name', val:'', inclusion:'optional'}},
+		{accountValue: {label: 'Account Value', val:0, inclusion:'required'}},
+		{minimumMonthlyPayment: {label: 'Minimum Monthly Payment', val:0, inclusion:'optional'}},
+		{rate: {label: 'Rate', val:0, inclusion:'optional'}}
+	]
+	ira:  // individual retirement account [individual retirement plan]
+	{
+		monthlyAmount: {label: 'monthlyAmount', val:0, inclusion:'required'},
+		accountOwner: {label: 'Account Owner', val:'', inclusion:'optional'},
+		description: {label: 'Description', val:'', inclusion:'required'},
+		companyName: {label: 'Company Name', val:'', inclusion:'optional'},
+		accountValue: {label: 'Account Value', val:0, inclusion:'required'},
+		minimumMonthlyPayment: {label: 'Minimum Monthly Payment', val:0, inclusion:'optional'},
+		employerContribution: {label: 'Employer Contribution', val:0, valType:'%', inclusion:'optional'},
+		rate: {label: 'Rate', val:0, inclusion:'required'}
+	},
+	gra:  // group retirement account [employer retirement plan] (is there a better term for this type)
+	{
+		monthlyAmount: {label: 'monthlyAmount', val:0, inclusion:'required'},
+		accountOwner: {label: 'Account Owner', val:'', inclusion:'optional'},
+		description: {label: 'Description', val:'', inclusion:'required'},
+		companyName: {label: 'Company Name', val:'', inclusion:'optional'},
+		accountValue: {label: 'Account Value', val:0, inclusion:'required'},
+		minimumMonthlyPayment: {label: 'Minimum Monthly Payment', val:0, inclusion:'optional'},
+		employerContribution: {label: 'Employer Contribution', val:0, valType:'%', inclusion:'required'},
+		rate: {label: 'Rate', val:0, inclusion:'required'}
+	... others to come
+}
+
+
+The following table defines a list of account types associated with each subcategory.  This information would be stored in a JavaScript data structure.
+
+Group     Category  Subcategory  List of account types
+income    income    bankAccount  ['checking', 'savings']
+expense   expense   ...          ['expense']
+asset
+
+
+Notes:
+
+1. Data type of a field value is indicated as follows:
+
+   val:0   -- number
+   val:''  -- string
+
+2. The same "account type" (set of field names) may appear more than one time with a different name (e.g income and expenses have the same account type, but for clarity it is given a different name when used in a different context).
+
+3. The account types named checking and savings are different, because savings has a monthlyAmount, and checking does not.
+
+4. The difference between the ira and gra account types is whether employerContribution is optional or required.
