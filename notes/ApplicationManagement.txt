@@ -631,6 +631,8 @@ $ cd <directory where project is located>
 $ ng build --prod --aot --bh <base ref directory>
 $ ng build --prod --aot --bh https://persistentendeavors.com/brickwire/MoneyOrganizer/tests/test17/WizeFiPrototype/dist/
 
+$ ng build --prod --aot --bh https://persistentendeavors.com/brickwire/WizeFi/dist/
+
 Another parameter specifies where to spit out the build, instead of the default ./dist folder
 --output-path <destination directory>
 --output-path ~/Sites/repairq/app/qpop
@@ -639,6 +641,9 @@ Copy app to Persistent Endeavors server
 ---------------------------------------
 $ cd /Users/daveland/BrickWire/MoneyOrganizer/tests/test17/WizeFiPrototype
 $ scp -r dist pe:/home/deland/docs/brickwire/MoneyOrganizer/tests/test17/WizeFiPrototype/
+
+$ cd /Users/daveland/BrickWire/WizeFi
+$ scp -r dist pe:/home/deland/docs/brickwire/WizeFi/
 
 Get app running in Safari on iPhone
 -----------------------------------

@@ -2,12 +2,14 @@
 https://github.com/jethfo/WizeFi  (github repository for WizeFi app)
 https://github.com/daveland2/WizeFiPrototype  (github repository for WizeFiPrototype app)
 https://xd.adobe.com/view/d14cabfe-32fd-4e7a-96ae-a863ead72b85/  (wire frames for WizeFi app)
+https://xd.adobe.com/view/504b71b5-515f-4be5-9aec-313d4af1c46b/  (wire frames for WizeFi app -- 05-09-17)
 https://docs.google.com/spreadsheets/d/1kiGZexHNYjKBJnK8qD8kPnrKGBsZ-aoA_OQsB_lf6eM/edit?ts=58d18dcb#gid=0  (screen info spreadsheet)
 https://docs.google.com/spreadsheets/d/1GV_wirMlrqhycDoR78ZSPI2pGaiZ46bJ3GF3zV4hSMw/edit#gid=353626187  (WizeFi Worksheet with Categories, Subcategories and Fields)
 https://drive.google.com/drive/folders/0B29JDIBG6cIuVWllODdqOEJPYnM
 https://persistentendeavors.com/brickwire/MoneyOrganizer/tests/test17/WizeFiPrototype/dist/
 https://repairq.dapulse.com/boards/38523976/pulses/38524000  (screen inventory)
 https://repairq.dapulse.com/boards/38226795/pulses/38242452  (WizeFiDev)
+https://repairq.dapulse.com/boards/38226795
 
 Links to console interfaces
 ---------------------------
@@ -6232,6 +6234,9 @@ https://hackernoon.com/why-learning-angular-2-was-excruciating-d50dc28acc8a
 ********************************************************************
 http://perfectionkills.com/understanding-delete/
 ********************************************************************
+https://github.com/akserg/ng2-toasty
+
+message handling utility (info from Greg)
 ********************************************************************
 ********************************************************************
 ********************************************************************

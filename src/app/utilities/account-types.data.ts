@@ -1,7 +1,7 @@
-
+/*
 The following defines all possible field names:
-
-possibleFieldNames =
+*/
+export const possibleFieldNames =
 [
 	{accountOwner:         {label: 'Account Owner',          val:''}},
 	{description:          {label: 'Description',            val:''}},
@@ -14,11 +14,12 @@ possibleFieldNames =
 	{targetAmount:         {label: 'Target Amount',          val:0}},
 	{coverageAmount:       {label: 'Coverage Amount',        val:0}},
 	{maturityDate:         {label: 'Maturity Date',          val:''}}
-]
+];
 
+/*
 The following defines all possible account types (the JavaScript attribute name is the name of the type).  Each type is a distinct list of field names that are required for a particular account under a given subaccount.  The presence or absence of a field, and the value of the inclusion attribute are the things that distinguish one type from another.  (An absent field is the same as a field with inclusion N/A.)
-
-accountTypes:
+*/
+export const accountTypes =
 {
 	income:
 	[
@@ -68,27 +69,43 @@ accountTypes:
 		minimumMonthlyPayment: {label: 'Minimum Monthly Payment', val:0, inclusion:'optional'},
 		employerContribution: {label: 'Employer Contribution', val:0, valType:'%', inclusion:'required'},
 		rate: {label: 'Rate', val:0, inclusion:'required'}
-	... others to come
-}
+	//... others to come
+};  // accountTypes
 
+/*
+The following defines a list of account types associated with each subcategory.
+(Hierarchical form of data is group, category, subcategory.)
+*/
+export const subcategoryAccountTypes =
+{
+	income:
+	{
+		income:
+		{
+			takehomePay: ['income'],
+			selfEmployment: ['income'],
+			hobby: ['income'],
+			socialSecurity: ['income']
+		}
+	},
+	expense:
+	{
+		giving:
+		{
+			tithe: ['expenses'],
+			contributions: ['expenses']
+		},
+		housing:
+		{
+			propertyTaxes: ['expenses'],
+			homeMaintenance: ['expenses'],
+			housekeeping_Cleaning: ['expenses'],
+			water_Trash_Sewer: ['expenses'],
+			gas_Electricity: ['expenses']
+		}
+	},
+	asset:
+	{
 
-The following table defines a list of account types associated with each subcategory.  This information would be stored in a JavaScript data structure.
-
-Group     Category  Subcategory  List of account types
-income    income    bankAccount  ['checking', 'savings']
-expense   expense   ...          ['expense']
-asset
-
-
-Notes:
-
-1. Data type of a field value is indicated as follows:
-
-   val:0   -- number
-   val:''  -- string
-
-2. The same "account type" (set of field names) may appear more than one time with a different name (e.g income and expenses have the same account type, but for clarity it is given a different name when used in a different context).
-
-3. The account types named checking and savings are different, because savings has a monthlyAmount, and checking does not.
-
-4. The difference between the ira and gra account types is whether employerContribution is optional or required.
+	}
+};  // subcategoryAccountTypes
