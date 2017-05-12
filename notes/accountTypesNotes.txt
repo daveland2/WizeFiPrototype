@@ -10,12 +10,6 @@ possibleFieldNames =
 	{monthlyAmount:        {label: 'Monthly Amount',         val:0}},
 	{minimumMonthlyAmount: {label: 'Minimum Monthly Amount', val:0}},
 	{employerContribution: {label: 'Employer Contribution',  val:0}},
-<<<<<<< HEAD
-	{growthRate:           {label: 'Growth Rate',            val:0}},
-	{targetAmount:         {label: 'Target Amount',          val:0}},
-	{coverageAmount:       {label: 'Coverage Amount',        val:0}},
-	{maturityDate:         {label: 'Maturity Date',          val:''}}
-=======
 	{growthRate:           {label: 'Growth Rate',            val:0}},  // annualYield, interestRate
 	{coverageAmount:       {label: 'Coverage amount',        val:0}},
 	{maturityDate:         {label: 'Maturity Date',          val:''}},
@@ -40,7 +34,6 @@ possibleFieldNames =
 	// example of boolean data type
 	{isPrimaryResidence: {label: 'Primary Residence', val:true}}
 	*/
->>>>>>> datamodel
 ]
 
 The following defines all possible field types (the JavaScript attribute name is the name of the type).  Each type is a distinct list of field names that are required for a particular account.  The presence or absence of a field, and the value of the inclusion attribute are the things that distinguish one type from another.  (An absent field is the same as a field with inclusion N/A.)
@@ -198,8 +191,6 @@ fieldTypes:
 		growthRate
 		accountBalance
 	}
-
-	... others to come
 }
 
 
