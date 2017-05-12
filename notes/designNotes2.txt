@@ -1,5 +1,5 @@
-Screens
--------
+Screens (05-09-2017)
+--------------------
  4  Welcome
        Personal Profile
        WizeFi Algorithm
@@ -12,7 +12,7 @@ Screens
 12  Plan
 	   Income
 	   Budget
-       Interest Accounts
+      Interest Accounts
 58  Plan (Edit Mode)
 
 data model
@@ -25,7 +25,7 @@ profile
    retirementAge
    zipCode
    country
-   monthlyIncome
+   income
       job
       rental
       affiliate
@@ -68,19 +68,19 @@ assets (with subcategories)
       Educational Savings
    Investments
       CDs
-	  IRA
-	  Roth IRA
-	  SEP IRA
-	  Simple IRA
-	  401(k)
-	  Roth 401(k)
-	  403(b)
-	  457(b)
-	  Pension
-	  Annuity
-	  HSA
-	  College Fund
-	  Brokerage
+	   IRA
+	   Roth IRA
+	   SEP IRA
+	   Simple IRA
+	   401(k)
+	   Roth 401(k)
+	   403(b)
+	   457(b)
+	   Pension
+	   Annuity
+	   HSA
+	   College Fund
+	   Brokerage
    Insurance
       Term Life Insurance
       Permanent Life Insurance
@@ -135,7 +135,7 @@ budget
       Life Insurance
       Medical Premiums
       Dental and Vision Premiums
-      Medical Copays/Decuctibles
+      Medical Copays/Deductibles
       Prescriptions
       Orthodontist
       Disability

@@ -3,42 +3,48 @@ The following defines all possible field names:
 
 possibleFieldNames =
 [
-	{accountOwner:         {label: 'Account Owner',          val:''}},
-	{description:          {label: 'Description',            val:''}},  // asset name, liability name
+	{accountName:          {label: 'Account Name',           val:''}},  // asset name, liability name
+	{description:          {label: 'Description',            val:''}},
 	{companyName:          {label: 'Company Name',           val:''}},
 	{accountValue:         {label: 'Account Value',          val:0}},   // currentBalance
 	{monthlyAmount:        {label: 'Monthly Amount',         val:0}},
 	{minimumMonthlyAmount: {label: 'Minimum Monthly Amount', val:0}},
 	{employerContribution: {label: 'Employer Contribution',  val:0}},
 	{growthRate:           {label: 'Growth Rate',            val:0}},  // annualYield, interestRate
+	{coverageAmount:       {label: 'Coverage amount',        val:0}},
+	{maturityDate:         {label: 'Maturity Date',          val:''}},
+
 	/*
 	targetAmount          // emergency and general savings
-	maturityDate          // CD
-	coverageAmount        // term, permanent, and group life insurance
+	addedCashAmount       // permanent life insurance
 	expirationYear        // term life insurance
 	isPrimaryResidence    // real estate assets
 	isInvestmentProperty  // real estate assets
-	isPrimaryResidence    // real estate assets
 	haveMortgage          // real estate assets
 	haveSecondMortgage    // real estate assets
 	haveLien              // real estate assets
-	assetName             // brokerage
+	rentalIncome          // real estate assets (screen 56)
+	interestRate          // real estate assets (screen 61)
 	haveLoanAgainstIRA    // IRA
-	appreciationRate      // other (assets)  (also has Est. Growth Rate)
+	appreciationRate      // other (assets)
+	depreciationRate      // other (assets)
 	extraYouPay           // credit card
 	creditCardLimit       // credit card
+
+	// example of boolean data type
+	{isPrimaryResidence: {label: 'Primary Residence', val:true}}
 	*/
 ]
 
-The following defines all possible account types (the JavaScript attribute name is the name of the type).  Each type is a distinct list of field names that are required for a particular account under a given subaccount.  The presence or absence of a field, and the value of the inclusion attribute are the things that distinguish one type from another.  (An absent field is the same as a field with inclusion N/A.)
+The following defines all possible field types (the JavaScript attribute name is the name of the type).  Each type is a distinct list of field names that are required for a particular account.  The presence or absence of a field, and the value of the inclusion attribute are the things that distinguish one type from another.  (An absent field is the same as a field with inclusion N/A.)
 
-accountTypes:
+fieldTypes:
 {
 	income:
 	[
 		{monthlyAmount: {label: 'Monthly Amount', val:0, inclusion:'required'}}
 	],
-	expenses:
+	budget:
 	[
 		{monthlyAmount: {label: 'Monthly Amount', val:0, inclusion:'required'}}
 	],
@@ -82,6 +88,110 @@ accountTypes:
 		minimumMonthlyPayment: {label: 'Minimum Monthly Payment', val:0, inclusion:'optional'},
 		employerContribution: {label: 'Employer Contribution', val:0, valType:'%', inclusion:'required'},
 		rate: {label: 'Rate', val:0, inclusion:'required'}
+
+	///////////////////////
+	// assets
+	///////////////////////
+
+	retirementAccount:  // IRA,	401(k),	Roth401(k),	RothIRA
+	{
+		accountName
+		growthRate
+		monthlyAmount
+		employerContribution
+		accountValue
+	},
+	lifeInsurance:
+	{
+		accountName
+		coverageAmount
+		monthlyAmount
+		addedContribution
+		growthRate
+		accountValue
+	}
+	brokerage:
+	{
+		accountName
+		monthlyAmount
+		growthRate
+		accountValue
+	}
+	CD
+	{
+		accountName
+		maturityDate
+		growthRate
+		accountValue
+	}
+	generalSavings
+	{
+		accountName
+		growthRate
+		monthlyAmount
+		accountValue
+	}
+	realEstate  // screen 33
+	{
+		accountName
+		isPrimaryResidence
+		isInvestmentProperty
+		haveMortgage
+		accountValue ???  (not present -- screen 33)
+	},
+	realEstate  // screen 56
+	{
+		accountName
+		isPrimaryResidence
+		isInvestmentProperty
+		rentalIncome
+		growthRate
+		haveMortgage
+		accountValue
+	},
+	realEstate  // screen 61
+	{
+		accountName
+		isPrimaryResidence
+		isInvestmentProperty
+		haveMortgage
+		haveSecondMortgage
+		minimumPayment
+		extraYouPay
+		growthRate
+		interestRate
+		accountValue
+	},
+	other:  // screen 34
+	{
+		accountName
+		growthRate
+		appreciationRate
+		depreciationRate
+	}
+
+	///////////////////////
+	// liabilities
+	///////////////////////
+
+	creditCard:   // screen 35
+	{
+		accountName
+		growthRate
+		monthlyAmount  ??
+		minimumMonthlyAmount
+		extraYouPay
+		creditLimit
+		accountBalance
+	},
+	loan:   // no example in screens
+	{
+		accountName
+		monthlyAmount
+		growthRate
+		accountBalance
+	}
+
 	... others to come
 }
 
