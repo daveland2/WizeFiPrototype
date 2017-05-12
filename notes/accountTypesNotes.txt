@@ -137,7 +137,7 @@ fieldTypes:
 		isPrimaryResidence
 		isInvestmentProperty
 		haveMortgage
-		accountValue ???  (not present -- screen 33)
+		accountValue ???  (not present in screen 33)
 	},
 	realEstate  // screen 56
 	{
@@ -208,11 +208,14 @@ Notes:
 
 1. Data type of a field value is indicated as follows:
 
-   val:0   -- number
-   val:''  -- string
+   value     type
+   --------  -------
+   val:0     number
+   val:''    string
+   val:true  boolean
 
-2. The same "account type" (set of field names) may appear more than one time with a different name (e.g income and expenses have the same account type, but for clarity it is given a different name when used in a different context).
+2. The same "field type" (set of field names) may appear more than one time with a different name (e.g income and expenses have the same account type, but for clarity it is given a different name when used in a different context).
 
-3. The account types named checking and savings are different, because savings has a monthlyAmount, and checking does not.
+3. The field types named checking and savings are different, because savings has a monthlyAmount, and checking does not.
 
-4. The difference between the ira and gra account types is whether employerContribution is optional or required.
+4. The difference between the ira and gra field types is whether employerContribution is optional or required.
