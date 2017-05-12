@@ -10,6 +10,11 @@ https://persistentendeavors.com/brickwire/MoneyOrganizer/tests/test17/WizeFiProt
 https://repairq.dapulse.com/boards/38523976/pulses/38524000  (screen inventory)
 https://repairq.dapulse.com/boards/38226795/pulses/38242452  (WizeFiDev)
 https://repairq.dapulse.com/boards/38226795
+https://docs.google.com/spreadsheets/d/1GV_wirMlrqhycDoR78ZSPI2pGaiZ46bJ3GF3zV4hSMw/edit#gid=353626187  (WizeFi Worksheet with Categories, Subcategories and Fields)
+https://drive.google.com/drive/folders/0B29JDIBG6cIuVWllODdqOEJPYnM
+https://persistentendeavors.com/brickwire/MoneyOrganizer/tests/test17/WizeFiPrototype/dist/
+https://repairq.dapulse.com/boards/38523976  (screen inventory)
+https://repairq.dapulse.com/boards/38226795  (WizeFiDev)
 
 Links to console interfaces
 ---------------------------

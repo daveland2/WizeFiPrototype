@@ -3,28 +3,55 @@ The following defines all possible field names:
 
 possibleFieldNames =
 [
-	{accountOwner:         {label: 'Account Owner',          val:''}},
+	{accountName:          {label: 'Account Name',           val:''}},  // asset name, liability name
 	{description:          {label: 'Description',            val:''}},
 	{companyName:          {label: 'Company Name',           val:''}},
-	{accountValue:         {label: 'Account Value',          val:0}},
+	{accountValue:         {label: 'Account Value',          val:0}},   // currentBalance
 	{monthlyAmount:        {label: 'Monthly Amount',         val:0}},
 	{minimumMonthlyAmount: {label: 'Minimum Monthly Amount', val:0}},
 	{employerContribution: {label: 'Employer Contribution',  val:0}},
+<<<<<<< HEAD
 	{growthRate:           {label: 'Growth Rate',            val:0}},
 	{targetAmount:         {label: 'Target Amount',          val:0}},
 	{coverageAmount:       {label: 'Coverage Amount',        val:0}},
 	{maturityDate:         {label: 'Maturity Date',          val:''}}
+=======
+	{growthRate:           {label: 'Growth Rate',            val:0}},  // annualYield, interestRate
+	{coverageAmount:       {label: 'Coverage amount',        val:0}},
+	{maturityDate:         {label: 'Maturity Date',          val:''}},
+
+	/*
+	targetAmount          // emergency and general savings
+	addedCashAmount       // permanent life insurance
+	expirationYear        // term life insurance
+	isPrimaryResidence    // real estate assets
+	isInvestmentProperty  // real estate assets
+	haveMortgage          // real estate assets
+	haveSecondMortgage    // real estate assets
+	haveLien              // real estate assets
+	rentalIncome          // real estate assets (screen 56)
+	interestRate          // real estate assets (screen 61)
+	haveLoanAgainstIRA    // IRA
+	appreciationRate      // other (assets)
+	depreciationRate      // other (assets)
+	extraYouPay           // credit card
+	creditCardLimit       // credit card
+
+	// example of boolean data type
+	{isPrimaryResidence: {label: 'Primary Residence', val:true}}
+	*/
+>>>>>>> datamodel
 ]
 
-The following defines all possible account types (the JavaScript attribute name is the name of the type).  Each type is a distinct list of field names that are required for a particular account under a given subaccount.  The presence or absence of a field, and the value of the inclusion attribute are the things that distinguish one type from another.  (An absent field is the same as a field with inclusion N/A.)
+The following defines all possible field types (the JavaScript attribute name is the name of the type).  Each type is a distinct list of field names that are required for a particular account.  The presence or absence of a field, and the value of the inclusion attribute are the things that distinguish one type from another.  (An absent field is the same as a field with inclusion N/A.)
 
-accountTypes:
+fieldTypes:
 {
 	income:
 	[
 		{monthlyAmount: {label: 'Monthly Amount', val:0, inclusion:'required'}}
 	],
-	expenses:
+	budget:
 	[
 		{monthlyAmount: {label: 'Monthly Amount', val:0, inclusion:'required'}}
 	],
@@ -68,6 +95,110 @@ accountTypes:
 		minimumMonthlyPayment: {label: 'Minimum Monthly Payment', val:0, inclusion:'optional'},
 		employerContribution: {label: 'Employer Contribution', val:0, valType:'%', inclusion:'required'},
 		rate: {label: 'Rate', val:0, inclusion:'required'}
+
+	///////////////////////
+	// assets
+	///////////////////////
+
+	retirementAccount:  // IRA,	401(k),	Roth401(k),	RothIRA
+	{
+		accountName
+		growthRate
+		monthlyAmount
+		employerContribution
+		accountValue
+	},
+	lifeInsurance:
+	{
+		accountName
+		coverageAmount
+		monthlyAmount
+		addedContribution
+		growthRate
+		accountValue
+	}
+	brokerage:
+	{
+		accountName
+		monthlyAmount
+		growthRate
+		accountValue
+	}
+	CD
+	{
+		accountName
+		maturityDate
+		growthRate
+		accountValue
+	}
+	generalSavings
+	{
+		accountName
+		growthRate
+		monthlyAmount
+		accountValue
+	}
+	realEstate  // screen 33
+	{
+		accountName
+		isPrimaryResidence
+		isInvestmentProperty
+		haveMortgage
+		accountValue ???  (not present in screen 33)
+	},
+	realEstate  // screen 56
+	{
+		accountName
+		isPrimaryResidence
+		isInvestmentProperty
+		rentalIncome
+		growthRate
+		haveMortgage
+		accountValue
+	},
+	realEstate  // screen 61
+	{
+		accountName
+		isPrimaryResidence
+		isInvestmentProperty
+		haveMortgage
+		haveSecondMortgage
+		minimumPayment
+		extraYouPay
+		growthRate
+		interestRate
+		accountValue
+	},
+	other:  // screen 34
+	{
+		accountName
+		growthRate
+		appreciationRate
+		depreciationRate
+	}
+
+	///////////////////////
+	// liabilities
+	///////////////////////
+
+	creditCard:   // screen 35
+	{
+		accountName
+		growthRate
+		monthlyAmount  ??
+		minimumMonthlyAmount
+		extraYouPay
+		creditLimit
+		accountBalance
+	},
+	loan:   // no example in screens
+	{
+		accountName
+		monthlyAmount
+		growthRate
+		accountBalance
+	}
+
 	... others to come
 }
 
@@ -84,11 +215,14 @@ Notes:
 
 1. Data type of a field value is indicated as follows:
 
-   val:0   -- number
-   val:''  -- string
+   value     type
+   --------  -------
+   val:0     number
+   val:''    string
+   val:true  boolean
 
-2. The same "account type" (set of field names) may appear more than one time with a different name (e.g income and expenses have the same account type, but for clarity it is given a different name when used in a different context).
+2. The same "field type" (set of field names) may appear more than one time with a different name (e.g income and expenses have the same account type, but for clarity it is given a different name when used in a different context).
 
-3. The account types named checking and savings are different, because savings has a monthlyAmount, and checking does not.
+3. The field types named checking and savings are different, because savings has a monthlyAmount, and checking does not.
 
-4. The difference between the ira and gra account types is whether employerContribution is optional or required.
+4. The difference between the ira and gra field types is whether employerContribution is optional or required.
