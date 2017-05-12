@@ -1,0 +1,159 @@
+Screens
+-------
+ 4  Welcome
+       Personal Profile
+       WizeFi Algorithm
+          Income
+ 5  Assets
+ 7  Asset account types
+ 8  Liabilities
+ 9  Liability account types
+10  Budget
+12  Plan
+	   Income
+	   Budget
+       Interest Accounts
+58  Plan (Edit Mode)
+
+data model
+----------
+profile
+   name
+   occupation
+   gender
+   birthDate
+   retirementAge
+   zipCode
+   country
+   monthlyIncome
+      job
+      rental
+      affiliate
+      socialSecurity
+      alimony
+      ADD ITEM
+   monthlyRetirementIncome
+   retirementYears
+   inflationRate
+
+assets
+   emergencySavings
+   generalSavings
+   IRA
+   Roth IRA
+   SEP IRA
+   Simple IRA
+   401(k)
+   Roth 401(k)
+   403(b)
+   457(b)
+   Pension
+   Annuity
+   HSA
+   College Fund
+   Term Life Insurance
+   Parmanent Life Insurance
+   Group Life Insurance
+   CDs
+   Real Estate
+   Educational Savings
+   Business
+   Brokerage
+   Other
+
+assets (with subcategories)
+   Savings
+      emergencySavings
+      generalSavings
+      Educational Savings
+   Investments
+      CDs
+	  IRA
+	  Roth IRA
+	  SEP IRA
+	  Simple IRA
+	  401(k)
+	  Roth 401(k)
+	  403(b)
+	  457(b)
+	  Pension
+	  Annuity
+	  HSA
+	  College Fund
+	  Brokerage
+   Insurance
+      Term Life Insurance
+      Permanent Life Insurance
+      Group Life Insurance
+   Real Estate
+   Other
+      Business
+      Other
+
+Liabilities
+   Credit Card
+   Auto Loan
+   Personal Loan
+   Student Loan
+
+budget
+   Giving
+      Tithe
+      Charitable Donations
+      ADD ITEM
+   Housing
+      Mortgage
+      Rent
+      Home Owners Insurance
+      Property Taxes
+      Home Maintenance
+      HOA dues
+      Housekeeping/Cleaning
+      Water
+      Trash
+      Sewer
+      Cable
+      Gas/Electric
+      Phone
+      ADD ITEM
+   Transportation
+      Auto Loan Payments
+      R.V. Payments
+      Auto Lease
+      R.V. Lease
+      Maintenance
+      Gas
+      Registration
+      Auto Insurance
+      R.V. Insurance
+      ADD ITEM
+   Food
+      Groceries
+      Dining Out
+      ADD ITEM
+   Health/Insurance
+      Life Insurance
+      Medical Premiums
+      Dental and Vision Premiums
+      Medical Copays/Decuctibles
+      Prescriptions
+      Orthodontist
+      Disability
+      Legal
+      ADD ITEM
+   Clothing
+      Clothing
+      Laundry/Dry Cleaning
+      ADD ITEM
+   Entertainment/Misc
+      Education
+      Kid's Activities
+      Health Club/Tanning
+      Grooming & Care
+      Pets
+      Vacations
+      Hobbies
+      Movies
+      Subscriptions
+      ADD ITEM
+
