@@ -31,7 +31,8 @@ export interface IPlan
 	budgetDetails: IBudgetDetails,
 	incomeDetails: IIncomeDetails,
 	expenses: any,
-	assets: any
+	assets: any,
+	assets2: any
 }
 
 export interface IDataModel

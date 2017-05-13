@@ -14,6 +14,8 @@ import { ExpensesComponent } from './expenses/expenses.component';
 import { ExpensesDeactivateGuard } from './expenses/expenses-deactivate.guard';
 import { AssetsComponent } from './assets/assets.component';
 import { AssetsDeactivateGuard } from './assets/assets-deactivate.guard';
+import { Assets2Component } from './assets2/assets2.component';
+import { Assets2DeactivateGuard } from './assets2/assets2-deactivate.guard';
 import { LogoutComponent } from './logout/logout.component';
 import { SettingsComponent } from './settings/settings.component';
 import { SettingsDeactivateGuard } from './settings/settings-deactivate.guard';
@@ -66,6 +68,12 @@ export const routes: Routes = [
     component: AssetsComponent,
     canActivate: [ScreenLoginGuard],
     canDeactivate: [AssetsDeactivateGuard]
+  },
+  {
+    path: 'assets2',
+    component: Assets2Component,
+    canActivate: [ScreenLoginGuard],
+    canDeactivate: [Assets2DeactivateGuard]
   },
   {
     path: 'subscription',

@@ -139,6 +139,46 @@ export const dataModel:IDataModel =
 							monthlyAmount: 0
 						}
 					},
+				},
+				assets2:
+				{
+					bankAccount:
+					{
+						label: 'Bank Account',
+						checking:
+						{
+							label: 'Checking',
+							monthlyAmount: 0
+						},
+						savings:
+						{
+							label: 'Savings',
+							monthlyAmount: 0
+						}
+					},
+					taxable:
+					{
+						label: 'Taxable',
+						brokerage:
+						{
+							label: 'Brokerage',
+							monthlyAmount: 0
+						},
+						pension:
+						{
+							label: 'Pension',
+							monthlyAmount: 0
+						}
+					},
+					realEstate:
+					{
+						label: 'Real Estate',
+						realEstate:
+						{
+							label: 'Real Estate',
+							monthlyAmount: 0
+						}
+					}
 				}
 			},
 			current:
@@ -207,6 +247,46 @@ export const dataModel:IDataModel =
 					}
 				},
 				assets:
+				{
+					bankAccount:
+					{
+						label: 'Bank Account',
+						checking:
+						{
+							label: 'Checking',
+							monthlyAmount: 0
+						},
+						savings:
+						{
+							label: 'Savings',
+							monthlyAmount: 0
+						}
+					},
+					taxable:
+					{
+						label: 'Taxable',
+						brokerage:
+						{
+							label: 'Brokerage',
+							monthlyAmount: 0
+						},
+						pension:
+						{
+							label: 'Pension',
+							monthlyAmount: 0
+						}
+					},
+					realEstate:
+					{
+						label: 'Real Estate',
+						realEstate:
+						{
+							label: 'Real Estate',
+							monthlyAmount: 0
+						}
+					}
+				},
+				assets2:
 				{
 					bankAccount:
 					{

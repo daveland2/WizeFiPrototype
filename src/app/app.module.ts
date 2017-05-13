@@ -28,6 +28,8 @@ import { ExpensesComponent }            from './expenses/expenses.component';
 import { ExpensesDeactivateGuard }      from './expenses/expenses-deactivate.guard';
 import { AssetsComponent }              from './assets/assets.component';
 import { AssetsDeactivateGuard }        from './assets/assets-deactivate.guard';
+import { Assets2Component }             from './assets2/assets2.component';
+import { Assets2DeactivateGuard }       from './assets2/assets2-deactivate.guard';
 
 @NgModule({
   declarations: [
@@ -45,6 +47,7 @@ import { AssetsDeactivateGuard }        from './assets/assets-deactivate.guard';
     SubscriptionComponent,
     ManagePlansComponent,
     AssetsComponent,
+    Assets2Component
   ],
   imports: [
     BrowserModule,
@@ -58,6 +61,7 @@ import { AssetsDeactivateGuard }        from './assets/assets-deactivate.guard';
     IncomeDetailsDeactivateGuard,
     ExpensesDeactivateGuard,
     AssetsDeactivateGuard,
+    Assets2DeactivateGuard,
     SettingsDeactivateGuard,
     ManagePlansDeactivateGuard,
     ScreenLoginGuard
