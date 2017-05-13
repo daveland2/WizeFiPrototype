@@ -25,7 +25,7 @@ profile
    retirementAge
    zipCode
    country
-   income
+   income  // note this should be a separate item (one of the "group" items)
       job
       rental
       affiliate
@@ -35,6 +35,14 @@ profile
    monthlyRetirementIncome
    retirementYears
    inflationRate
+
+income  // placed into the data hierarchy as a "group" item
+   job
+   rental
+   affiliate
+   socialSecurity
+   alimony
+   ADD ITEM
 
 assets
    emergencySavings
@@ -60,8 +68,10 @@ assets
    Business
    Brokerage
    Other
+   ADD ITEM
 
 assets (with subcategories)
+   Checking
    Savings
       emergencySavings
       generalSavings
@@ -90,7 +100,7 @@ assets (with subcategories)
       Business
       Other
 
-Liabilities
+liabilities
    Credit Card
    Auto Loan
    Personal Loan
@@ -138,6 +148,7 @@ budget
       Medical Copays/Deductibles
       Prescriptions
       Orthodontist
+      Optometrist
       Disability
       Legal
       ADD ITEM
@@ -154,6 +165,8 @@ budget
       Vacations
       Hobbies
       Movies
+      Concerts
+      Theatre
       Subscriptions
       ADD ITEM
 

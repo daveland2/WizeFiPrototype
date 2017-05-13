@@ -1,0 +1,253 @@
+Basic architecture of the data model
+------------------------------------
+Information in the data model is based on a hierarchy with 4 levels:
+1. the data model is a nested object structure
+2. attributes at the first nesting level define category objects
+3. attributes at the second nesting level define subcategory objects
+4. attributes at the third nesting level define an array of account objects
+5. attributes at the fourth nesting level define field objects
+6. each field object contains the attributes "label" (user friendly name), val" (gives value), and "inclusion" (indicates required, optional, or N/A)
+7. at each appropriate level, object items contain a "label" attribute that provides a user friendly name for a JavaScript attribute
+8. at the "accounts" level, the "accountName" attribute contains the user friendly name
+
+Category
+	Subcategory
+		Account
+			Field
+
+income
+	income
+		Job
+			monthlyAmount
+		Rental
+			monthlyAmount
+		Affiliate
+			monthlyAmount
+		Social Security / Pension
+			monthlyAmount
+		Alimony
+			monthlyAmount
+assets
+	checking
+		Joe Checking
+			accountName
+			AccountValue
+	savingsRequired
+		Emergency Savings
+			accountName
+			monthlyAmount
+			accountValue
+			targetAmount
+		General Savings
+			accountName
+			monthlyAmount
+			accountValue
+			targetAmount
+	savingsOptional
+		Additional Savings
+			accountName
+			monthlyAmount
+			accountValue
+	investments
+		Joe IRA
+			accountName
+			monthlyAmount
+			growthRate
+			employerContribution
+			accountValue
+	insurance
+		Life Insurance
+			accountName
+			monthlyAmount
+			coverageAmount
+			growthRate
+			accountValue
+	realEstate
+		Joe House
+			accountName
+			isPrimaryResidence
+			isInvestmentProperty
+			haveMortgage
+			haveSecondMortgage
+			minimumPayment
+			extraYouPay
+			growthRate
+			interestRate
+			accountValue
+	other
+		Joe account
+			accountName
+			monthlyAmount
+			growthRate
+			appreciationRate
+			depreciationRate
+			accountValue
+liabilities
+	creditCard
+		Visa
+			accountName
+			growthRate
+			monthlyAmount
+			minimumMonthlyAmount
+			extraYouPay
+			creditLimit
+			accountBalance
+	loans
+		ABC Bank
+			accountName
+			monthlyAmount
+			growthRate
+			accountBalance
+budget
+	giving
+		Tithe
+			monthlyAmount
+		Charitable Donations
+			monthlyAmount
+	housing
+		Mortgage
+			monthlyAmount
+		Rent
+		House Insurance
+		Property Taxes
+		Home Maintenance
+		HOA Dues
+		Housekeeping/Cleaning
+		Electric
+		Gas
+		Water
+		Trash
+		Sewer
+	clothing
+		Clothing
+		Laundry/Dry Cleaning
+	food
+		Groceries
+		Dining Out
+	transportation
+		Auto Loan Payments
+		R.V. Payments
+		Auto Lease
+		R.V. Lease
+		Maintenance
+		Gas
+		Registration
+		Auto Insurance
+		R.V. Insurance
+	health
+		Medical Copays/Deductibles
+		Prescriptions
+		Orthodontist
+		Optometrist
+	insurance
+		Life Insurance
+		Medical Premiums
+		Dental and Vision Premiums
+	entertainment
+		Vacations
+		Hobbies
+		Subscriptions
+		Movies
+		Concerts
+		Theatre
+		Cable
+	miscellaneous
+		Education
+		Kid's Activities
+		Health Club/Tanning
+		Grooming & Care
+		Pets
+
+Sample data:
+
+dataModel =
+{
+	income:
+	{
+		label: 'Income',
+		income:
+		{
+			label: 'Income',
+			accounts:
+			[
+				{
+					accountName: 'Salary',
+					fieldsType: 'income',
+					monthlyAmount: {label: 'Monthly Amount', val:0, inclusion:'required'}
+				},
+				{
+					accountName: 'Rent',
+					fieldsType: 'income',
+					monthlyAmount: {label: 'Monthly Amount', val:0, inclusion:'required'}
+				}
+			]
+		}
+	},
+	assets:
+	{
+		label: 'Assets',
+		savingsRequired:
+		{
+			label: 'Required Savings',
+			accounts:
+			[
+						Emergency Savings
+							accountName
+							monthlyAmount
+							accountValue
+							targetAmount
+						General Savings
+							accountName
+							monthlyAmount
+							accountValue
+							targetAmount
+			]
+		},
+		savingsOptional:
+		{
+			label: 'Optional Savings',
+			accounts:
+			[
+						Additional Savings
+							accountName
+							monthlyAmount
+							accountValue
+
+
+		}
+	},
+	liabilities:
+	{
+
+	},
+	budget:
+	{
+		label: 'Budget',
+		giving:
+		{
+			label: 'Giving',
+			accounts:
+			[
+				{
+					accountName: 'Tithe',
+					fieldsType: 'budget',
+					monthlyAmount: {label: 'Monthly Amount', val:0, inclusion:'required'}
+				},
+				{
+					accountName: 'Rent',
+					monthlyAmount: {label: 'Monthly Amount', val:0, inclusion:'required'}
+				}
+			]
+		}
+	}
+}
+
+Notation for accessing data values
+----------------------------------
+categoryName    = dataModelHybrid['assets'].label;
+subcategoryName = dataModelHybrid['assets']['savingsRequired'].label;
+accountName     = dataModelHybrid['assets']['savingsRequired'].accounts[2].accountName;
+accountName     = dataModelHybrid['assets']['savingsRequired'].accounts[2]['accountName'];
+fieldName       = dataModelHybrid['assets']['savingsRequired'].accounts[2]['monthlyAmount'].label;
+monthlyAmount   = dataModelHybrid['assets']['savingsRequired'].accounts[2]['monthlyAmount'].val;
+

@@ -92,8 +92,15 @@ fieldTypes:
 	///////////////////////
 	// assets
 	///////////////////////
+	checking:
+	{
 
-	retirementAccount:  // IRA,	401(k),	Roth401(k),	RothIRA
+	},
+	savings:
+	{
+
+	},
+	investments:  // IRA,	401(k),	Roth401(k),	RothIRA
 	{
 		accountName
 		growthRate
@@ -101,7 +108,7 @@ fieldTypes:
 		employerContribution
 		accountValue
 	},
-	lifeInsurance:
+	insurance:
 	{
 		accountName
 		coverageAmount
@@ -183,6 +190,8 @@ fieldTypes:
 		extraYouPay
 		creditLimit
 		accountBalance
+
+		// would it not be best to eliminate the extraYouPay and add monthlyAmount to include that value?
 	},
 	loan:   // no example in screens
 	{
@@ -198,19 +207,19 @@ The following table defines a list of account types associated with each subcate
 
 Group     Category  Subcategory  List of account types
 income    income    bankAccount  ['checking', 'savings']
-expense   expense   ...          ['expense']
+budget    budget                 ['expense']
 asset
 
 
 Notes:
 
-1. Data type of a field value is indicated as follows:
+1. Data type of a field value is indicated as shown below:
 
    value     type
    --------  -------
    val:0     number
    val:''    string
-   val:true  boolean
+   val:true  boolean (true or false)
 
 2. The same "field type" (set of field names) may appear more than one time with a different name (e.g income and expenses have the same account type, but for clarity it is given a different name when used in a different context).
 
