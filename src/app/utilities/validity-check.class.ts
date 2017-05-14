@@ -39,6 +39,15 @@ export class CValidityCheck
         }
     }   // checkInteger3
 
+    public static checkInteger4(object:any, lev1:string, ndx:number, lev3:string, result:IVerifyResult)
+    {
+        let str = String(object[lev1].accounts[ndx][lev3]);
+        if (!str.match(/^[0-9]+$/))
+        {
+          result.hadError = true;
+          result.messages.push('Must enter whole number value for ' + lev1 + '[' + ndx + '].' + lev3);
+        }
+    }   // checkInteger4
 
     public static checkAttributeNameValidity(attributeName:string, val:string, messages:string[]): boolean
     {

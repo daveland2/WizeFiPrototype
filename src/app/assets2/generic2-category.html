@@ -1,0 +1,118 @@
+<h3>{{categoryName}}</h3>
+
+<input type="checkbox" id="accountCbx" name="accountCbx" [(ngModel)]="gd.showAllAccounts" (ngModelChange)="gd.updateAccountsVisibility()" title="Toggle visibility of all accounts"/>
+<label for="accountCbx">Accounts</label>
+&nbsp;&nbsp;&nbsp;
+<input type="checkbox" id="fieldCbx" [(ngModel)]="gd.showAllFields" (ngModelChange)="gd.updateFieldsVisibility()" title="Toggle visibility of all fields"/>
+<label for="fieldCbx">Fields</label>
+&nbsp;&nbsp;&nbsp;
+<input type="checkbox" id="hiddenFieldsCbx" [(ngModel)]="gd.wantHiddenFields" (ngModelChange)="gd.updateHiddenFieldsVisibility()" title="Show hidden fields"/>
+<label for="hiddenFieldsCbx">Show "hidden" fields</label>
+
+<br>
+<table>
+    <tr class="category">
+    	<td>{{categoryName}}</td>
+    	<td>
+     		<input class="category" type="number" [value]="gd.getCategorySum()" size="8" readonly>
+    	</td>
+    	<td>
+    	</td>
+    </tr>
+	<template ngFor let-subcat [ngForOf]="gd.currentSubcategories">
+        <tr class="subcategory">
+        	<td>
+         		<input class="subcategory" type="string" [(ngModel)]="category[subcat]['label']" size="30">
+         	</td>
+        	<td>
+         		<input class="subcategory" type="number" [value]="gd.getSubcategorySum(subcat)" size="8" readonly>
+        	</td>
+	    	<td>
+				<button (click)="gd.toggleAccountVisibility(subcat)" title="Toggle visibility of accounts for this subcategory">\/</button>
+    		</td>
+        </tr>
+	    <template ngFor let-account [ngForOf]="gd.currentAccounts[subcat]">
+	        <tr class="account" *ngIf="gd.isAccountVisible(subcat)">
+	        	<td>
+         			<input class="account" type="string" [(ngModel)]="category[subcat][account]['label']" size="30">
+	        	</td>
+	         	<td>
+	         		<input class="account" type="number" [(ngModel)]="category[subcat][account]['monthlyAmount']" (blur)="verify()" size="8">
+	         	</td>
+				<td>
+					<button (click)="gd.toggleFieldVisibility(subcat,account)" title="Toggle visibility of fields for this account">\/</button>
+				</td>
+			</tr>
+		    <template ngFor let-field [ngForOf]="gd.currentFields[subcat][account]">
+		        <tr class="field" *ngIf="gd.isAccountVisible(subcat) && gd.isFieldVisible(subcat,account)">
+		        	<td>{{field}}</td>
+		         	<td>
+		         		<!-- the following does not work because empty value is treated as number, and cannot be changed
+		         		<input class="field" [account]="gd.dataAccount(category[subcat][account][field])" [(ngModel)]="category[subcat][account][field]" (blur)="verify()" size="30">
+		         	    -->
+		         		<input class="field" type="text" [(ngModel)]="category[subcat][account][field]" (blur)="verify()" size="30">
+		         	</td>
+		         	<td>
+		         	</td>
+		        </tr>
+		    </template>
+	    </template>
+	</template>
+</table>
+
+<br><br>
+Manage Items
+<table>
+	<tr>
+		<td>Item</td>
+		<td>
+			<select [(ngModel)]="im.selectedItem" (change)="im.onItemChange()">
+				<option value="Subcategory">Subcategory</option>
+				<option value="Account">Account</option>
+				<option value="Field">Field</option>
+			</select>
+		</td>
+    </tr>
+    <tr>
+		<td>Action</td>
+		<td>
+			<select [(ngModel)]="im.selectedAction" (change)="im.onActionChange()">
+				<option value="Add">Add</option>
+				<option value="Delete">Delete</option>
+			</select>
+		</td>
+    </tr>
+   	<tr>
+		<td>Subcategory</td>
+		<td>
+			<select [(ngModel)]="im.selectedSubcategory" (change)="im.onSubcategoryChange()">
+				<option *ngFor="let subcat of im.subcatList" [value]="subcat">{{subcat}}</option>
+			</select>
+    		<input *ngIf="im.selectedSubcategory == 'custom'" type="text" [(ngModel)]="im.customSubcategory" size="15" title="Name of custom Subcategory attribute">
+		</td>
+    </tr>
+   	<tr *ngIf="im.selectedAction == 'Add' || im.selectedItem == 'Account' || im.selectedItem == 'Field'">
+		<td>Account</td>
+		<td>
+			<select [(ngModel)]="im.selectedAccount" (change)="im.onAccountChange()">
+				<option *ngFor="let account of im.accountList" [value]="account">{{account}}</option>
+			</select>
+    		<input *ngIf="im.selectedAccount == 'custom'" type="text" [(ngModel)]="im.customAccount" size="15" title="Name of custom Account attribute">
+		</td>
+    </tr>
+   	<tr *ngIf="im.selectedAction == 'Add' || im.selectedItem == 'Field'">
+		<td>Field</td>
+		<td>
+			<select [(ngModel)]="im.selectedField" (change)="im.onFieldChange()">
+				<option *ngFor="let field of im.fieldList" [value]="field">{{field}}</option>
+			</select>
+    		<input *ngIf="im.selectedField == 'custom'" type="text" [(ngModel)]="im.customField" size="15" title="Name of custom Field attribute">
+		</td>
+    </tr>
+</table>
+
+<br>
+<button (click)="im.performAction()">Perform Action</button>
+
+<br><br>
+<div *ngFor="let message of messages">{{message}}</div>

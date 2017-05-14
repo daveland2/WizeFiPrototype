@@ -39,41 +39,41 @@ accountTypes =
 {
 	income:
 	[
-		{monthlyAmount: {label: 'Monthly Amount', val:0, inclusion:'required'}}
+		{monthlyAmount: {label: 'Monthly Amount', val:0, isRequired:true}}
 	],
 	expenses:
 	[
-		{monthlyAmount: {label: 'Monthly Amount', val:0, inclusion:'required'}}
+		{monthlyAmount: {label: 'Monthly Amount', val:0, isRequired:true}}
 	],
 	checking:
 	[
-		{accountOwner: {label: 'Account Owner', val:'', inclusion:'optional'}},
-		{description: {label: 'Description', val:'', inclusion:'required'}},
-		{companyName: {label: 'Company Name', val:'', inclusion:'optional'}},
-		{accountValue: {label: 'Account Value', val:0, inclusion:'required'}},
-		{minimumMonthlyPayment: {label: 'Minimum Monthly Payment', val:0, inclusion:'optional'}},
-		{rate: {label: 'Rate', val:0, inclusion:'optional'}}
+		{accountOwner: {label: 'Account Owner', val:'', isRequired:false}},
+		{description: {label: 'Description', val:'', isRequired:true}},
+		{companyName: {label: 'Company Name', val:'', isRequired:false}},
+		{accountValue: {label: 'Account Value', val:0, isRequired:true}},
+		{minimumMonthlyPayment: {label: 'Minimum Monthly Payment', val:0, isRequired:false}},
+		{rate: {label: 'Rate', val:0, isRequired:false}}
 	],
 	savingsRequired:
 	[
-		{monthlyAmount: {label: 'monthlyAmount', val:0, inclusion:'required'}},
-		{accountOwner: {label: 'Account Owner', val:'', inclusion:'optional'}},
-		{description: {label: 'Description', val:'', inclusion:'required'}},
-		{companyName: {label: 'Company Name', val:'', inclusion:'optional'}},
-		{accountValue: {label: 'Account Value', val:0, inclusion:'required'}},
-		{minimumMonthlyPayment: {label: 'Minimum Monthly Payment', val:0, inclusion:'optional'}},
-		{rate: {label: 'Rate', val:0, inclusion:'optional'}}
+		{monthlyAmount: {label: 'monthlyAmount', val:0, isRequired:true}},
+		{accountOwner: {label: 'Account Owner', val:'', isRequired:false}},
+		{description: {label: 'Description', val:'', isRequired:true}},
+		{companyName: {label: 'Company Name', val:'', isRequired:false}},
+		{accountValue: {label: 'Account Value', val:0, isRequired:true}},
+		{minimumMonthlyPayment: {label: 'Minimum Monthly Payment', val:0, isRequired:false}},
+		{rate: {label: 'Rate', val:0, isRequired:false}}
 	],
 	retirementAccount:
 	[
-		{monthlyAmount: {label: 'monthlyAmount', val:0, inclusion:'required'}},
-		{accountOwner: {label: 'Account Owner', val:'', inclusion:'optional'}},
-		{description: {label: 'Description', val:'', inclusion:'required'}},
-		{companyName: {label: 'Company Name', val:'', inclusion:'optional'}},
-		{accountValue: {label: 'Account Value', val:0, inclusion:'required'}},
-		{minimumMonthlyPayment: {label: 'Minimum Monthly Payment', val:0, inclusion:'optional'}},
-		{employerContribution: {label: 'Employer Contribution', val:0, valType:'%', inclusion:'optional'}},
-		{rate: {label: 'Rate', val:0, inclusion:'required'}}
+		{monthlyAmount: {label: 'monthlyAmount', val:0, isRequired:true}},
+		{accountOwner: {label: 'Account Owner', val:'', isRequired:false}},
+		{description: {label: 'Description', val:'', isRequired:true}},
+		{companyName: {label: 'Company Name', val:'', isRequired:false}},
+		{accountValue: {label: 'Account Value', val:0, isRequired:true}},
+		{minimumMonthlyPayment: {label: 'Minimum Monthly Payment', val:0, isRequired:false}},
+		{employerContribution: {label: 'Employer Contribution', val:0, valType:'%', isRequired:false}},
+		{rate: {label: 'Rate', val:0, isRequired:true}}
 	]
 	//... others to come
 };  // accountTypes
@@ -115,5 +115,85 @@ subcategoryAccountTypes =
 		miscellaneous: ['expenses']
 	}
 };  // subcategoryAccountTypes
+
+dataModel =
+{
+	income:
+	{
+		label: 'Income',
+		income:
+		{
+			label: 'Income',
+			accounts:
+			[
+				{
+					accountName: 'Salary',
+					accountType: 'income',
+					monthlyAmount: {label: 'Monthly Amount', val:0, isRequired:true}
+				},
+				{
+					accountName: 'Rent',
+					accountType: 'income',
+					monthlyAmount: {label: 'Monthly Amount', val:0, isRequired:true}
+				}
+			]
+		}
+	},
+	assets:
+	{
+		label: 'Assets',
+		savingsRequired:
+		{
+			label: 'Required Savings',
+			accounts:
+			[
+				{
+					accountName: 'Emergency Savings',
+					accountType: 'savingsRequired',
+					inclusion: 'required',
+					monthlyAmount: {label: 'Monthly Amount', val:0, isRequired:true},
+					accountValue:  {label: 'Account Value',  val:0, isRequired:true},
+					targetAmount:  {label: 'Target Amount',  val:0, isRequired:true}
+				},
+				{
+					accountName: 'General Savings',
+					accountType: 'savingsRequired',
+					inclusion: 'required',
+					monthlyAmount: {label: 'Monthly Amount', val:0, isRequired:true},
+					accountValue:  {label: 'Account Value',  val:0, isRequired:true},
+					targetAmount:  {label: 'Target Amount',  val:0, isRequired:true}
+				}
+			]
+		},
+		savingsOptional:
+		{
+			label: 'Optional Savings',
+			accounts:
+			[
+				{
+					accountName: 'Mary Savings',
+					accountType: 'savingsOptional',
+					monthlyAmount: {label: 'Monthly Amount', val:0, isRequired:true},
+					accountValue:  {label: 'Account Value',  val:0, isRequired:true}
+				},
+			]
+		},
+		investments:
+		{
+			label: 'Investments',
+			accounts:
+			[
+				{
+					accountName: 'Joe IRA',
+					accountType: 'investments',
+					monthlyAmount:        {label: 'Monthly Amount',        val:0, isRequired:true},
+					growthRate:           {label: 'Growth Rate',           val:0, isRequired:true},
+					accountValue:         {label: 'Account Value',         val:0, isRequired:true},
+					employerContribution: {label: 'Employer Contribution', val:0, isRequired:false},
+				}
+			]
+		}
+	}   // assets
+}
 
 console.log('end test compile');

@@ -139,48 +139,63 @@ export const dataModel:IDataModel =
 							monthlyAmount: 0
 						}
 					},
-				},
+				},  // assets
 				assets2:
 				{
-					bankAccount:
+					label: 'Assets2',
+					savingsRequired:
 					{
-						label: 'Bank Account',
-						checking:
-						{
-							label: 'Checking',
-							monthlyAmount: 0
-						},
-						savings:
-						{
-							label: 'Savings',
-							monthlyAmount: 0
-						}
+						label: 'Required Savings',
+						accounts:
+						[
+							{
+								accountName: 'Emergency Savings',
+								accountType: 'savingsRequired',
+								isRequired: true,
+								monthlyAmount: {label: 'Monthly Amount', val:0, isRequired:true},
+								accountValue:  {label: 'Account Value',  val:0, isRequired:true},
+								targetAmount:  {label: 'Target Amount',  val:0, isRequired:true}
+							},
+							{
+								accountName: 'General Savings',
+								accountType: 'savingsRequired',
+								isRequired: true,
+								monthlyAmount: {label: 'Monthly Amount', val:0, isRequired:true},
+								accountValue:  {label: 'Account Value',  val:0, isRequired:true},
+								targetAmount:  {label: 'Target Amount',  val:0, isRequired:true}
+							}
+						]
 					},
-					taxable:
+					savingsOptional:
 					{
-						label: 'Taxable',
-						brokerage:
-						{
-							label: 'Brokerage',
-							monthlyAmount: 0
-						},
-						pension:
-						{
-							label: 'Pension',
-							monthlyAmount: 0
-						}
+						label: 'Optional Savings',
+						accounts:
+						[
+							{
+								accountName: 'Mary Savings',
+								accountType: 'savingsOptional',
+								monthlyAmount: {label: 'Monthly Amount', val:0, isRequired:true},
+								accountValue:  {label: 'Account Value',  val:0, isRequired:true}
+							},
+						]
 					},
-					realEstate:
+					investments:
 					{
-						label: 'Real Estate',
-						realEstate:
-						{
-							label: 'Real Estate',
-							monthlyAmount: 0
-						}
+						label: 'Investments',
+						accounts:
+						[
+							{
+								accountName: 'Joe IRA',
+								accountType: 'investments',
+								monthlyAmount:        {label: 'Monthly Amount',        val:0, isRequired:true},
+								growthRate:           {label: 'Growth Rate',           val:0, isRequired:true},
+								accountValue:         {label: 'Account Value',         val:0, isRequired:true},
+								employerContribution: {label: 'Employer Contribution', val:0, isRequired:false},
+							}
+						]
 					}
-				}
-			},
+				}   // assets2
+			},  // original
 			current:
 			{
 				budgetDetails:
@@ -245,7 +260,7 @@ export const dataModel:IDataModel =
 							monthlyAmount: 0
 						}
 					}
-				},
+				},  // expenses
 				assets:
 				{
 					bankAccount:
@@ -285,48 +300,63 @@ export const dataModel:IDataModel =
 							monthlyAmount: 0
 						}
 					}
-				},
+				},  // assets
 				assets2:
 				{
-					bankAccount:
+					label: 'Assets',
+					savingsRequired:
 					{
-						label: 'Bank Account',
-						checking:
-						{
-							label: 'Checking',
-							monthlyAmount: 0
-						},
-						savings:
-						{
-							label: 'Savings',
-							monthlyAmount: 0
-						}
+						label: 'Required Savings',
+						accounts:
+						[
+							{
+								accountName: 'Emergency Savings',
+								accountType: 'savingsRequired',
+								isRequired: true,
+								monthlyAmount: {label: 'Monthly Amount', val:0, isRequired:true},
+								accountValue:  {label: 'Account Value',  val:0, isRequired:true},
+								targetAmount:  {label: 'Target Amount',  val:0, isRequired:true}
+							},
+							{
+								accountName: 'General Savings',
+								accountType: 'savingsRequired',
+								isRequired: true,
+								monthlyAmount: {label: 'Monthly Amount', val:0, isRequired:true},
+								accountValue:  {label: 'Account Value',  val:0, isRequired:true},
+								targetAmount:  {label: 'Target Amount',  val:0, isRequired:true}
+							}
+						]
 					},
-					taxable:
+					savingsOptional:
 					{
-						label: 'Taxable',
-						brokerage:
-						{
-							label: 'Brokerage',
-							monthlyAmount: 0
-						},
-						pension:
-						{
-							label: 'Pension',
-							monthlyAmount: 0
-						}
+						label: 'Optional Savings',
+						accounts:
+						[
+							{
+								accountName: 'Mary Savings',
+								accountType: 'savingsOptional',
+								monthlyAmount: {label: 'Monthly Amount', val:0, isRequired:true},
+								accountValue:  {label: 'Account Value',  val:0, isRequired:true}
+							},
+						]
 					},
-					realEstate:
+					investments:
 					{
-						label: 'Real Estate',
-						realEstate:
-						{
-							label: 'Real Estate',
-							monthlyAmount: 0
-						}
+						label: 'Investments',
+						accounts:
+						[
+							{
+								accountName: 'Joe IRA',
+								accountType: 'investments',
+								monthlyAmount:        {label: 'Monthly Amount',        val:0, isRequired:true},
+								growthRate:           {label: 'Growth Rate',           val:0, isRequired:true},
+								accountValue:         {label: 'Account Value',         val:0, isRequired:true},
+								employerContribution: {label: 'Employer Contribution', val:0, isRequired:false},
+							}
+						]
 					}
-				}
-			}
+				}   // assets2
+			}   // current
 		}
 	}
 };

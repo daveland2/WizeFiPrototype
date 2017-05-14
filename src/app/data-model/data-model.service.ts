@@ -219,6 +219,7 @@ export class DataModelService
 			case 'incomeDetails':  value = JSON.parse(JSON.stringify(this.dataModel.persistent.plans[plan].incomeDetails));  break;
 			case 'expenses':       value = JSON.parse(JSON.stringify(this.dataModel.persistent.plans[plan].expenses));       break;
 			case 'assets':         value = JSON.parse(JSON.stringify(this.dataModel.persistent.plans[plan].assets));         break;
+			case 'assets2':        value = JSON.parse(JSON.stringify(this.dataModel.persistent.plans[plan].assets2));        break;
 			default:
 			    value = null;
 			    console.log(item + ' not found in getdata in DataModelService');
@@ -238,6 +239,7 @@ export class DataModelService
 			case 'incomeDetails':  this.dataModel.persistent.plans[plan].incomeDetails = JSON.parse(JSON.stringify(value));  break;
 			case 'expenses':       this.dataModel.persistent.plans[plan].expenses      = JSON.parse(JSON.stringify(value));  break;
 			case 'assets':         this.dataModel.persistent.plans[plan].assets        = JSON.parse(JSON.stringify(value));  break;
+			case 'assets2':        this.dataModel.persistent.plans[plan].assets2       = JSON.parse(JSON.stringify(value));  break;
 			default:
 			    console.log(item + ' not found in putdata in DataModelService');
 		}

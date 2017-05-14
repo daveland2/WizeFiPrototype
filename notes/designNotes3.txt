@@ -172,13 +172,13 @@ dataModel =
 			[
 				{
 					accountName: 'Salary',
-					fieldsType: 'income',
-					monthlyAmount: {label: 'Monthly Amount', val:0, inclusion:'required'}
+					accountsType: 'income',
+					{monthlyAmount: {label: 'Monthly Amount', val:0, inclusion:'required'}}
 				},
 				{
 					accountName: 'Rent',
-					fieldsType: 'income',
-					monthlyAmount: {label: 'Monthly Amount', val:0, inclusion:'required'}
+					accountsType: 'income',
+					{monthlyAmount: {label: 'Monthly Amount', val:0, inclusion:'required'}}
 				}
 			]
 		}
@@ -191,16 +191,21 @@ dataModel =
 			label: 'Required Savings',
 			accounts:
 			[
-						Emergency Savings
+				{
+					accountName: 'Emergency Savings',
+					accountsType
 							accountName
 							monthlyAmount
 							accountValue
 							targetAmount
-						General Savings
+				},
+				{
+					accountName: General Savings
 							accountName
 							monthlyAmount
 							accountValue
 							targetAmount
+				}
 			]
 		},
 		savingsOptional:
@@ -214,6 +219,19 @@ dataModel =
 							accountValue
 
 
+		},
+		investments:
+		{
+			label: 'Investments',
+			accounts:
+			[
+			Joe IRA
+				accountName
+				monthlyAmount
+				growthRate
+				employerContribution
+				accountValue
+			]
 		}
 	},
 	liabilities:
@@ -230,7 +248,7 @@ dataModel =
 			[
 				{
 					accountName: 'Tithe',
-					fieldsType: 'budget',
+					accountsType: 'budget',
 					monthlyAmount: {label: 'Monthly Amount', val:0, inclusion:'required'}
 				},
 				{
