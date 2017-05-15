@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { DataModelService } from '../data-model/data-model.service';
 import { Generic2DataManagement } from './generic2-data-management.class';
-import { ItemManagement } from '../utilities/item-management.class';
+import { Item2Management } from './item2-management.class';
 import { CValidityCheck, IVerifyResult } from '../utilities/validity-check.class';
 import { CAssets2 } from './assets2.class';
 import { possibleAssets2 } from './assets2.data';
@@ -20,7 +20,7 @@ export class Assets2Component implements OnInit
     // transient data
     messages: string[] = [];
     gd: Generic2DataManagement;  // class to handle generic data presentation components in HTML
-    im: ItemManagement; // // class to handle "Manage Items" feature
+    im: Item2Management; // // class to handle "Manage Items" feature
     category: any;
     categoryName: string;
 
@@ -30,7 +30,7 @@ export class Assets2Component implements OnInit
     {
         this.cAssets2 = new CAssets2(this.dataModelService.getdata('assets2'));
         this.gd = new Generic2DataManagement(this.cAssets2.assets2, possibleAssets2, this.messages);
-        //this.im = new ItemManagement(this.gd, this.messages);
+        this.im = new Item2Management(this.gd, this.messages);
         this.category = this.cAssets2.assets2;
         this.categoryName = 'Assets2';
     }   // ngOnInit

@@ -39,13 +39,13 @@ export class CValidityCheck
         }
     }   // checkInteger3
 
-    public static checkInteger4(object:any, lev1:string, ndx:number, lev3:string, result:IVerifyResult)
+    public static checkInteger4(object:any, lev1:string, actndx:number, lev3:string, result:IVerifyResult)
     {
-        let str = String(object[lev1].accounts[ndx][lev3]);
+        let str = String(object[lev1].accounts[actndx][lev3].val);
         if (!str.match(/^[0-9]+$/))
         {
           result.hadError = true;
-          result.messages.push('Must enter whole number value for ' + lev1 + '[' + ndx + '].' + lev3);
+          result.messages.push('Must enter whole number value for ' + lev1 + '[' + actndx + '].' + lev3);
         }
     }   // checkInteger4
 

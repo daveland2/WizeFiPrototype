@@ -24,7 +24,7 @@ This class provides variables and routines for managing generic data processing.
         this.currentAccounts = this.getAccounts(this.category);
         this.currentFields = this.getFields(this.category);
 
-        let initialStatus = false;  // default initial status of visibility
+        let initialStatus = true;  // default initial status of visibility
 
         this.showAllAccounts = initialStatus;
         this.showAllFields = initialStatus;
@@ -33,6 +33,18 @@ This class provides variables and routines for managing generic data processing.
         this.areAccountsVisible = this.createAreAccountsVisible(initialStatus);
         this.areFieldsVisible = this.createAreFieldsVisible(initialStatus);
     }   // constructor
+
+    getActndx(subcat,accountName): number
+    /*
+    This function returns the subscript for the location of an accountName in the accounts array under a given subcategory.
+    If the accountName is not present, the function returns 0 (this function is intended to be used in situations where)
+    the accountName is known to be present).
+    */
+    {
+        let actndx = this.category[subcat].accounts.length;
+        while (--actndx >= 0 && this.category[subcat].accounts[actndx] != accountName);
+        return actndx;
+    }   // getActndx
 
     getSubcategories(category:any): string[]
     /*
@@ -49,8 +61,7 @@ This class provides variables and routines for managing generic data processing.
 
     getAccounts(category:any): any
     /*
-    This routine returns an object that has a list of account array subscript values under each subcat value.
-    ===========>  should this return actndx values or accountName values?
+    This routine returns an object that has an array of accountName values under each subcat value.  In addition to making a list of the account names available, this list also identifies the number of accounts under a given subcatagory.  This value can be used to control a loop that iterates over each account under a subcategory.
     */
     {
         let result = {};
@@ -61,8 +72,7 @@ This class provides variables and routines for managing generic data processing.
                 result[subcat] = [];
                 for (let i = 0; i < category[subcat].accounts.length; i++)
                 {
-                    // result[subcat].push(i);  // return actndx
-                    result[subcat].push(category[subcat].accounts[i].accountName);  // return accountName
+                    result[subcat].push(category[subcat].accounts[i].accountName.val);
                 }
             }
         }
@@ -80,12 +90,12 @@ This class provides variables and routines for managing generic data processing.
             if (subcat != 'label')
             {
                 result[subcat] = [];
-                for (let i = 0; i < category[subcat].accounts.length; i++)
+                for (let actndx = 0; actndx < category[subcat].accounts.length; actndx++)
                 {
-                    result[subcat][i] = [];
-                    for (let field of Object.keys(category[subcat].accounts[i]))
+                    result[subcat].push([]);
+                    for (let field of Object.keys(category[subcat].accounts[actndx]))
                     {
-                        if (this.wantHiddenFields || (field != 'accountName' && field != 'accountType' && field != 'isRequired')) result[subcat][i].push(field);
+                        if (this.wantHiddenFields || (field != 'accountName' && field != 'accountType' && field != 'isRequired')) result[subcat][actndx].push(field);
                     }
                 }
             }
@@ -95,7 +105,7 @@ This class provides variables and routines for managing generic data processing.
 
     getAccountsList(category:any, subcat:string): string[]
     /*
-    This routine returns a list of accounts under a given subcategory.
+    This routine returns a list of account names under a given subcategory.
     */
     {
         let result = [];
@@ -104,11 +114,12 @@ This class provides variables and routines for managing generic data processing.
         return result;
     }   // getAccountsList
 
-    getFieldsList(category:any, subcat:string, actndx:number): string[]
+    getFieldsList(category:any, subcat:string, accountName:string): string[]
     /*
-    This routine returns a list of fields under a given subcategory and account.
+    This routine returns a list of fields under a given subcategory and account (where the account is identified by the account name).
     */
     {
+        let actndx = this.getActndx(subcat,accountName);
         let result = [];
         let fieldsInfo = this.getFields(category);
         if (fieldsInfo.hasOwnProperty(subcat) && 0 <= actndx && actndx < fieldsInfo[subcat].length)
@@ -122,9 +133,9 @@ This class provides variables and routines for managing generic data processing.
     {
         for (let subcat of Object.keys(this.areFieldsVisible))
         {
-            for (let i = 0; i < this.areFieldsVisible[subcat].accounts.length; i++)
+            for (let i = 0; i < this.areFieldsVisible[subcat].length; i++)
             {
-                this.areFieldsVisible[subcat].accounts[i] = this.showAllFields;
+                this.areFieldsVisible[subcat][i] = this.showAllFields;
             }
         }
     }   // updateFieldsVisibility
@@ -168,10 +179,13 @@ This class provides variables and routines for managing generic data processing.
         let result = {};
         for (let subcat of Object.keys(this.category))
         {
-            result[subcat] = [];
-            for (let i = 0; i < this.category[subcat].accounts.length; i++)
+            if (subcat != 'label')
             {
-                result[subcat].push(status);
+                result[subcat] = [];
+                for (let actndx = 0; actndx < this.category[subcat].accounts.length; actndx++)
+                {
+                    result[subcat].push(status);
+                }
             }
         }
         return result;
@@ -206,11 +220,11 @@ This class provides variables and routines for managing generic data processing.
     */
     {
         let sum = 0;
-        for (let i = 0; i < this.category[subcat].accounts.length; i++)
+        for (let actndx = 0; actndx < this.category[subcat].accounts.length; actndx++)
         {
-            if (typeof this.category[subcat].accounts[i] == 'object' && this.category[subcat].accounts[i].hasOwnProperty('monthlyAmount'))
+            if (typeof this.category[subcat].accounts[actndx] == 'object' && this.category[subcat].accounts[actndx].hasOwnProperty('monthlyAmount'))
             {
-                let val = this.category[subcat].accounts[i].monthlyAmount.val;
+                let val = this.category[subcat].accounts[actndx].monthlyAmount.val;
                 if (typeof val == 'number')
                 {
                     sum = sum + val;
@@ -232,18 +246,21 @@ This class provides variables and routines for managing generic data processing.
         let sum = 0;
         for (let subcat of Object.keys(this.category))
         {
-            for (let i = 0; i < this.category[subcat].accounts.length; i++)
+            if (subcat != 'label')
             {
-                if (typeof this.category[subcat].accounts[i] == 'object' && this.category[subcat].accounts[i].hasOwnProperty('monthlyAmount'))
+                for (let actndx = 0; actndx < this.category[subcat].accounts.length; actndx++)
                 {
-                    let val = this.category[subcat].accounts[i].monthlyAmount.val;
-                    if (typeof val == 'number')
+                    if (typeof this.category[subcat].accounts[actndx] == 'object' && this.category[subcat].accounts[actndx].hasOwnProperty('monthlyAmount'))
                     {
-                        sum = sum + val;
-                    }
-                    else if (typeof val == 'string' && !isNaN(+val))
-                    {
-                        sum = sum + Number(val);
+                        let val = this.category[subcat].accounts[actndx].monthlyAmount.val;
+                        if (typeof val == 'number')
+                        {
+                            sum = sum + val;
+                        }
+                        else if (typeof val == 'string' && !isNaN(+val))
+                        {
+                            sum = sum + Number(val);
+                        }
                     }
                 }
             }
@@ -261,11 +278,14 @@ This class provides variables and routines for managing generic data processing.
 
         for (let subcat of Object.keys(this.category))
         {
-            for (let i = 0; i < this.category[subcat].accounts.length; i++)
+            if (subcat != 'label')
             {
-                if (typeof this.category[subcat].accounts[i] == 'object' && this.category[subcat].accounts[i].hasOwnProperty('monthlyAmount'))
+                for (let actndx = 0; actndx < this.category[subcat].accounts.length; actndx++)
                 {
-                    CValidityCheck.checkInteger4(this.category,subcat,i,'monthlyAmount',result);
+                    if (typeof this.category[subcat].accounts[actndx] == 'object' && this.category[subcat].accounts[actndx].hasOwnProperty('monthlyAmount'))
+                    {
+                        CValidityCheck.checkInteger4(this.category,subcat,actndx,'monthlyAmount',result);
+                    }
                 }
             }
         }
