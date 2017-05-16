@@ -335,8 +335,8 @@ This class provides variables and routines for item management (adding and delet
                 //TODO review how to delete element from array
                 // myArray.splice(startndx,numelements);
                 // myArray.splice(2,1);
-                // actndx = ...
-                // delete gd.category[subcat].accounts.splice(actndx,1);
+                actndx = gd.getActndx(subcat,accountName);
+                gd.category[subcat].accounts.splice(actndx,1);
             }
         }   // Account
 
@@ -351,10 +351,8 @@ This class provides variables and routines for item management (adding and delet
 
             if (action == 'Delete')
             {
-                /*
-                actndx = ...
+                actndx = gd.getActndx(subcat,accountName);
                 delete gd.category[subcat].accounts[actndx][field];
-                */   //%//
             }
         }   // Field
     }   // doAction
@@ -413,7 +411,7 @@ This class provides variables and routines for item management (adding and delet
 
             if (action == 'Delete')
             {
-                if (!confirm('Do you intend to delete the account: ' + subcat + '.' + accountName))
+                if (!confirm('Do you intend to delete the account: ' + subcat + '->' + accountName))
                 {
                     wantRefresh = false;
                 }
@@ -439,7 +437,7 @@ This class provides variables and routines for item management (adding and delet
 
             if (action == 'Delete')
             {
-                if (!confirm('Do you intend to delete the field: '+subcat+'.'+accountName+'.'+field))
+                if (!confirm('Do you intend to delete the field: '+subcat+'->'+accountName+'->'+field))
                 {
                     wantRefresh = false;
                 }

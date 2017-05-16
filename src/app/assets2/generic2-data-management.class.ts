@@ -42,7 +42,7 @@ This class provides variables and routines for managing generic data processing.
     */
     {
         let actndx = this.category[subcat].accounts.length;
-        while (--actndx >= 0 && this.category[subcat].accounts[actndx] != accountName);
+        while (--actndx > 0 && this.category[subcat].accounts[actndx].accountName.val != accountName);
         return actndx;
     }   // getActndx
 
