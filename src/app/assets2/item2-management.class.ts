@@ -24,12 +24,12 @@ This class provides variables and routines for item management (adding and delet
     selectedField: string;
     customField: string = '';
 
-    constructor (private gd:Generic2DataManagement, private messages:string[])
+    constructor (private component:any, private gd:Generic2DataManagement, private messages:string[])
     {
         this.selectedItem = 'Subcategory';
         this.selectedAction = 'Delete'; //%//  set to Add later
 
-        // update subcategories list
+        // update subcategory list
         this.subcatList = this.getUpdateSubcategoryList(this.gd.category, this.gd.possibleCategory, this.selectedItem, this.selectedAction);
         if (Array.isArray(this.subcatList) && this.subcatList.length > 0) this.selectedSubcategory = this.subcatList[0];
 
@@ -44,7 +44,7 @@ This class provides variables and routines for item management (adding and delet
 
     onItemChange(): void
     {
-        // update subcategories list
+        // update subcategory list
         this.subcatList = this.getUpdateSubcategoryList(this.gd.category, this.gd.possibleCategory, this.selectedItem, this.selectedAction);
         if (Array.isArray(this.subcatList) && this.subcatList.length > 0) this.selectedSubcategory = this.subcatList[0];
         this.customSubcategory = '';
@@ -62,7 +62,7 @@ This class provides variables and routines for item management (adding and delet
 
     onActionChange(): void
     {
-        // update subcategories list
+        // update subcategory list
         this.subcatList = this.getUpdateSubcategoryList(this.gd.category, this.gd.possibleCategory, this.selectedItem, this.selectedAction);
         if (Array.isArray(this.subcatList) && this.subcatList.length > 0) this.selectedSubcategory = this.subcatList[0];
         this.customSubcategory = '';
@@ -290,19 +290,15 @@ This class provides variables and routines for item management (adding and delet
         item: string,
         action: string,
         subcat: string,
-        accountName: string,
+        actndx: number,
         field: string
     ): void
     {
-
-        let actndx: number;
-
         if (item == 'Subcategory')
         {
             if (action == 'Add')
             {
                 /*
-                actndx = 0;
                 gd.category[subcat] = {};
                 gd.category[subcat].label = subcat;
                 gd.category[subcat].accounts = [];
@@ -332,10 +328,6 @@ This class provides variables and routines for item management (adding and delet
 
             if (action == 'Delete')
             {
-                //TODO review how to delete element from array
-                // myArray.splice(startndx,numelements);
-                // myArray.splice(2,1);
-                actndx = gd.getActndx(subcat,accountName);
                 gd.category[subcat].accounts.splice(actndx,1);
             }
         }   // Account
@@ -351,7 +343,6 @@ This class provides variables and routines for item management (adding and delet
 
             if (action == 'Delete')
             {
-                actndx = gd.getActndx(subcat,accountName);
                 delete gd.category[subcat].accounts[actndx][field];
             }
         }   // Field
@@ -371,6 +362,7 @@ This class provides variables and routines for item management (adding and delet
         let subcat: string = this.selectedSubcategory;
         let accountName: string = this.selectedAccount;
         let field: string = this.selectedField;
+        let actndx: number = this.gd.getActndx(subcat,accountName);
 
         if (item == 'Subcategory')
         {
@@ -389,7 +381,7 @@ This class provides variables and routines for item management (adding and delet
 
             if (action == 'Delete')
             {
-                if (!confirm('Do you intend to delete the subcategory: ' + subcat))
+                if (!confirm('Do you intend to delete the subcategory:\n' + this.gd.category[subcat].label))
                 {
                     wantRefresh = false;
                 }
@@ -411,9 +403,17 @@ This class provides variables and routines for item management (adding and delet
 
             if (action == 'Delete')
             {
-                if (!confirm('Do you intend to delete the account: ' + subcat + '->' + accountName))
+                if (this.gd.category[subcat].accounts[actndx].hasOwnProperty('isRequired') && this.gd.category[subcat].accounts[actndx].isRequired.val)
                 {
+                    this.messages.push(accountName + ' is required and cannot be deleted');
                     wantRefresh = false;
+                }
+                else
+                {
+                    if (!confirm('Do you intend to delete the account:\n' + this.gd.category[subcat].label + '->' + accountName))
+                    {
+                        wantRefresh = false;
+                    }
                 }
             }
         }   // Account
@@ -437,9 +437,17 @@ This class provides variables and routines for item management (adding and delet
 
             if (action == 'Delete')
             {
-                if (!confirm('Do you intend to delete the field: '+subcat+'->'+accountName+'->'+field))
+                if (this.gd.category[subcat].accounts[actndx][field].hasOwnProperty('isRequired') && this.gd.category[subcat].accounts[actndx].isRequired)
                 {
+                    this.messages.push(this.gd.category[subcat].accounts[actndx][field].label + ' is required and cannot be deleted');
                     wantRefresh = false;
+                }
+                else
+                {
+                    if (!confirm('Do you intend to delete the field:\n' + this.gd.category[subcat].label + '->' + accountName + '->' + this.gd.category[subcat].accounts[actndx][field].label))
+                    {
+                        wantRefresh = false;
+                    }
                 }
             }
         }   // Field
@@ -448,7 +456,10 @@ This class provides variables and routines for item management (adding and delet
         if (wantRefresh && !hadError)
         {
             // make changes to the screen data model behind the scenes
-            Item2Management.doAction(this.gd, item, action, subcat, accountName, field);
+            Item2Management.doAction(this.gd, item, action, subcat, actndx, field);
+
+            // make changes to the application data model
+            this.component.update();
 
             // update screen to reflect changes in the data model
             this.gd.areAccountsVisible = this.gd.createAreAccountsVisible(this.gd.showAllAccounts);
@@ -456,6 +467,25 @@ This class provides variables and routines for item management (adding and delet
             this.gd.currentSubcategories = this.gd.getSubcategories(this.gd.category);
             this.gd.currentAccounts = this.gd.getAccounts(this.gd.category);
             this.gd.currentFields = this.gd.getFields(this.gd.category);
+
+            /////////////////////////////////////////////////
+            // updates for item management feature
+            /////////////////////////////////////////////////
+
+            // update subcategory list
+            this.subcatList = this.getUpdateSubcategoryList(this.gd.category, this.gd.possibleCategory, this.selectedItem, this.selectedAction);
+            if (Array.isArray(this.subcatList) && this.subcatList.length > 0) this.selectedSubcategory = this.subcatList[0];
+            this.customSubcategory = '';
+
+            // update account list
+            this.accountList = this.getUpdateAccountList(this.gd.category, this.gd.possibleCategory, this.selectedItem, this.selectedAction, this.selectedSubcategory);
+            if (Array.isArray(this.accountList) && this.accountList.length > 0) this.selectedAccount = this.accountList[0];
+            this.customAccount = '';
+
+            // update field list
+            this.fieldList = this.getUpdateFieldList(this.gd.category, this.gd.possibleCategory, this.selectedItem, this.selectedAction, this.selectedSubcategory, this.selectedAccount);
+            if (Array.isArray(this.fieldList) && this.fieldList.length > 0) this.selectedField = this.fieldList[0];
+            this.customField = '';
         }
     }   // performAction
 

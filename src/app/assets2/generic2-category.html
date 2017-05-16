@@ -38,7 +38,7 @@
          			<input class="account" type="string" [(ngModel)]="category[subcat].accounts[actndx].accountName.val" size="30">
 	        	</td>
 	         	<td>
-	         		<input class="account" type="number" [(ngModel)]="category[subcat].accounts[actndx].monthlyAmount.val" (blur)="verify()" size="8">
+	         		<input class="account" *ngIf="category[subcat].accounts[actndx].monthlyAmount" type="number" [(ngModel)]="category[subcat].accounts[actndx].monthlyAmount.val" (blur)="verify()" size="8">
 	         	</td>
 				<td>
 					<button (click)="gd.toggleFieldVisibility(subcat,actndx)" title="Toggle visibility of fields for this account">\/</button>
@@ -50,10 +50,7 @@
 						<input class="field" type="string" [(ngModel)]="category[subcat].accounts[actndx][field].label" size="30">
 					</td>
 		         	<td>
-		         		<!-- the following does not work because empty value is treated as number, and cannot be changed
-		         		<input class="field" [account]="gd.dataAccount(category[subcat][account][field])" [(ngModel)]="category[subcat][account][field]" (blur)="verify()" size="30">
-		         	    -->
-		         		<input class="field" type="text" [(ngModel)]="category[subcat].accounts[actndx][field].val" (blur)="verify()" size="30">
+		         		<input *ngIf="category[subcat].accounts[gd.getActndx(subcat,account)][field]" class="field" type="text" [(ngModel)]="category[subcat].accounts[gd.getActndx(subcat,account)][field].val" (blur)="verify()" size="30">
 		         	</td>
 		         	<td>
 		         	</td>
@@ -89,7 +86,7 @@ Manage Items
 		<td>Subcategory</td>
 		<td>
 			<select [(ngModel)]="im.selectedSubcategory" (change)="im.onSubcategoryChange()">
-				<option *ngFor="let subcat of im.subcatList" [value]="subcat">{{subcat}}</option>
+				<option *ngFor="let subcat of im.subcatList" [value]="subcat">{{category[subcat].label}}</option>
 			</select>
     		<input *ngIf="im.selectedSubcategory == 'custom'" type="text" [(ngModel)]="im.customSubcategory" size="15" title="Name of custom Subcategory attribute">
 		</td>
@@ -107,7 +104,8 @@ Manage Items
 		<td>Field</td>
 		<td>
 			<select [(ngModel)]="im.selectedField" (change)="im.onFieldChange()">
-				<option *ngFor="let field of im.fieldList" [value]="field">{{field}}</option>
+				<!-- <option *ngFor="let field of im.fieldList" [value]="field">{{field}}</option> -->
+				<option *ngFor="let field of im.fieldList" [value]="field">{{category[im.selectedSubcategory].accounts[gd.getActndx(im.selectedSubcategory,account)][field].label}}</option>
 			</select>
     		<input *ngIf="im.selectedField == 'custom'" type="text" [(ngModel)]="im.customField" size="15" title="Name of custom Field attribute">
 		</td>

@@ -30,7 +30,7 @@ export class Assets2Component implements OnInit
     {
         this.cAssets2 = new CAssets2(this.dataModelService.getdata('assets2'));
         this.gd = new Generic2DataManagement(this.cAssets2.assets2, possibleAssets2, this.messages);
-        this.im = new Item2Management(this.gd, this.messages);
+        this.im = new Item2Management(this, this.gd, this.messages);
         this.category = this.cAssets2.assets2;
         this.categoryName = 'Assets2';
     }   // ngOnInit

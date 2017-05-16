@@ -70,9 +70,9 @@ This class provides variables and routines for managing generic data processing.
             if (subcat != 'label')
             {
                 result[subcat] = [];
-                for (let i = 0; i < category[subcat].accounts.length; i++)
+                for (let actndx = 0; actndx < category[subcat].accounts.length; actndx++)
                 {
-                    result[subcat].push(category[subcat].accounts[i].accountName.val);
+                    result[subcat].push(category[subcat].accounts[actndx].accountName.val);
                 }
             }
         }
