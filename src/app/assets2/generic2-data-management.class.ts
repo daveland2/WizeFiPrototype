@@ -34,15 +34,15 @@ This class provides variables and routines for managing generic data processing.
         this.areFieldsVisible = this.createAreFieldsVisible(initialStatus);
     }   // constructor
 
-    getActndx(subcat,accountName): number
+    getActndx(category,subcat,accountName): number
     /*
     This function returns the subscript for the location of an accountName in the accounts array under a given subcategory.
     If the accountName is not present, the function returns 0 (this function is intended to be used in situations where)
     the accountName is known to be present).
     */
     {
-        let actndx = this.category[subcat].accounts.length;
-        while (--actndx > 0 && this.category[subcat].accounts[actndx].accountName.val != accountName);
+        let actndx = category[subcat].accounts.length;
+        while (--actndx > 0 && category[subcat].accounts[actndx].accountName.val != accountName);
         return actndx;
     }   // getActndx
 
@@ -119,7 +119,7 @@ This class provides variables and routines for managing generic data processing.
     This routine returns a list of fields under a given subcategory and account (where the account is identified by the account name).
     */
     {
-        let actndx = this.getActndx(subcat,accountName);
+        let actndx = this.getActndx(category,subcat,accountName);
         let result = [];
         let fieldsInfo = this.getFields(category);
         if (fieldsInfo.hasOwnProperty(subcat) && 0 <= actndx && actndx < fieldsInfo[subcat].length)
