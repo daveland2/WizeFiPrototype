@@ -1,36 +1,37 @@
 /*
 The following defines all possible field names.
 */
-possibleFieldNames =
-[
-	{accountOwner:         {label: 'Account Owner',          val:''}},
-	{description:          {label: 'Description',            val:''}},
-	{companyName:          {label: 'Company Name',           val:''}},
-	{accountValue:         {label: 'Account Value',          val:0}},
-	{monthlyAmount:        {label: 'Monthly Amount',         val:0}},
-	{minimumMonthlyAmount: {label: 'Minimum Monthly Amount', val:0}},
-	{employerContribution: {label: 'Employer Contribution',  val:0}},
-	{growthRate:           {label: 'Growth Rate',            val:0}},
-	{coverageAmount:       {label: 'Coverage amount',        val:0}},
-	{maturityDate:         {label: 'Maturity Date',          val:''}},
-
-	{targetAmount:         {label: 'Target Amount',          val:0}},
+possibleFieldNames:any =
+{
+	accountOwner:         {label: 'Account Owner',          val:''},
+	accountValue:         {label: 'Account Value',          val:0},
+	monthlyAmount:        {label: 'Monthly Amount',         val:0},
+	minimumMonthlyAmount: {label: 'Minimum Monthly Amount', val:0},
+	employerContribution: {label: 'Employer Contribution',  val:0},
+	growthRate:           {label: 'Growth Rate',            val:0},
+	interestRate:         {label: 'Interest Rate',          val:0},
+	coverageAmount:       {label: 'Coverage amount',        val:0},
+	maturityDate:         {label: 'Maturity Date',          val:''},     // CD
+	targetAmount:         {label: 'Target Amount',          val:0},      // required savings
+	expirationYear:       {label: 'Expiration Year',        val:0},      // term life insurance
+	appreciationRate:     {label: 'Appreciation Rate',      val:0},      // other (assets)
+	depreciationRate:     {label: 'Depreciation Rate',      val:0},      // other (assets)
+	creditCardLimit:      {label: 'Credit Card Limit',      val:0},      // credit card
+	isPrimaryResidence:   {label: 'Primary Residence',      val:false},  // real estate assets
+	isInvestmentProperty: {label: 'Investment Property',    val:false},  // real estate assets
+	haveMortgage:         {label: 'Mortgage',               val:false},  // real estate assets
+	haveSecondMortgage:   {label: 'Second Mortgage',        val:false},  // real estate assets
+	haveLien:             {label: 'Lien',                   val:false},  // real estate assets
+	haveLoan:             {label: 'Loan',                   val:false}   // real estate assets
 	/*
-	targetAmount          // emergency and general savings
-	expirationYear        // term life insurance
-	isPrimaryResidence    // real estate assets
-	isInvestmentProperty  // real estate assets
-	haveMortgage          // real estate assets
-	haveSecondMortgage    // real estate assets
-	haveLien              // real estate assets
-	haveLoanAgainstIRA    // IRA
-	appreciationRate      // other (assets)  (also has Est. Growth Rate)
-	extraYouPay           // credit card
-	creditCardLimit       // credit card
+	extraYouPay = monthlyPayment - minimumMonthlyPayment  // credit card  (incorporate this within monthlyAmount)
 
-	{isPrimaryResidence: {label: 'Primary Residence', val:true}}
+    // remove the following
+	description:          {label: 'Description',            val:''}},
+	companyName:          {label: 'Company Name',           val:''}},
 	*/
-];
+};  // possibleFieldNames
+
 
 /*
 The following defines all possible account types (the JavaScript attribute name is the name of the type).  Each type is a distinct list of field names that are required for a particular account under a given subaccount.  The presence or absence of a field, and the value of the inclusion attribute are the things that distinguish one type from another.  (An absent field is the same as a field with inclusion N/A.)
@@ -38,83 +39,44 @@ The following defines all possible account types (the JavaScript attribute name 
 accountTypes =
 {
 	income:
-	[
-		{monthlyAmount: {label: 'Monthly Amount', val:0, isRequired:true}}
-	],
+	{
+		monthlyAmount: {label: 'Monthly Amount', val:0, isRequired:true}
+	},
 	expenses:
-	[
-		{monthlyAmount: {label: 'Monthly Amount', val:0, isRequired:true}}
-	],
+	{
+		monthlyAmount: {label: 'Monthly Amount', val:0, isRequired:true}
+	},
 	checking:
-	[
-		{accountOwner: {label: 'Account Owner', val:'', isRequired:false}},
-		{description: {label: 'Description', val:'', isRequired:true}},
-		{companyName: {label: 'Company Name', val:'', isRequired:false}},
-		{accountValue: {label: 'Account Value', val:0, isRequired:true}},
-		{minimumMonthlyPayment: {label: 'Minimum Monthly Payment', val:0, isRequired:false}},
-		{rate: {label: 'Rate', val:0, isRequired:false}}
-	],
+	{
+		accountOwner:          {label: 'Account Owner',           val:'', isRequired:false},
+		description:           {label: 'Description',             val:'', isRequired:true},
+		companyName:           {label: 'Company Name',            val:'', isRequired:false},
+		accountValue:          {label: 'Account Value',           val:0,  isRequired:true},
+		minimumMonthlyPayment: {label: 'Minimum Monthly Payment', val:0,  isRequired:false},
+		interestRate:          {label: 'Interest Rate',           val:0,  isRequired:false}
+	},
 	savingsRequired:
-	[
-		{monthlyAmount: {label: 'monthlyAmount', val:0, isRequired:true}},
-		{accountOwner: {label: 'Account Owner', val:'', isRequired:false}},
-		{description: {label: 'Description', val:'', isRequired:true}},
-		{companyName: {label: 'Company Name', val:'', isRequired:false}},
-		{accountValue: {label: 'Account Value', val:0, isRequired:true}},
-		{minimumMonthlyPayment: {label: 'Minimum Monthly Payment', val:0, isRequired:false}},
-		{rate: {label: 'Rate', val:0, isRequired:false}}
-	],
+	{
+		monthlyAmount:         {label: 'monthlyAmount',           val:0,  isRequired:true},
+		accountOwner:          {label: 'Account Owner',           val:'', isRequired:false},
+		description:           {label: 'Description',             val:'', isRequired:true},
+		accountValue:          {label: 'Account Value',           val:0,  isRequired:true},
+		minimumMonthlyPayment: {label: 'Minimum Monthly Payment', val:0,  isRequired:false},
+		interestRate:          {label: 'Interest Rate',           val:0,  isRequired:false}
+	},
 	retirementAccount:
-	[
-		{monthlyAmount: {label: 'monthlyAmount', val:0, isRequired:true}},
-		{accountOwner: {label: 'Account Owner', val:'', isRequired:false}},
-		{description: {label: 'Description', val:'', isRequired:true}},
-		{companyName: {label: 'Company Name', val:'', isRequired:false}},
-		{accountValue: {label: 'Account Value', val:0, isRequired:true}},
-		{minimumMonthlyPayment: {label: 'Minimum Monthly Payment', val:0, isRequired:false}},
-		{employerContribution: {label: 'Employer Contribution', val:0, valType:'%', isRequired:false}},
-		{rate: {label: 'Rate', val:0, isRequired:true}}
-	]
+	{
+		monthlyAmount:         {label: 'monthlyAmount',           val:0,  isRequired:true},
+		accountOwner:          {label: 'Account Owner',           val:'', isRequired:false},
+		description:           {label: 'Description',             val:'', isRequired:true},
+		companyName:           {label: 'Company Name',            val:'', isRequired:false},
+		accountValue:          {label: 'Account Value',           val:0,  isRequired:true},
+		minimumMonthlyPayment: {label: 'Minimum Monthly Payment', val:0,  isRequired:false},
+		employerContribution:  {label: 'Employer Contribution',   val:0,  valType:'%', isRequired:false},  // keep valType?
+		growthRate:            {label: 'Growth Rate',             val:0,  isRequired:false},
+	}
 	//... others to come
 };  // accountTypes
-
-/*
-The following defines a list of account types associated with each subcategory.
-*/
-subcategoryAccountTypes =
-{
-	income:
-	{
-		income: ['income']
-	},
-	assets:
-	{
-		checking: ['checking'],
-		savingsRequired: ['savingsRequired'],
-		savingsOptional: ['savingsOptional'],
-		investments: ['investments'],
-		insurance: ['insurance'],
-		realEstate: ['realEstate'],
-		other: ['otherAsset']
-	},
-	liabilities:
-	{
-		creditCard: ['creditCard'],
-		loans: ['loan']
-	},
-	budget:
-	{
-		giving: ['expenses'],
-		housing: ['expenses'],
-		clothing: ['expenses'],
-		food: ['expenses'],
-		transportation: ['expenses'],
-		health: ['expenses'],
-		insurance: ['expenses'],
-		entertainment: ['expenses'],
-		miscellaneous: ['expenses']
-	}
-};  // subcategoryAccountTypes
 
 dataModel =
 {

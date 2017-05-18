@@ -19,40 +19,45 @@
     	<td>
     	</td>
     </tr>
-	<template ngFor let-subcat [ngForOf]="gd.currentSubcategories">
+	<template ngFor let-subcatobj [ngForOf]="gd.currentSubcategories">
         <tr class="subcategory">
         	<td>
-         		<input class="subcategory" type="string" [(ngModel)]="category[subcat].label" size="30">
+         		<input class="subcategory" type="string" [(ngModel)]="category[subcatobj.subcat].label" size="30">
          	</td>
         	<td>
-         		<input class="subcategory" type="number" [value]="gd.getSubcategorySum(subcat)" size="8" readonly>
+         		<input class="subcategory" type="number" [value]="gd.getSubcategorySum(subcatobj.subcat)" size="8" readonly>
         	</td>
 	    	<td>
-				<button (click)="gd.toggleAccountVisibility(subcat)" title="Toggle visibility of accounts for this subcategory">\/</button>
+				<button (click)="gd.toggleAccountVisibility(subcatobj.subcat)" title="Toggle visibility of accounts for this subcategory">\/</button>
     		</td>
         </tr>
-	    <!-- <template ngFor let-account [ngForOf]="gd.currentAccounts[subcat]"> -->
-	    <template ngFor let-accountName let-actndx="index" [ngForOf]="gd.currentAccounts[subcat]">
-	        <tr class="account" *ngIf="gd.isAccountVisible(subcat)">
+	    <template ngFor let-actndx="index" [ngForOf]="gd.currentAccounts[subcatobj.subcat]">
+	        <tr class="account" *ngIf="gd.isAccountVisible(subcatobj.subcat)">
 	        	<td>
-         			<input class="account" type="string" [(ngModel)]="category[subcat].accounts[actndx].accountName.val" size="30">
+         			<input class="account" type="string" [(ngModel)]="category[subcatobj.subcat].accounts[actndx].accountName.val" size="30">
 	        	</td>
 	         	<td>
-	         		<input class="account" *ngIf="category[subcat].accounts[actndx].monthlyAmount" type="number" [(ngModel)]="category[subcat].accounts[actndx].monthlyAmount.val" (blur)="verify()" size="8">
+	         		<input class="account" *ngIf="category[subcatobj.subcat].accounts[actndx].monthlyAmount" type="number" [(ngModel)]="category[subcatobj.subcat].accounts[actndx].monthlyAmount.val" (blur)="verify()" size="8">
 	         	</td>
 				<td>
-					<button (click)="gd.toggleFieldVisibility(subcat,actndx)" title="Toggle visibility of fields for this account">\/</button>
+					<button (click)="gd.toggleFieldVisibility(subcatobj.subcat,actndx)" title="Toggle visibility of fields for this account">\/</button>
 				</td>
 			</tr>
-		    <template ngFor let-field [ngForOf]="gd.currentFields[subcat][actndx]">
-		        <tr class="field" *ngIf="gd.isAccountVisible(subcat) && gd.isFieldVisible(subcat,actndx)">
+		    <template ngFor let-fieldobj [ngForOf]="gd.currentFields[subcatobj.subcat][actndx]">
+		        <tr class="field" *ngIf="gd.isAccountVisible(subcatobj.subcat) && gd.isFieldVisible(subcatobj.subcat,actndx)">
 					<td>
-						<input class="field" type="string" [(ngModel)]="category[subcat].accounts[actndx][field].label" size="30">
+						<input class="field" type="string" [(ngModel)]="category[subcatobj.subcat].accounts[actndx][fieldobj.field].label" size="30">
 					</td>
 		         	<td>
-		         		<input *ngIf="category[subcat].accounts[gd.getActndx(category,subcat,account)][field]" class="field" type="text" [(ngModel)]="category[subcat].accounts[gd.getActndx(category,subcat,account)][field].val" (blur)="verify()" size="30">
+		         		<template ngIf="category[subcatobj.subcat].accounts[actndx][field]">
+							<input *ngIf="gd.isString(category[subcatobj.subcat].accounts[actndx][fieldobj.field].val)" class="field" type="text" [(ngModel)]="category[subcatobj.subcat].accounts[actndx][fieldobj.field].val" (blur)="verify()" size="30">
+							<input *ngIf="gd.isNumber(category[subcatobj.subcat].accounts[actndx][fieldobj.field].val)" class="field" type="number" [(ngModel)]="category[subcatobj.subcat].accounts[actndx][fieldobj.field].val" (blur)="verify()" size="30">
+							<input *ngIf="gd.isBoolean(category[subcatobj.subcat].accounts[actndx][fieldobj.field].val)" class="field" type="checkbox" [(ngModel)]="category[subcatobj.subcat].accounts[actndx][fieldobj.field].val" (blur)="verify()">
+		         		</template>
 		         	</td>
 		         	<td>
+		         		<!--
+		         		<input class="field" type="checkbox" [(ngModel)]="category[subcatobj.subcat].accounts[actndx][field].isRequired" (blur)="verify()"> -->
 		         	</td>
 		        </tr>
 		    </template>
@@ -62,6 +67,7 @@
 
 <br><br>
 Manage Items
+<br><br>
 <table>
     <tr>
 		<td>Action</td>
@@ -87,7 +93,7 @@ Manage Items
 		<td>Subcategory</td>
 		<td>
 			<select [(ngModel)]="im.selectedSubcategory" (change)="im.onSubcategoryChange()">
-				<option *ngFor="let subcat of im.subcatList" [value]="subcat">{{category[subcat].label}}</option>
+				<option *ngFor="let subcatobj of im.subcatList" [value]="subcatobj.subcat">{{subcatobj.label}}</option>
 			</select>
     		<input *ngIf="im.selectedSubcategory == 'custom'" type="text" [(ngModel)]="im.customSubcategory" size="15" title="Name of custom Subcategory attribute">
 		</td>
@@ -96,7 +102,7 @@ Manage Items
 		<td>Account</td>
 		<td>
 			<select [(ngModel)]="im.selectedAccount" (change)="im.onAccountChange()">
-				<option *ngFor="let account of im.accountList" [value]="account">{{account}}</option>
+				<option *ngFor="let accountName of im.accountList" [value]="accountName">{{accountName}}</option>
 			</select>
     		<input *ngIf="im.selectedAccount == 'custom'" type="text" [(ngModel)]="im.customAccount" size="15" title="Name of custom Account attribute">
 		</td>
@@ -109,7 +115,7 @@ Manage Items
 				<option value="Field name">Field name</option>
 			</select>
 			<select [(ngModel)]="im.selectedField" (change)="im.onFieldChange()">
-				<option *ngFor="let field of im.fieldList" [value]="field">{{category[im.selectedSubcategory].accounts[gd.getActndx(category,im.selectedSubcategory,account)][field].label}}</option>
+				<option *ngFor="let fieldobj of im.fieldList" [value]="fieldobj.field">{{fieldobj.label}}</option>
 			</select>
     		<input *ngIf="im.selectedField == 'custom'" type="text" [(ngModel)]="im.customField" size="15" title="Name of custom Field attribute">
 		</td>

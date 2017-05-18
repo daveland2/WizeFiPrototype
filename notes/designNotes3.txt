@@ -118,6 +118,7 @@ budget
 		Water
 		Trash
 		Sewer
+		Other (not in basic list)
 	clothing
 		Clothing
 		Laundry/Dry Cleaning

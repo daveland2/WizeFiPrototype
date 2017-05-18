@@ -14,7 +14,7 @@ This class provides variables and routines for managing generic data processing.
     areFieldsVisible: any;
 
     // this data supports presentation of data on the screen
-    currentSubcategories: string[] = [];
+    currentSubcategories: any = [];
     currentAccounts: any = {};
     currentFields: any = {};
 
@@ -34,6 +34,21 @@ This class provides variables and routines for managing generic data processing.
         this.areFieldsVisible = this.createAreFieldsVisible(initialStatus);
     }   // constructor
 
+    isNumber(val): boolean
+    {
+        return typeof val === 'number';
+    }
+
+    isString(val): boolean
+    {
+        return typeof val === 'string';
+    }
+
+    isBoolean(val): boolean
+    {
+        return typeof val === 'boolean';
+    }
+
     getActndx(category,subcat,accountName): number
     /*
     This function returns the subscript for the location of an accountName in the accounts array under a given subcategory.
@@ -46,15 +61,15 @@ This class provides variables and routines for managing generic data processing.
         return actndx;
     }   // getActndx
 
-    getSubcategories(category:any): string[]
+    getSubcategories(category:any): any
     /*
-    This routine returns an array containing a list of subcategory properties.
+    This routine returns an array containing a list of objects that contain subcategory attributes and labels.
     */
     {
         let result = [];
-        for (var subcat of Object.keys(category))
+        for (let subcat of Object.keys(category))
         {
-            if (subcat != 'label') result.push(subcat);
+            if (subcat != 'attributeName' && subcat != 'label') result.push({subcat:subcat, label:category[subcat].label});
         }
         return result;
     }  // getSubcategories
@@ -67,7 +82,7 @@ This class provides variables and routines for managing generic data processing.
         let result = {};
         for (let subcat of Object.keys(category))
         {
-            if (subcat != 'label')
+            if (subcat != 'attributeName' && subcat != 'label')
             {
                 result[subcat] = [];
                 for (let actndx = 0; actndx < category[subcat].accounts.length; actndx++)
@@ -81,13 +96,13 @@ This class provides variables and routines for managing generic data processing.
 
     getFields(category:any): any
     /*
-    This routine returns an object that has a list of field properties for all possible subcat and account values.
+    This routine returns an object that contains for each subcat an array containing a list of objects that contain field attributes and labels.
     */
     {
         let result = {};
         for (let subcat of Object.keys(this.category))
         {
-            if (subcat != 'label')
+            if (subcat != 'attributeName' && subcat != 'label')
             {
                 result[subcat] = [];
                 for (let actndx = 0; actndx < category[subcat].accounts.length; actndx++)
@@ -95,7 +110,7 @@ This class provides variables and routines for managing generic data processing.
                     result[subcat].push([]);
                     for (let field of Object.keys(category[subcat].accounts[actndx]))
                     {
-                        if (this.wantHiddenFields || (field != 'accountName' && field != 'accountType' && field != 'isRequired')) result[subcat][actndx].push(field);
+                        if (this.wantHiddenFields || (field != 'accountName' && field != 'accountType' && field != 'isRequired')) result[subcat][actndx].push({field:field, label:category[subcat].accounts[actndx][field].label});
                     }
                 }
             }
@@ -114,9 +129,9 @@ This class provides variables and routines for managing generic data processing.
         return result;
     }   // getAccountsList
 
-    getFieldsList(category:any, subcat:string, accountName:string): string[]
+    getFieldsList(category:any, subcat:string, accountName:string): any
     /*
-    This routine returns a list of fields under a given subcategory and account (where the account is identified by the account name).
+    This routine returns an array of objects under a given subcategory and account (where the account is identified by the account name).  Each object contains a field attribute name and a field label.
     */
     {
         let actndx = this.getActndx(category,subcat,accountName);
@@ -148,7 +163,10 @@ This class provides variables and routines for managing generic data processing.
         let result = {};
         for (let subcat of Object.keys(this.category))
         {
-            result[subcat] = status;
+            if (subcat != 'attributeName' && subcat != 'label')
+            {
+                result[subcat] = status;
+            }
         }
         return result;
     }   // createAreAccountsVisible
@@ -179,7 +197,7 @@ This class provides variables and routines for managing generic data processing.
         let result = {};
         for (let subcat of Object.keys(this.category))
         {
-            if (subcat != 'label')
+            if (subcat != 'attributeName' && subcat != 'label')
             {
                 result[subcat] = [];
                 for (let actndx = 0; actndx < this.category[subcat].accounts.length; actndx++)
@@ -246,7 +264,7 @@ This class provides variables and routines for managing generic data processing.
         let sum = 0;
         for (let subcat of Object.keys(this.category))
         {
-            if (subcat != 'label')
+            if (subcat != 'attributeName' && subcat != 'label')
             {
                 for (let actndx = 0; actndx < this.category[subcat].accounts.length; actndx++)
                 {
@@ -278,7 +296,7 @@ This class provides variables and routines for managing generic data processing.
 
         for (let subcat of Object.keys(this.category))
         {
-            if (subcat != 'label')
+            if (subcat != 'attributeName' && subcat != 'label')
             {
                 for (let actndx = 0; actndx < this.category[subcat].accounts.length; actndx++)
                 {
